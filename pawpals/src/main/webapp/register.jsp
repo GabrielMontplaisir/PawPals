@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,10 +12,10 @@
 	<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="./css/styles.css">
 </head>
-<body>
+<body class="login">
 	<main>
 		<header>
-			<h1 class="login_title center">Register to PawPals</h1>
+			<h1 class="title center">Register to PawPals</h1>
 		</header>
 		<form class="login_form" method="POST" action="register">
 			<label for="email" class="login_form_label">Email:</label>

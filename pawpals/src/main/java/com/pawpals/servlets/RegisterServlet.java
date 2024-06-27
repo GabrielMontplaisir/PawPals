@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 import com.pawpals.dao.ApplicationDao;
 import com.pawpals.dao.UserDao;
 import com.pawpals.interfaces.FormValidation;
-import com.pawpals.session.Session;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -40,10 +39,8 @@ public class RegisterServlet extends FormValidation {
 		}
 		
 		UserDao.userDao.createUser(req);
-		
-		if (Session.session.getUser() != null) {
-			HttpSession session = req.getSession();
-			session.setAttribute("session", Session.session);
+		HttpSession session = req.getSession();
+		if (session.getAttribute("user") != null) {
 			resp.sendRedirect("./dashboard/createwalk.jsp");
 			return;
 		} else {

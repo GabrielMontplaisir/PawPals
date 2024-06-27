@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.pawpals.beans.User;
-import com.pawpals.session.Session;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 public class UserDao {
 	public static final UserDao userDao = new UserDao();
@@ -57,7 +57,8 @@ public class UserDao {
     		ResultSet rs = stmt.getGeneratedKeys();
     		
     		if (rs != null && rs.next()) {
-    			Session.session.setUser(new User(rs.getInt(1), email, firstName, lastName, dob));
+    			HttpSession session = req.getSession();
+    			session.setAttribute("user", new User(rs.getInt(1), email, firstName, lastName, dob));
     		}
     		
     		if (rs != null) rs.close();
@@ -89,8 +90,8 @@ public class UserDao {
 				String firstName = rs.getString(FIRST_NAME);
 				String lastName = rs.getString(LAST_NAME);
 				String dob = rs.getDate(DATE_OF_BIRTH).toString();
-				
-				Session.session.setUser(new User(id, email, firstName, lastName, dob));
+				HttpSession session = req.getSession();
+				session.setAttribute("user", new User(id, email, firstName, lastName, dob));
 			}
 			
 			if (rs != null) rs.close();
