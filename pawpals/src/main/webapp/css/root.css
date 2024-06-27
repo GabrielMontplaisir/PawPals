@@ -1,0 +1,165 @@
+@charset "UTF-8";
+
+:root {
+	--ff-primary: "PT Sans", sans-serif;
+	--ff-headings: "Nunito", sans-serif;
+	
+	--fw-regular: 400;
+	--fw-semibold: 600;
+	--fw-bold: 700;
+	--fw-xtrabold: 900;
+	
+	--fs-paragraph: 1rem;
+	
+	--bg-offwhite: #E9E9E9;
+	--bg-gradient: linear-gradient(
+    #EED991 0%, #CCF7F4 100%
+  );
+  
+  	--color-primary: #000000;
+  	--color-secondary: #3c96d1;
+  	--color-success: #5AD564;
+  	--color-error: #FF5733;
+	
+}
+
+/* **************** */
+/* CSS Reset */
+/* **************** */
+
+/* Box Sizing */
+*,
+*::before,
+*::after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* Remove Margins */
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+/* Make height full monitor height */
+html,
+body {
+  min-height: 100dvh;
+}
+
+/* Default line height & font smoothing */
+body {
+  line-height: 1.5;
+}
+
+/* Remove list bullets */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Make scrolling smooth when clicking an anchor */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Match image width */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  /* height: auto; */
+}
+
+/* Remove bult-in form typography */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  border: none;
+  outline-color: transparent;
+}
+
+/* Maintain style even if the text is too long */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* **************** */
+/* End of CSS Reset */
+/* **************** */
+
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	
+	font-family: var(--ff-primary);
+	font-weight: var(--fw-regular);
+	font-size: var(--fs-regular);
+	color: var(--color-primary);
+}
+
+/* **************** */
+/* Utility Classes  */
+/* **************** */
+
+.mt-2 {
+	margin-top: 1rem;
+}
+
+.center {
+	text-align: center;
+}
+
+.btn {
+	padding: 0.5rem 2rem;
+	border-radius: .25rem;
+	background-color: var(--color-secondary);
+	box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+	text-decoration: none;
+	color: white;
+	font-weight: var(--fw-semibold);
+}
