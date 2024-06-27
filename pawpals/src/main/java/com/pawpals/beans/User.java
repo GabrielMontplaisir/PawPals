@@ -1,7 +1,6 @@
 package com.pawpals.beans;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class User {
 	private final int userId;

@@ -5,7 +5,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
-	<title>PawPals | Create a Walk</title>
+	<title>PawPals | Walker Dashboard</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
@@ -21,24 +21,14 @@
 <body class="dashboard">
 	<header class="dashboard_header">
 		<h2>PawPals</h2>
-		<p class="welcome_msg">Welcome ${user.getFirstName()}!</p>
+		<p>Welcome ${user.getFirstName()}!</p>
 		<nav>
-		<a href="./walker.jsp" class="nav_btn">Switch to Walker</a>
+		<a href="./createwalk.jsp" class="nav_btn">Switch to Owner</a>
 			<a href="./settings.jsp" class="nav_btn">Settings</a>
 			<a href="logout" class="nav_btn">Logout</a>
 		</nav>
 	</header>
 	<main>
-		<section class="container">
-			<header>
-				<h1 class="subtitle">Create a Walk</h1>
-				<a href="" class="btn">Add dog</a>
-			</header>
-			<form>
-				
-			</form>
-		</section>
 	</main>
-	
 </body>
-</html>
+</html></html>

@@ -11,6 +11,7 @@
 	
 	--fs-paragraph: 1rem;
 	
+	--bg-offwhite: #E9E9E9;
 	--bg-gradient: linear-gradient(
     #EED991 0%, #CCF7F4 100%
   );
@@ -45,7 +46,7 @@
 /* Make height full monitor height */
 html,
 body {
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 /* Default line height & font smoothing */
@@ -133,7 +134,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background: var(--bg-gradient);
+
 	
 	font-family: var(--ff-primary);
 	font-weight: var(--fw-regular);
@@ -142,7 +143,7 @@ body {
 }
 
 main {
-	margin-top: auto;
+	flex: 1;
 	display: grid;
 	place-content: center;
 	margin-inline: 1rem;
@@ -152,9 +153,19 @@ main {
 /* Login / Registration Form  */
 /* ************************** */
 
-.login_title {
+.login {
+	background: var(--bg-gradient);
+}
+
+.title {
 	font-family: var(--ff-headings);
 	font-size: 3rem;
+	font-weight: var(--fw-bold);
+}
+
+.subtitle {
+	font-family: var(--ff-headings);
+	font-size: 2rem;
 	font-weight: var(--fw-bold);
 }
 
@@ -225,6 +236,60 @@ footer {
 }
 
 
+/* ****************** */
+/* Dashboard Classes  */
+/* ****************** */
+
+.dashboard {
+	background-color: var(--bg-offwhite);
+}
+
+.dashboard_header {
+	min-width: 100%;
+	display: flex;
+	align-items: center;
+	background-color: var(--color-secondary);
+	color: white;
+}
+
+.dashboard_header h2 {
+	font-family: var(--ff-headings);
+	font-weight: var(--fw-xtrabold);
+	font-size: 1.25rem;
+	padding-inline: 1rem;
+}
+
+.dashboard_header nav {
+	display: flex;
+	margin-left: auto;
+}
+
+.nav_btn {
+	text-decoration: none;
+	display:block;
+	font-weight: var(--fw-semibold);
+	padding: 1rem;
+	color: white;
+}
+
+.nav_btn:hover {
+	transition: ease 0.3s;
+	background-color: #3589C1;
+}
+
+.container {
+	background-color: white;
+	border-radius: 2rem;
+	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+	padding: 2rem;
+}
+
+.container header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
 
 /* **************** */
 /* Utility Classes  */
@@ -238,12 +303,30 @@ footer {
 	text-align: center;
 }
 
+.btn {
+	padding: 0.5rem 2rem;
+	border-radius: .25rem;
+	background-color: var(--color-secondary);
+	box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+	text-decoration: none;
+	color: white;
+	font-weight: var(--fw-semibold);
+}
+
 /* **************** */
 /* Media Queries    */
 /* **************** */
 
 @media (max-width: 32em) {
-	.login_title {
+	.title {
 		font-size: 2.5rem;
+	}
+	
+	.subtitle {
+		font-size: 1.5rem;
+	}
+	
+	.welcome_msg {
+		display: none;
 	}
 }
