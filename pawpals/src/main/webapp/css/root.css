@@ -3,24 +3,22 @@
 :root {
 	--ff-primary: "PT Sans", sans-serif;
 	--ff-headings: "Nunito", sans-serif;
-	
+
 	--fw-regular: 400;
 	--fw-semibold: 600;
 	--fw-bold: 700;
 	--fw-xtrabold: 900;
-	
+
 	--fs-paragraph: 1rem;
-	
+
 	--bg-offwhite: #E9E9E9;
-	--bg-gradient: linear-gradient(
-    #EED991 0%, #CCF7F4 100%
-  );
-  
-  	--color-primary: #000000;
-  	--color-secondary: #3c96d1;
-  	--color-success: #5AD564;
-  	--color-error: #FF5733;
-	
+	--bg-gradient: linear-gradient(#EED991 0%, #CCF7F4 100%);
+
+	--color-primary: #000000;
+	--color-secondary: #3c96d1;
+	--color-success: #5AD564;
+	--color-error: #FF5733;
+
 }
 
 /* **************** */
@@ -31,38 +29,38 @@
 *,
 *::before,
 *::after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 /* Remove Margins */
 * {
-  margin: 0;
-  padding: 0;
-  font: inherit;
+	margin: 0;
+	padding: 0;
+	font: inherit;
 }
 
 /* Make height full monitor height */
 html,
 body {
-  min-height: 100dvh;
+	min-height: 100dvh;
 }
 
 /* Default line height & font smoothing */
 body {
-  line-height: 1.5;
+	line-height: 1.5;
 }
 
 /* Remove list bullets */
 ul,
 ol {
-  list-style: none;
+	list-style: none;
 }
 
 /* Make scrolling smooth when clicking an anchor */
 html:focus-within {
-  scroll-behavior: smooth;
+	scroll-behavior: smooth;
 }
 
 /* Match image width */
@@ -71,9 +69,9 @@ picture,
 video,
 canvas,
 svg {
-  display: block;
-  max-width: 100%;
-  /* height: auto; */
+	display: block;
+	max-width: 100%;
+	/* height: auto; */
 }
 
 /* Remove bult-in form typography */
@@ -81,9 +79,9 @@ input,
 button,
 textarea,
 select {
-  font: inherit;
-  border: none;
-  outline-color: transparent;
+	font: inherit;
+	border: none;
+	outline-color: transparent;
 }
 
 /* Maintain style even if the text is too long */
@@ -94,36 +92,36 @@ h3,
 h4,
 h5,
 h6 {
-  overflow-wrap: break-word;
+	overflow-wrap: break-word;
 }
 
 a:not([class]) {
-  text-decoration-skip-ink: auto;
+	text-decoration-skip-ink: auto;
 }
 
 .sr-only:not(:focus):not(:active) {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html:focus-within {
-    scroll-behavior: auto;
-  }
+	html:focus-within {
+		scroll-behavior: auto;
+	}
 
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
 }
 
 /* **************** */
@@ -135,7 +133,7 @@ body {
 	flex-direction: column;
 	align-items: center;
 
-	
+
 	font-family: var(--ff-primary);
 	font-weight: var(--fw-regular);
 	font-size: var(--fs-regular);

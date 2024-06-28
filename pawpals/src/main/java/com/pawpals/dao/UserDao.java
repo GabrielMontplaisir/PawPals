@@ -8,8 +8,8 @@ import java.sql.Statement;
 
 import com.pawpals.beans.User;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class UserDao {
 	public static final UserDao userDao = new UserDao();

@@ -2,7 +2,7 @@ package com.pawpals.interfaces;
 
 import java.util.Map;
 
-import jakarta.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServlet;
 
 public abstract class FormValidation extends HttpServlet {
 	private static final long serialVersionUID = 1L;

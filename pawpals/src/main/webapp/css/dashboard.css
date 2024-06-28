@@ -36,7 +36,7 @@
 
 .nav_btn {
 	text-decoration: none;
-	display:block;
+	display: block;
 	font-weight: var(--fw-semibold);
 	padding: 1rem;
 	color: white;
@@ -66,11 +66,11 @@
 /* **************** */
 
 @media (max-width: 32em) {
-	
+
 	.subtitle {
 		font-size: 1.5rem;
 	}
-	
+
 	.welcome_msg {
 		display: none;
 	}
