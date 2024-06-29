@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-
-import com.pawpals.beans.Dog;
 
 public class ApplicationDao {
 	public static final ApplicationDao dao = new ApplicationDao();

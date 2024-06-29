@@ -41,7 +41,7 @@
 	</main>
 	
 	<footer class="center">
-		<p>Created by Nadia, Jeffrey & Gabriel</p>
+		<p>Created by Nadia, Jeffrey &amp; Gabriel</p>
 		<p>for CST8288 -- Algonquin College (2024)</p>
 	</footer>
 </body>

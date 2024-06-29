@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.pawpals.beans.Dog;
 import com.pawpals.beans.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +31,7 @@ public class UserDao {
 		String lastName = req.getParameter("lastname");
 		String dob = req.getParameter("dob");
 		String password = req.getParameter("password");
+		List<Dog> ownerDogs = new ArrayList<>();
 		
 		/*
 		 * USERS TABLE SCHEMA
@@ -58,7 +62,7 @@ public class UserDao {
     		
     		if (rs != null && rs.next()) {
     			HttpSession session = req.getSession();
-    			session.setAttribute("user", new User(rs.getInt(1), email, firstName, lastName, dob));
+    			session.setAttribute("user", new User(rs.getInt(1), email, firstName, lastName, dob, ownerDogs));
     		}
     		
     		if (rs != null) rs.close();
@@ -91,7 +95,8 @@ public class UserDao {
 				String lastName = rs.getString(LAST_NAME);
 				String dob = rs.getDate(DATE_OF_BIRTH).toString();
 				HttpSession session = req.getSession();
-				session.setAttribute("user", new User(id, email, firstName, lastName, dob));
+				List<Dog> ownerDogs = DogDao.dogDao.getDogsByUserId(id);  
+				session.setAttribute("user", new User(id, email, firstName, lastName, dob, ownerDogs));
 			}
 			
 			if (rs != null) rs.close();

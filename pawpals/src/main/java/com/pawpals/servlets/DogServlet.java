@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
-import com.pawpals.beans.Dog;
 import com.pawpals.beans.User;
 import com.pawpals.dao.ApplicationDao;
 import com.pawpals.dao.DogDao;
@@ -30,20 +28,12 @@ public class DogServlet extends HttpServlet {
             response.sendRedirect("../index.jsp");
             return;
         }
-
         String name = request.getParameter("name");
         String size = request.getParameter("size");
         String specialNeeds = request.getParameter("special_needs");
         boolean immunized = request.getParameter("immunized") != null;
-        DogDao.dogDao.addDog(user.getId(), name, size, specialNeeds, immunized);
-
-        // Fetch updated list of dogs
-        List<Dog> dogs = DogDao.dogDao.getDogsByUserId(user.getId());
-        request.setAttribute("dogs", dogs);
-
+        DogDao.dogDao.addDog(user, name, size, specialNeeds, immunized);
         request.getRequestDispatcher("./createwalk.jsp").forward(request, response);
-
-        
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,9 +44,6 @@ public class DogServlet extends HttpServlet {
             response.sendRedirect("../index.jsp");
             return;
         }
-
-        List<Dog> dogs = DogDao.dogDao.getDogsByUserId(user.getId());
-        request.setAttribute("dogs", dogs);
 
         request.getRequestDispatcher("./createwalk.jsp").forward(request, response);
     }

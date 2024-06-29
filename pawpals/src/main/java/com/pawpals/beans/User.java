@@ -1,18 +1,21 @@
 package com.pawpals.beans;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class User {
 	private final int userId;
 	private final String firstName, lastName, email;
 	private final LocalDate dob;
+	private final List<Dog> ownerDogs;
 	
-	public User(int userId, String email, String firstName, String lastName,  String dob) {
+	public User(int userId, String email, String firstName, String lastName,  String dob, List<Dog> ownerDogs) {
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.dob = LocalDate.parse(dob);
+		this.ownerDogs = ownerDogs;
 	}
 
 	public int getId() {return userId;}
@@ -21,4 +24,13 @@ public class User {
 	public String getEmail() {return email;}
 	public LocalDate getDob() {return dob;}
 	
+	public void addDog(Dog dog) {
+		ownerDogs.add(dog);
+	}
+	public void removeDog(Dog dog) {
+		ownerDogs.remove(dog);
+	}
+	public List<Dog> getDogs(){
+		return ownerDogs;
+	}
 }

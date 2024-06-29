@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import com.pawpals.beans.Dog;
+import com.pawpals.beans.User;
 
 public class DogDao {
     public static final DogDao dogDao = new DogDao();
@@ -19,19 +20,18 @@ public class DogDao {
 
     private DogDao() {}
 
-    public void addDog(int ownerId, String name, String size, String specialNeeds, boolean immunized) {
+    public void addDog(User user, String name, String size, String specialNeeds, boolean immunized) {
         String sql = "INSERT INTO " + ApplicationDao.DOGS_TABLE + " (" + OWNER_ID + "," + NAME + "," + SIZE + "," + SPECIAL_NEEDS + "," + IMMUNIZED + ") VALUES (?, ?, ?, ?, ?)";
 
         try (
                 Connection conn = DBConnection.getDBInstance();
                 PreparedStatement stmt = conn.prepareStatement(sql);
             ) {
-            stmt.setInt(1, ownerId);
+            stmt.setInt(1, user.getId());
             stmt.setString(2, name);
             stmt.setString(3, size);
             stmt.setString(4, specialNeeds);
             stmt.setBoolean(5, immunized);
-
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -39,6 +39,30 @@ public class DogDao {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        
+        
+        sql = "SELECT @@IDENTITY"; 
+        
+        try (
+                Connection conn = DBConnection.getDBInstance();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        		)
+        {
+        	ResultSet rs = stmt.executeQuery();
+        	rs.next();
+        	int dogId = rs.getInt(1);
+        	Dog newDog = new Dog(dogId, user.getId(), name, size, specialNeeds, immunized);
+        	user.addDog(newDog);
+        	
+	    } catch (SQLException e) {
+	        DBUtil.processException(e);
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+    
+    
+    
+        
     }
 
     public List<Dog> getDogsByUserId(int userId) {
