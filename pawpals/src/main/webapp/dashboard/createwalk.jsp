@@ -92,8 +92,6 @@
 		                    	for (Dog dog: dogList){
 		                    		out.write("<option value=" + dog.getDogId() +">" + dog.getName() + "</option>");
 		                    	}
-	                    	} else {
-	                    		System.out.println("Dawgs list is teh null mmkay");
 	                    	}
                     	%>
                     </select>

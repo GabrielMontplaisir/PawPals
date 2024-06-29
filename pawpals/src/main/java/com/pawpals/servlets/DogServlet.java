@@ -39,9 +39,6 @@ public class DogServlet extends HttpServlet {
 
         // Fetch updated list of dogs
         List<Dog> dogs = DogDao.dogDao.getDogsByUserId(user.getId());
-        
-        System.out.println("Dogs count passed:" + dogs.size());
-        
         request.setAttribute("dogs", dogs);
 
         request.getRequestDispatcher("./createwalk.jsp").forward(request, response);
@@ -59,7 +56,6 @@ public class DogServlet extends HttpServlet {
         }
 
         List<Dog> dogs = DogDao.dogDao.getDogsByUserId(user.getId());
-        System.out.println("Dogs count passed:" + dogs.size());
         request.setAttribute("dogs", dogs);
 
         request.getRequestDispatcher("./createwalk.jsp").forward(request, response);
