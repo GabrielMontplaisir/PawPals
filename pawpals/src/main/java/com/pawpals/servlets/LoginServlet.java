@@ -26,6 +26,7 @@ public class LoginServlet extends FormValidation {
 		RequestDispatcher dispatcher = null;
 		ApplicationDao.dao.createDatabase();
 		ApplicationDao.dao.createUserTable();
+		
 		message = validateForm(req.getParameterMap());
 		if (message != null) {
 			req.setAttribute("message", message);
