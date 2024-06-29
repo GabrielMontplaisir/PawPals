@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.pawpals.beans.Dog" %>
+<%@ page import="com.pawpals.beans.User" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -87,11 +88,9 @@
                     <select id="size" name="size" required>
                     	<option value="" disabled selected>Select dog</option>
                     	<% 
-	                    	if (  request.getAttribute("dogs") != null) {
-		                    	List<Dog> dogList = (List<Dog>) request.getAttribute("dogs");
-		                    	for (Dog dog: dogList){
-		                    		out.write("<option value=" + dog.getDogId() +">" + dog.getName() + "</option>");
-		                    	}
+                    		User user = (User) session.getAttribute("user");
+	                    	for (Dog dog: user.getDogs() ){
+	                    		out.write("<option value=" + dog.getDogId() +">" + dog.getName() + "</option>");
 	                    	}
                     	%>
                     </select>

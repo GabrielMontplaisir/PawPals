@@ -1,6 +1,9 @@
 package com.pawpals.beans;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import com.pawpals.dao.DogDao;
 
 public class User {
 	private final int userId;
@@ -20,5 +23,9 @@ public class User {
 	public String getLastName() {return lastName;}
 	public String getEmail() {return email;}
 	public LocalDate getDob() {return dob;}
+	
+	public List<Dog> getDogs() {
+		return DogDao.dogDao.getDogsByUserId(userId);
+	}
 	
 }

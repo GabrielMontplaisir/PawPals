@@ -36,11 +36,6 @@ public class DogServlet extends HttpServlet {
         String specialNeeds = request.getParameter("special_needs");
         boolean immunized = request.getParameter("immunized") != null;
         DogDao.dogDao.addDog(user.getId(), name, size, specialNeeds, immunized);
-
-        // Fetch updated list of dogs
-        List<Dog> dogs = DogDao.dogDao.getDogsByUserId(user.getId());
-        request.setAttribute("dogs", dogs);
-
         request.getRequestDispatcher("./createwalk.jsp").forward(request, response);
 
         
@@ -54,9 +49,6 @@ public class DogServlet extends HttpServlet {
             response.sendRedirect("../index.jsp");
             return;
         }
-
-        List<Dog> dogs = DogDao.dogDao.getDogsByUserId(user.getId());
-        request.setAttribute("dogs", dogs);
 
         request.getRequestDispatcher("./createwalk.jsp").forward(request, response);
     }
