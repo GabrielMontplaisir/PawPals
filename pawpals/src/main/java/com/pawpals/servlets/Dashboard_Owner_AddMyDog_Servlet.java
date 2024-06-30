@@ -11,11 +11,11 @@ import com.pawpals.beans.User;
 import com.pawpals.dao.ApplicationDao;
 import com.pawpals.dao.DogDao;
 
-@WebServlet("/dashboard/createwalk")
-public class DogServlet extends HttpServlet {
+@WebServlet("/dashboard-owner/AddMyDog")
+public class Dashboard_Owner_AddMyDog_Servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public DogServlet() {
+    public Dashboard_Owner_AddMyDog_Servlet() {
         super();
     }
 
@@ -23,7 +23,6 @@ public class DogServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
 		ApplicationDao.dao.createDogsTable();
         User user = (User) session.getAttribute("user");
-
         if (user == null) {
             response.sendRedirect("../index.jsp");
             return;
@@ -34,21 +33,12 @@ public class DogServlet extends HttpServlet {
         String specialNeeds = request.getParameter("special_needs");
         boolean immunized = request.getParameter("immunized") != null;
         DogDao.dogDao.addDog(user.getId(), name, size, specialNeeds, immunized);
-        request.getRequestDispatcher("./createwalk.jsp").forward(request, response);
-
+        
+        request.getRequestDispatcher("./").forward(request, response);
         
     }
-    
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        User user = (User) session.getAttribute("user");
-
-        if (user == null) {
             response.sendRedirect("../index.jsp");
-            return;
-        }
-
-        request.getRequestDispatcher("./createwalk.jsp").forward(request, response);
     }
     
 }

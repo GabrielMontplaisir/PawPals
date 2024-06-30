@@ -52,6 +52,7 @@
 	border-radius: 2rem;
 	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 	padding: 2rem;
+	margin-bottom: 5px;
 }
 
 .container header {
@@ -59,6 +60,25 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
+}
+
+.temptable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.temptable th, .temptable td {
+    border: 1px solid black;
+    text-align: left;         
+    padding: 4px;     
+}
+
+.temptable th {
+    background-color: #EEE;
+}
+
+.temptable, .temptable th, .temptable td {
+    margin: 0;
 }
 
 /* **************** */

@@ -1,8 +1,15 @@
-
-		<form id="dogForm">
+		<section class="container">
+		
+			<header>
+				<h1 class="subtitle">Add My Dog</h1>
+				
+				
+			</header>
+							<!--  It just seems weird to use the word "Create" when people are adding their dogs -->
+			<form id="dogForm" action="AddMyDog" method="post">
 			
                 <div class="form-group">
-                    <label for="name">Name:</label>
+                    <label for="name">Name:</label> 
                     <input type="text" id="name" name="name" class="small-input"required>
                 </div>
                 
@@ -29,3 +36,4 @@
                 <input type="submit" value="Submit">
 				
 			</form>
+		</section>

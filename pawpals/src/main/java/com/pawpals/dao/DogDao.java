@@ -18,6 +18,30 @@ public class DogDao {
     private final String IMMUNIZED = "immunized";
 
     private DogDao() {}
+    
+    public Dog getDogById(int dogId) {
+    	String sql = "SELECT * FROM " + ApplicationDao.DOGS_TABLE + " WHERE " + DOG_ID + " = ?";
+        try (
+                Connection conn = DBConnection.getDBInstance();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+            ) {
+            stmt.setInt(1, dogId);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            int ownerId = rs.getInt("owner_id");
+            String dogName = rs.getString("name");
+            String dogSize = rs.getString("size");
+            String dogSpecialNeeds = rs.getString("special_needs");
+            Boolean immunized = rs.getBoolean("immunized");
+            return new Dog(dogId, ownerId, dogName, dogSize, dogSpecialNeeds, immunized);
+        } catch (SQLException e) {
+            DBUtil.processException(e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.err.println("Could not get dog by ID");
+    	return null;
+    }
 
     public void addDog(int ownerId, String name, String size, String specialNeeds, boolean immunized) {
         String sql = "INSERT INTO " + ApplicationDao.DOGS_TABLE + " (" + OWNER_ID + "," + NAME + "," + SIZE + "," + SPECIAL_NEEDS + "," + IMMUNIZED + ") VALUES (?, ?, ?, ?, ?)";

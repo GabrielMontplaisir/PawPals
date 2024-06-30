@@ -42,7 +42,7 @@ public class ApplicationDao {
 				Connection conn = DBConnection.getDBInstance();
 				Statement stmt = conn.createStatement();
 			) {
-			if (!userTableExists(conn, USERS_TABLE)) {
+			if (!tableExists(conn, USERS_TABLE)) {
 				System.out.println("Created User Table");
 				String sql = "CREATE TABLE IF NOT EXISTS "+ USERS_TABLE +" (user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, email_address VARCHAR(128) NOT NULL UNIQUE, first_name VARCHAR(25) NOT NULL, last_name VARCHAR(25) NOT NULL, date_of_birth DATE NOT NULL, password VARCHAR(64) NOT NULL, createTimestamp TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP()))";
 				stmt.executeUpdate(sql);
@@ -62,7 +62,7 @@ public class ApplicationDao {
 	                Connection conn = DBConnection.getDBInstance();
 	                Statement stmt = conn.createStatement();
 	            ) {
-	            if (!dogsTableExists(conn, DOGS_TABLE)) {
+	            if (!tableExists(conn, DOGS_TABLE)) {
 	                System.out.println("Created Dogs Table");
 	                String sql = "CREATE TABLE IF NOT EXISTS " + DOGS_TABLE + " ("
 	                    + "dog_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, "
@@ -82,6 +82,10 @@ public class ApplicationDao {
 	            e.printStackTrace();
 	        }
 	}
+
+
+	
+	
 	
 	private boolean dbExists(String dbName, ResultSet resultSet) throws SQLException {
 		while (resultSet.next()) {
@@ -91,14 +95,17 @@ public class ApplicationDao {
 		return false;
 	}
 	
-	
-	private boolean userTableExists(Connection conn, String userTable) throws SQLException {
-		return conn.getMetaData().getTables(null, null, userTable, new String[] {"TABLE"}).next();
-	}
-	
-	private boolean dogsTableExists(Connection conn, String dogsTable) throws SQLException {
-        return conn.getMetaData().getTables(null, null, dogsTable, new String[] {"TABLE"}).next();
+	public boolean tableExists(Connection conn, String tableName) throws SQLException {
+        return conn.getMetaData().getTables(null, null, tableName, new String[] {"TABLE"}).next();
     }
 	
+//	private boolean userTableExists(Connection conn, String userTable) throws SQLException {
+//		return conn.getMetaData().getTables(null, null, userTable, new String[] {"TABLE"}).next();
+//	}
+//	
+//	private boolean dogsTableExists(Connection conn, String dogsTable) throws SQLException {
+//        return conn.getMetaData().getTables(null, null, dogsTable, new String[] {"TABLE"}).next();
+//    }
+//	
 	
 }

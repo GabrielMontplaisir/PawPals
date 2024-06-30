@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import com.pawpals.dao.ApplicationDao;
 import com.pawpals.dao.UserDao;
+import com.pawpals.dao.WalkDao;
 import com.pawpals.interfaces.FormValidation;
 
 import javax.servlet.RequestDispatcher;
@@ -26,6 +27,8 @@ public class LoginServlet extends FormValidation {
 		RequestDispatcher dispatcher = null;
 		ApplicationDao.dao.createDatabase();
 		ApplicationDao.dao.createUserTable();
+		WalkDao.dao.createWalksTable();
+		WalkDao.dao.createWalkDogsTable();
 		
 		message = validateForm(req.getParameterMap());
 		if (message != null) {
@@ -39,7 +42,7 @@ public class LoginServlet extends FormValidation {
 		UserDao.userDao.authenticateUser(req);
 		HttpSession session = req.getSession();
 		if (session.getAttribute("user") != null) {
-			resp.sendRedirect("./dashboard/createwalk");
+			resp.sendRedirect("./dashboard/");
 			return;
 		} else {
 			req.setAttribute("message", "Cannot find user with this email address. Please register for an account.");

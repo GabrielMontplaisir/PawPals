@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.pawpals.dao.DogDao;
+import com.pawpals.dao.WalkDao;
 
 public class User {
 	private final int userId;
@@ -25,7 +26,19 @@ public class User {
 	public LocalDate getDob() {return dob;}
 	
 	public List<Dog> getDogs() {
-		return DogDao.dogDao.getDogsByUserId(userId);
+		return DogDao.dogDao.getDogsByUserId(this.userId);
+	}
+	public List<Walk> getWalks(){
+		return WalkDao.dao.getWalksByOwnerId(this.userId);
 	}
 	
+	public Walk getWalkAsOwner(int walkId) {
+		Walk walk = WalkDao.dao.getWalkById(walkId);
+		if ( walk.getOwnerId() == userId ) {
+			System.out.println("confirmed getting walk as owner");
+			return walk;
+		}
+		System.err.println("Tried to get walkId as owner but ont owner " + walkId) ;
+		return null;
+	}
 }
