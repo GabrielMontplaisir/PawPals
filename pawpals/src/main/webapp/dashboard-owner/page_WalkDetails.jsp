@@ -3,23 +3,21 @@
 <%@ page import="com.pawpals.beans.Dog"%>
 <%@ page import="com.pawpals.beans.User"%>
 <%@ page import="com.pawpals.beans.Walk"%>
+<%@ page import="com.pawpals.dao.WalkDao"%>
 <%@ page import="java.util.List"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PawPals | Walk</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
-	rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-	rel="stylesheet">
-<link rel="stylesheet" href="../css/root.css">
-<link rel="stylesheet" href="../css/dashboard.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>PawPals | Walk</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"	rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../css/root.css">
+	<link rel="stylesheet" href="../css/dashboard.css">
+	<link rel="stylesheet" href="../css/dashboard-dogOwner.css">
 </head>
 <%
 	User user = (User) session.getAttribute("user") ;
@@ -36,6 +34,14 @@
 		response.sendRedirect("./");
 		return;
 	}
+	Walk walk = user.getWalk_by_WalkId_as_Owner(walkId);		// If user request walkID that does not
+	if ( walk == null ) {										// Belong to them, redirect
+		response.sendRedirect("./");
+		return;		
+	}
+	
+	int status = walk.getStatus();
+	
 	
 %>
 	
@@ -56,9 +62,23 @@
 				<h1 class="subtitle">Walk Details</h1>
 			</header>
 
-			<% 
-           		Walk walk = user.getWalk_by_WalkId_as_Owner(walkId);
+			<% 	
            		out.write("<table class='temptable'>");
+					out.write("<tr><th>Status</th><td>" +walk.getFriendlyStatus());
+					
+					
+					if ( status != WalkDao.EnumStatus.CANCELLED.toInt() ) {
+						out.write("<form class='miniForm' action='CancelWalk' method='POST'>"
+		       					+ "<input type='submit' value='Cancel' />" 
+		     					+ "<input type='hidden' name='walkId' value='" +walk.getWalkId()+ "'></form>");
+					}
+					
+					if ( status == WalkDao.EnumStatus.OWNER_INITIALIZED.toInt() ) {
+						out.write("<form class='miniForm' action='PostWalk' method='POST'>"
+		       					+ "<input type='submit' value='Post' class='greenBack'/>" 
+		     					+ "<input type='hidden' name='walkId' value='" +walk.getWalkId()+ "'></form></td></tr>");						
+					}
+					
             		out.write("<tr><th>Location</th><td>" +walk.getLocation()+ "</td></tr>");
             		out.write("<tr><th>Date</th><td>" +walk.getDate()+ "</td></tr>");
             		List<Dog> doggies = walk.getDogs();

@@ -62,6 +62,11 @@ public class Walk {
 	public void setLength(String length) {
 		this.length = length;
 	}
+	public void doCancel() {
+		this.status = WalkDao.EnumStatus.CANCELLED.toInt();
+		WalkDao.dao.cancel(walkId);
+		
+	}
 	private int walkId;
 	private int status;
 	private int owner_id;

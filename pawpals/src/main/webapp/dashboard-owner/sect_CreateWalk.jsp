@@ -1,5 +1,4 @@
-<%@ page import="com.pawpals.beans.Dog" %>
-<%@ page import="com.pawpals.beans.User" %>
+<%@ page import="com.pawpals.beans.Dog,com.pawpals.beans.User" %>
 
 	<section class="container">
 		

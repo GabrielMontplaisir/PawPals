@@ -10,3 +10,15 @@
 	outline: none;
 }
 
+.greenBack {
+	background-color: #99FF99;
+}
+
+
+.miniForm {
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid grey;
+	outline: none;
+	display: inline-block;
+}

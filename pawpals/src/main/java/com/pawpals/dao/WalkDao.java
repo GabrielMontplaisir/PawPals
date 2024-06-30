@@ -25,8 +25,10 @@ public class WalkDao {
 	public static final String LOCATION = "location";
 	public static final String LENGTH = "length";
 	public static final String WALKER_ID = "walker_id";
-	
-	private WalkDao() {}
+	public static final String DECLINED = "declined";
+
+	private WalkDao() {
+	}
 
 	public Walk addWalk(User owner, String date_time, String location, String length) {
 		String sql = "INSERT INTO " + WALKS_TABLE + " (" + STATUS + "," + OWNER_ID + "," + START_TIME + "," + LOCATION
@@ -61,8 +63,7 @@ public class WalkDao {
 
 	public void addDog(Walk walk, Dog dog) {
 		String sql = "INSERT INTO " + WALKDOGS_TABLE + " (" + DOG_ID + ", " + WALK_ID + ") VALUES (?, ?);";
-		try (Connection conn = DBConnection.getDBInstance();
-				PreparedStatement sqlAddDog = conn.prepareStatement(sql);
+		try (Connection conn = DBConnection.getDBInstance(); PreparedStatement sqlAddDog = conn.prepareStatement(sql);
 //				PreparedStatement sqlGetNewID = conn.prepareStatement("SELECT @@IDENTITY");
 		) {
 			sqlAddDog.setInt(1, dog.getDogId());
@@ -96,10 +97,10 @@ public class WalkDao {
 		return null;
 
 	}
-	
+
 	public Walk getWalkById(int walkId) {
 		String sql = "SELECT * FROM walks WHERE walk_id = ?";
-		
+
 		try (Connection conn = DBConnection.getDBInstance(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 			stmt.setInt(1, walkId);
 			ResultSet rs = stmt.executeQuery();
@@ -110,10 +111,9 @@ public class WalkDao {
 			String date = rs.getString(START_TIME);
 			String location = rs.getString(LOCATION);
 			String length = rs.getString(LENGTH);
-			
+
 			return new Walk(walkId, status, dog_owner, date, location, length);
-			
-			
+
 		} catch (SQLException e) {
 			DBUtil.processException(e);
 		} catch (ClassNotFoundException e) {
@@ -122,8 +122,7 @@ public class WalkDao {
 
 		return null;
 	}
-	
-	
+
 	public List<Walk> getWalksByOwnerId(int ownerId) {
 		String sql = "SELECT * FROM walks WHERE owner_id = ?";
 		List<Walk> userWalks = new ArrayList<>();
@@ -148,6 +147,53 @@ public class WalkDao {
 		return null;
 	}
 
+	public List<Walk> getWalksPostedForReceivingOffers(int walkerId) {
+		List<Walk> postedWalks = new ArrayList<>();
+		String sql = "SELECT * FROM " + WALKS_TABLE + " AS WT LEFT JOIN " + WALKOFFERS_TABLE + " AS WO ON WO." + WALK_ID + " = WT." + WALK_ID + " AND WO." + WALKER_ID + " = ? WHERE WT." + STATUS + "= ? AND (WO." + DECLINED + " != TRUE OR WO." + DECLINED + " IS NULL)"; 
+		
+		System.out.println(sql);
+		
+		try (Connection conn = DBConnection.getDBInstance(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+			stmt.setInt(1, walkerId);
+			stmt.setInt(2, EnumStatus.OWNER_POSTED.toInt()); // Can't be too safe casting an int xD
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				int walkId = rs.getInt(WALK_ID);
+				int status = rs.getInt(STATUS);
+				int dog_owner = rs.getInt(OWNER_ID); // maybe redundant but u never kno
+				String date = rs.getString(START_TIME);
+				String location = rs.getString(LOCATION);
+				String length = rs.getString(LENGTH);
+				postedWalks.add(new Walk(walkId, status, dog_owner, date, location, length));
+			}
+			return postedWalks;
+		} catch (SQLException e) {
+			DBUtil.processException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public void cancel(int walkId) {
+		setStatus(walkId, EnumStatus.CANCELLED);
+	}
+	public void setStatus(int walkId, EnumStatus status) {
+		String sql = "UPDATE " + WALKS_TABLE + " SET " + STATUS + " = ? WHERE " + WALK_ID + " = ?";
+		System.out.println(sql);
+		try (Connection conn = DBConnection.getDBInstance(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+			stmt.setInt(1, status.toInt());
+			stmt.setInt(2, walkId);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			DBUtil.processException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	// DDL
+	
 	public void createWalksTable() {
 		try (Connection conn = DBConnection.getDBInstance(); Statement stmt = conn.createStatement();) {
 			if (!ApplicationDao.dao.tableExists(conn, WALKS_TABLE)) {
@@ -174,9 +220,9 @@ public class WalkDao {
 	public void createWalkDogsTable() {
 		try (Connection conn = DBConnection.getDBInstance(); Statement stmt = conn.createStatement();) {
 			if (!ApplicationDao.dao.tableExists(conn, WALKDOGS_TABLE)) {
-
+				System.out.print("Creating WalkDogs Table...");
 				String sql = "CREATE TABLE IF NOT EXISTS " + WALKDOGS_TABLE + " (" + "walk_id	 	INT NOT NULL, "
-						+ "dog_id 		INT NOT NULL," + "declined 	BOOLEAN," + "PRIMARY KEY (walk_id, dog_id)" + ");";
+						+ "dog_id 		INT NOT NULL, " + "PRIMARY KEY (walk_id, dog_id)" + ");";
 				stmt.executeUpdate(sql);
 				System.out.println("Created WalkDogs Table");
 			} else {
@@ -189,20 +235,43 @@ public class WalkDao {
 		}
 	}
 
+	public void createWalkOffersTable() {
+		try (Connection conn = DBConnection.getDBInstance(); Statement stmt = conn.createStatement();) {
+			if (!ApplicationDao.dao.tableExists(conn, WALKOFFERS_TABLE)) {
+				System.out.print("Creating WalkOffers Table...");
+				String sql = "CREATE TABLE IF NOT EXISTS " + WALKOFFERS_TABLE + "(" + WALK_ID + " INT NOT NULL, "
+						+ WALKER_ID + " INT NOT NULL, " + "declined BOOLEAN, PRIMARY KEY (" + WALK_ID + ", " + WALKER_ID
+						+ "));";
+				stmt.executeUpdate(sql);
+				System.out.println("Created WalkOffers Table");
+			} else {
+				System.out.println("WalkOffers Table exists");
+			}
+		} catch (SQLException e) {
+			DBUtil.processException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public enum EnumStatus {
-		OWNER_INITIALIZED(1), 	// Dog owner has created walk but can still edit details before it's visible
-		OWNER_POSTED(2), 		// Dog owner has posted the walk for walkers to propose on
-		WALKER_CHOSEN(3), 		// Dog owner has selected a walker
-		WALKER_STARTED(4), 		// Walker has marked the walk as started (optional)
-		WALKER_COMPLETED(5), 	// Walker has marked the walk as completed
-		CANCELLED(6); 			// Walker or Dog owner have cancelled
+		OWNER_INITIALIZED(1), // Dog owner has created walk but can still edit details before it's visible
+		OWNER_POSTED(2), // Dog owner has posted the walk for walkers to propose on
+		WALKER_CHOSEN(3), // Dog owner has selected a walker
+		WALKER_STARTED(4), // Walker has marked the walk as started (optional)
+		WALKER_COMPLETED(5), // Walker has marked the walk as completed
+		CANCELLED(6); // Walker or Dog owner have cancelled
+
 		private final int statusCode;
+
 		EnumStatus(int statusCode) {
 			this.statusCode = statusCode;
 		}
+
 		public int toInt() {
 			return statusCode;
 		}
+
 		public static EnumStatus fromInt(int statusCode) {
 			for (EnumStatus type : EnumStatus.values()) {
 				if (type.statusCode == statusCode) {

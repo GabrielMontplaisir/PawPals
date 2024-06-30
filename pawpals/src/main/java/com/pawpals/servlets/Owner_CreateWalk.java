@@ -14,16 +14,15 @@ import com.pawpals.dao.DogDao;
 import com.pawpals.dao.WalkDao;
 
 @WebServlet("/dashboard-owner/CreateWalk")
-public class Dashboard_Owner_CreateWalk_Servlet extends HttpServlet {
+public class Owner_CreateWalk extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public Dashboard_Owner_CreateWalk_Servlet() {
+    public Owner_CreateWalk() {
         super();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-		WalkDao.dao.createWalksTable();
         User user = (User) session.getAttribute("user");
 
         if (user == null) {

@@ -40,4 +40,10 @@ public class User {
 		System.err.println(" * * " + userId + " Tried to get walkId as owner but isn't owner " + walkId) ;
 		return null;
 	}
+	
+	public List<Walk> getWalks_for_Soliciting_WalkOffers(){
+		System.out.println("getWalks_for_Soliciting_WalkOffers("+userId+") called...");
+		return WalkDao.dao.getWalksPostedForReceivingOffers(userId);
+	}
+	
 }

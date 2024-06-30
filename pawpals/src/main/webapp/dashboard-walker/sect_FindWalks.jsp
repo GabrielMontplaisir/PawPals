@@ -2,7 +2,7 @@
 
 <%
 	User user = (User) session.getAttribute("user");
-	List<Walk> walks = user.getWalks_as_DogOwner();
+	List<Walk> walks = user.getWalks_for_Soliciting_WalkOffers();
 	if (walks != null) {
 		for (Walk walk: walks ){
 			List<Dog> doggies = walk.getDogs();
@@ -34,7 +34,7 @@
 		}
 		
 	} else {
-		out.write("Error");
+		out.write("null");
 	}
 %>
 

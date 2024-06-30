@@ -32,6 +32,7 @@
 		</nav>
 	</header>
 	<main>
+			<jsp:include page="sect_FindWalks.jsp" />
 	</main>
 </body>
 </html>

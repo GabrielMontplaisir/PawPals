@@ -12,6 +12,7 @@ public class DBConnection {
 		ApplicationDao.createDatabase();
 		ApplicationDao.dao.createUserTable();
 		ApplicationDao.dao.createDogsTable();
+		WalkDao.dao.createWalkOffersTable();
 		WalkDao.dao.createWalksTable();
 		WalkDao.dao.createWalkDogsTable();
 	}	
