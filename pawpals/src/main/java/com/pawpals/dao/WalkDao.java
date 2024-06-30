@@ -155,40 +155,6 @@ public class WalkDao {
 		return null;
 	}
 
-//    public List<Dog> getDogsByUserId(int userId) {
-//        List<Dog> dogs = new ArrayList<>();
-//        String sql = "SELECT " + DOG_ID + ", " + OWNER_ID + ", " + NAME + ", " + SIZE + ", " + SPECIAL_NEEDS + ", " + IMMUNIZED + " FROM " + ApplicationDao.DOGS_TABLE + " WHERE " + OWNER_ID + " = ?";
-//
-//        try (
-//                Connection conn = DBConnection.getDBInstance();
-//                PreparedStatement stmt = conn.prepareStatement(sql);
-//            ) {
-//            stmt.setInt(1, userId);
-//
-//            ResultSet rs = stmt.executeQuery();
-//
-//            while (rs != null && rs.next()) {
-//                Dog dog = new Dog(
-//                    rs.getInt(DOG_ID),
-//                    rs.getInt(OWNER_ID),
-//                    rs.getString(NAME),
-//                    rs.getString(SIZE),
-//                    rs.getString(SPECIAL_NEEDS),
-//                    rs.getBoolean(IMMUNIZED)
-//                );
-//                dogs.add(dog);
-//            }
-//
-//            if (rs != null) rs.close();
-//
-//        } catch (SQLException e) {
-//            DBUtil.processException(e);
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return dogs;
-//    }
 	public void createWalksTable() {
 		try (Connection conn = DBConnection.getDBInstance(); Statement stmt = conn.createStatement();) {
 			if (!ApplicationDao.dao.tableExists(conn, WALKS_TABLE)) {
@@ -231,13 +197,13 @@ public class WalkDao {
 	}
 
 	enum EnumStatus {
-		OWNER_INITIALIZED(1), // Dog owner has created walk but can still edit details before it's visible
-		OWNER_POSTED(2), // Dog owner has posted the walk for walkers to propose on
-		WALKER_CHOSEN(3), // Dog owner has selected a walker
-		WALKER_STARTED(4), // Walker has marked the walk as started (optional)
-		WALKER_COMPLETED(5), // Walker has marked the walk as completed
-		CANCELLED(6), // Walker or Dog owner have cancelled
-		ADMIN_COMPLETE(7); // Client invoice has been assessed, etc
+		OWNER_INITIALIZED(1), 	// Dog owner has created walk but can still edit details before it's visible
+		OWNER_POSTED(2), 		// Dog owner has posted the walk for walkers to propose on
+		WALKER_CHOSEN(3), 		// Dog owner has selected a walker
+		WALKER_STARTED(4), 		// Walker has marked the walk as started (optional)
+		WALKER_COMPLETED(5), 	// Walker has marked the walk as completed
+		CANCELLED(6), 			// Walker or Dog owner have cancelled
+		ADMIN_COMPLETE(7); 		// Client invoice has been assessed, etc
 
 		private final int statusCode;
 
