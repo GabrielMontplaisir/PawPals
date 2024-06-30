@@ -5,9 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.pawpals.dao.ApplicationDao;
 import com.pawpals.dao.UserDao;
-import com.pawpals.dao.WalkDao;
 import com.pawpals.interfaces.FormValidation;
 
 import javax.servlet.RequestDispatcher;
@@ -25,10 +23,6 @@ public class LoginServlet extends FormValidation {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String message;
 		RequestDispatcher dispatcher = null;
-		ApplicationDao.dao.createDatabase();
-		ApplicationDao.dao.createUserTable();
-		WalkDao.dao.createWalksTable();
-		WalkDao.dao.createWalkDogsTable();
 		
 		message = validateForm(req.getParameterMap());
 		if (message != null) {

@@ -6,6 +6,8 @@
 	font-family: var(--ff-headings);
 }
 
+
+
 /* ****************** */
 /* Dashboard Classes  */
 /* ****************** */
@@ -79,6 +81,14 @@
 
 .temptable, .temptable th, .temptable td {
     margin: 0;
+}
+
+.selectDoggies{
+	width: 20em;
+	border: 1px solid #ddd;
+}
+.selectDoggies:Focus{
+	outline: none;
 }
 
 /* **************** */

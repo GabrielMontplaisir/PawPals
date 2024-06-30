@@ -44,8 +44,9 @@
 		<h2>PawPals</h2>
 		<p class="welcome_msg">Welcome ${user.getFirstName()}!</p>
 		<nav>
-			<a href="./" class="nav_btn">Home</a> <a href="./settings.jsp"
-				class="nav_btn">Settings</a> <a href="logout" class="nav_btn">Logout</a>
+			<a href="./" class="nav_btn">Home</a> 
+			<a href="./settings.jsp" class="nav_btn">Settings</a>
+			<a href="../dashboard/logout" class="nav_btn">Logout</a>
 		</nav>
 	</header>
 	<main>

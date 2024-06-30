@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import com.pawpals.beans.User;
-import com.pawpals.dao.ApplicationDao;
 import com.pawpals.dao.DogDao;
 
 @WebServlet("/dashboard-owner/AddMyDog")
@@ -21,7 +20,6 @@ public class Dashboard_Owner_AddMyDog_Servlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-		ApplicationDao.dao.createDogsTable();
         User user = (User) session.getAttribute("user");
         if (user == null) {
             response.sendRedirect("../index.jsp");

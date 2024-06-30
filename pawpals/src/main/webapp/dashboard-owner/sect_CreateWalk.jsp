@@ -12,8 +12,7 @@
 				 
 				<div class="form-group">
                     <label for="size">Select Dogs for this walk:</label> <br />
-                    <select id="dogIds" name="dogIds[]" required multiple>
-                    	<option value="" disabled selected>Select dog</option>
+                    <select class='selectDoggies' id="dogIds" name="dogIds[]" required multiple>
                     	<% 
                     		User user = (User) session.getAttribute("user");
 	                    	for (Dog dog: user.getDogs() ){

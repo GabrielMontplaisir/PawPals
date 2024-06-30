@@ -6,11 +6,8 @@ import java.time.Period;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.pawpals.dao.ApplicationDao;
 import com.pawpals.dao.UserDao;
 import com.pawpals.interfaces.FormValidation;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,8 +24,6 @@ public class RegisterServlet extends FormValidation {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String message;	
 		RequestDispatcher dispatcher = null;
-		ApplicationDao.dao.createDatabase();
-		ApplicationDao.dao.createUserTable();
 		message = validateForm(req.getParameterMap());
 
 		if (message != null) {

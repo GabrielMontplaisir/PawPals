@@ -18,7 +18,7 @@ public class DBUtil {
 	private static final String PASSWORD = "";
 	private static String M_CONN_STRING = "jdbc:mysql://localhost/";
 	private static String H_CONN_STRING = "jdbc:hsqldb://localhost/";
-	
+
 	public static Connection getConnection(DBType dbType) throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		switch (dbType) {
@@ -42,4 +42,6 @@ public class DBUtil {
 		System.err.println("Error code: "+e.getErrorCode());
 		System.err.println("SQL State: "+e.getSQLState());
 	}
+	
+	
 }
