@@ -45,10 +45,8 @@ public class Dashboard_Owner_CreateWalk_Servlet extends HttpServlet {
         }
         
         	for (String dogIdString : dogIds ) {
-        		System.out.println("Adding dogid " + dogIdString );
         		int dogId = Integer.parseInt(dogIdString);
         		Dog dog = DogDao.dogDao.getDogById(dogId);
-        		System.out.println("Doggie name " + dog.getName() );
         		WalkDao.dao.addDog(newWalk, dog);
         	}
         

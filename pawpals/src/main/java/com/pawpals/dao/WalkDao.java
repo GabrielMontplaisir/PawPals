@@ -14,11 +14,9 @@ import com.pawpals.beans.Walk;
 
 public class WalkDao {
 	public static final WalkDao dao = new WalkDao();
-
 	public static final String WALKS_TABLE = "walks";
 	public static final String WALKOFFERS_TABLE = "walkoffers";
 	public static final String WALKDOGS_TABLE = "walkdogs";
-
 	public static final String DOG_ID = "dog_id";
 	public static final String WALK_ID = "walk_id";
 	public static final String STATUS = "status";
@@ -27,9 +25,8 @@ public class WalkDao {
 	public static final String LOCATION = "location";
 	public static final String LENGTH = "length";
 	public static final String WALKER_ID = "walker_id";
-
-	private WalkDao() {
-	}
+	
+	private WalkDao() {}
 
 	public Walk addWalk(User owner, String date_time, String location, String length) {
 		String sql = "INSERT INTO " + WALKS_TABLE + " (" + STATUS + "," + OWNER_ID + "," + START_TIME + "," + LOCATION
@@ -51,7 +48,6 @@ public class WalkDao {
 			ResultSet rs = sqlGetNewID.executeQuery();
 			rs.next();
 			int walkId = rs.getInt(1);
-			//(int walkId, int status, int owner_id, String date, String location, String length)
 			Walk newWalk = new Walk(walkId, newStatus, owner.getId(), date_time, location, length);
 			return newWalk;
 
@@ -83,13 +79,10 @@ public class WalkDao {
 		List<Dog> dogsList = new ArrayList<>();
 
 		String sql = "SELECT " + DOG_ID + " FROM " + WALKDOGS_TABLE + " WHERE " + WALK_ID + " = ?";
-		System.out.println("Walk ID:" + walk.getWalkId());
 		try (Connection conn = DBConnection.getDBInstance(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 			stmt.setInt(1, walk.getWalkId());
-			System.out.println("Getting dogs for wlk id: " + walk.getWalkId());
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				System.out.println("x dog " + rs.getInt(DOG_ID));
 				dogsList.add(DogDao.dogDao.getDogById(rs.getInt(DOG_ID)));
 			}
 			return dogsList;
@@ -203,17 +196,13 @@ public class WalkDao {
 		WALKER_STARTED(4), 		// Walker has marked the walk as started (optional)
 		WALKER_COMPLETED(5), 	// Walker has marked the walk as completed
 		CANCELLED(6); 			// Walker or Dog owner have cancelled
-
 		private final int statusCode;
-
 		EnumStatus(int statusCode) {
 			this.statusCode = statusCode;
 		}
-
 		public int toInt() {
 			return statusCode;
 		}
-
 		public static EnumStatus fromInt(int statusCode) {
 			for (EnumStatus type : EnumStatus.values()) {
 				if (type.statusCode == statusCode) {

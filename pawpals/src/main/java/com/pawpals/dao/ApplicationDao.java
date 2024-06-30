@@ -88,10 +88,6 @@ public class ApplicationDao {
 	        }
 	}
 
-
-	
-	
-	
 	private static boolean dbExists(String dbName, ResultSet resultSet) throws SQLException {
 		while (resultSet.next()) {
 			if (resultSet.getString(1).equals(dbName)) return true;
@@ -103,14 +99,5 @@ public class ApplicationDao {
 	public boolean tableExists(Connection conn, String tableName) throws SQLException {
         return conn.getMetaData().getTables(null, null, tableName, new String[] {"TABLE"}).next();
     }
-	
-//	private boolean userTableExists(Connection conn, String userTable) throws SQLException {
-//		return conn.getMetaData().getTables(null, null, userTable, new String[] {"TABLE"}).next();
-//	}
-//	
-//	private boolean dogsTableExists(Connection conn, String dogsTable) throws SQLException {
-//        return conn.getMetaData().getTables(null, null, dogsTable, new String[] {"TABLE"}).next();
-//    }
-//	
-	
+
 }
