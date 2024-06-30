@@ -20,6 +20,18 @@ public class Walk {
 	public int getStatus() {
 		return status;
 	}
+	public String getFriendlyStatus() {
+		switch (this.status) {
+			case 1: return "Owner Draft";
+			case 2: return "Soliciting Offers";
+			case 3: return "Walker Selected";
+			case 4: return "Walking Now";
+			case 5: return "Walk Completed";
+			case 6: return "Walk Cancelled";
+			default: System.err.println("getFriendlyStatus() encountered unexpected status: " + this.status);
+			return "Error";
+		}
+	}
 	public void setStatus(int status) {
 		this.status = status;
 	}
@@ -57,6 +69,5 @@ public class Walk {
 	private String location;
 	private String length;
 	private int walker_id;
-	
 	
 }

@@ -57,29 +57,29 @@
 			</header>
 
 			<% 
-                    		Walk walk = user.getWalkAsOwner(walkId);
-                    		out.write("<table class='temptable'>");
-	                    		out.write("<tr><th>Location</th><td>" +walk.getLocation()+ "</td></tr>");
-	                    		out.write("<tr><th>Date</th><td>" +walk.getDate()+ "</td></tr>");
-	                    		List<Dog> doggies = walk.getDogs();
-                    		out.write("</table>");
-                    		if ( doggies.size() == 1 ) {
-                    			out.write("<p>Doggy</p>"); 
-                    		} else if (doggies.size() > 1) {
-                    			out.write("<p>Doggies</p>");
-                    		} else {
-                    			out.write("<p>Error</p>");
-                    		}
-                    		out.write("<table class=\"temptable\">");
-                    		out.write("<tr><th>Doggy Name</th><th>Size</th><th>Special Needs</th></tr>");
-	                    																                    		
-		                    		for ( Dog dog : doggies ) {
-		                    			out.write("<tr><td>"+ dog.getName()+ "</td><td>"+ dog.getSize() +"</td><td>"+dog.getSpecialNeeds()+"</td></tr>");
-		                    		}
-	                    		out.write("</tr>");
-                    		out.write("</table>");
-	                    	
-                    	%>
+           		Walk walk = user.getWalk_by_WalkId_as_Owner(walkId);
+           		out.write("<table class='temptable'>");
+            		out.write("<tr><th>Location</th><td>" +walk.getLocation()+ "</td></tr>");
+            		out.write("<tr><th>Date</th><td>" +walk.getDate()+ "</td></tr>");
+            		List<Dog> doggies = walk.getDogs();
+           		out.write("</table>");
+           		if ( doggies.size() == 1 ) {
+           			out.write("<p>Doggy</p>"); 
+           		} else if (doggies.size() > 1) {
+           			out.write("<p>Doggies</p>");
+           		} else {
+           			out.write("<p>Error</p>");
+           		}
+           		out.write("<table class=\"temptable\">");
+           		out.write("<tr><th>Doggy Name</th><th>Size</th><th>Special Needs</th></tr>");
+            																                    		
+             		for ( Dog dog : doggies ) {
+             			out.write("<tr><td>"+ dog.getName()+ "</td><td>"+ dog.getSize() +"</td><td>"+dog.getSpecialNeeds()+"</td></tr>");
+             		}
+            		out.write("</tr>");
+           		out.write("</table>");
+            	
+           	%>
 
 		</section>
 

@@ -83,12 +83,14 @@
     margin: 0;
 }
 
-.selectDoggies{
-	width: 20em;
+
+.border1 {
 	border: 1px solid #ddd;
 }
-.selectDoggies:Focus{
-	outline: none;
+
+.hRadioGroup {
+	display: flex;
+	gap: 10px;
 }
 
 /* **************** */

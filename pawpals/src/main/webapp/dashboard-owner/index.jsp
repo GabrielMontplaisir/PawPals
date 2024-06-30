@@ -15,6 +15,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="../css/root.css">
 	<link rel="stylesheet" href="../css/dashboard.css">
+	<link rel="stylesheet" href="../css/dashboard-dogOwner.css">
 </head>
 <%
 	if (session.getAttribute("user") == null) {
@@ -39,7 +40,6 @@
 		<jsp:include page="sect_AddMyDog.jsp" />
 		<jsp:include page="sect_CreateWalk.jsp" />
 		<jsp:include page="sect_MyDogsWalks.jsp" />
-		
 	</main>
 	
 </body>

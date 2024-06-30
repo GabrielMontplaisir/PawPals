@@ -5,7 +5,14 @@
 		
 			<header>
 			<Form action="CreateWalk" method="POST">
-				<h1 class="subtitle">Walk My Dog(s)</h1>
+				<%
+				User user = (User) session.getAttribute("user");
+				if ( user.getDogs_as_DogOwner().size() > 1 ){
+					out.write("<h1 class='subtitle'>Walk My Doggie(s)</h1>");
+				} else {
+					out.write("<h1 class='subtitle'>Walk My Doggy</h1>");
+				}
+				 %>
 				<!-- 
 				<a href="javascript:void(0);" class="btn" onclick="showDogForm()">Add dog</a>
 				 -->
@@ -13,11 +20,11 @@
 				<div class="form-group">
                     <label for="size">Select Dogs for this walk:</label> <br />
                     <select class='selectDoggies' id="dogIds" name="dogIds[]" required multiple>
-                    	<% 
-                    		User user = (User) session.getAttribute("user");
-	                    	for (Dog dog: user.getDogs() ){
-	                    		out.write("<option value=" + dog.getDogId() +">" + dog.getName() + "</option>");
-	                    	}
+                    	<%
+                    	
+           	            	for (Dog dog: user.getDogs_as_DogOwner() ){
+                	    		out.write("<option value=" + dog.getDogId() +">" + dog.getName() + "</option>");
+                	    	}
                     	%>
                     </select>
                 </div>

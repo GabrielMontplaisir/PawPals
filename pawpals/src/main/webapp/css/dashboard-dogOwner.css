@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+
+
+.selectDoggies{
+	width: 20em;
+	border: 1px solid #ddd;
+}
+.selectDoggies:Focus{
+	outline: none;
+}
+

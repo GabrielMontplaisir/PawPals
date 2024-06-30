@@ -25,20 +25,19 @@ public class User {
 	public String getEmail() {return email;}
 	public LocalDate getDob() {return dob;}
 	
-	public List<Dog> getDogs() {
+	public List<Dog> getDogs_as_DogOwner() {
 		return DogDao.dogDao.getDogsByUserId(this.userId);
 	}
-	public List<Walk> getWalks(){
+	public List<Walk> getWalks_as_DogOwner(){
 		return WalkDao.dao.getWalksByOwnerId(this.userId);
 	}
 	
-	public Walk getWalkAsOwner(int walkId) {
+	public Walk getWalk_by_WalkId_as_Owner(int walkId) {//  validates user is dog owner of requested walk 
 		Walk walk = WalkDao.dao.getWalkById(walkId);
 		if ( walk.getOwnerId() == userId ) {
-			System.out.println("confirmed getting walk as owner");
 			return walk;
 		}
-		System.err.println("Tried to get walkId as owner but ont owner " + walkId) ;
+		System.err.println(" * * " + userId + " Tried to get walkId as owner but isn't owner " + walkId) ;
 		return null;
 	}
 }
