@@ -5,7 +5,7 @@
 		
 			<header>
 			<Form action="CreateWalk" method="POST">
-				<h1 class="subtitle">Walk My Dog</h1>
+				<h1 class="subtitle">Walk My Dog(s)</h1>
 				<!-- 
 				<a href="javascript:void(0);" class="btn" onclick="showDogForm()">Add dog</a>
 				 -->
