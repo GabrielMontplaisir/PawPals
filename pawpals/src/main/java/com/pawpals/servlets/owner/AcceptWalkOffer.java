@@ -23,12 +23,13 @@ public class AcceptWalkOffer extends HttpServlet {
     	User user = SessionService.srv.getSessionUser(request);
     	if (user == null) { response.sendRedirect("../index.jsp"); return;}
         int walkId = Integer.parseInt(request.getParameter("walkId"));
+        int walkerId = Integer.parseInt(request.getParameter("walkerId"));
         Walk walk =  WalkService.svc.getWalk_by_WalkId(walkId);
         if (walk == null) {
             response.sendRedirect("./");
             return;
         }
-        WalkService.svc.acceptWalkOffer(walk, user);
+        WalkService.svc.acceptWalkOffer(walkId, walkerId);
         request.getRequestDispatcher("walk-detail").forward(request, response);
     }
     

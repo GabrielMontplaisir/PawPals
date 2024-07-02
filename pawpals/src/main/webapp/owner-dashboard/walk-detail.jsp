@@ -74,11 +74,12 @@
 						out.write("<section class='container'>");
 	
 						out.write("<p>");
-	
 						
-						out.write("<form class='miniForm' action='accept-walk-offer' method='POST'>"
-		       					+ "<input type='submit' value='Accept' class='greenBack'/>" 
-		     					+ "<input type='hidden' name='walkId' value='" +walk.getWalkId()+ "'></form></td></tr>");						
+							out.write("<form class='miniForm' action='accept-walk-offer' method='POST'>"
+			       					+ "<input type='submit' value='Accept' class='greenBack'/>" 
+			     					+ "<input type='hidden' name='walkId' value='" +walk.getWalkId()+ "'>" 
+									+ "<input type='hidden' name='walkerId' value='" +walkOffer.getWalkOfferUser().getId()+ "'>"
+							+"</form></td></tr>");						
 	
 						out.write(walkOffer.getWalkOfferUser().getEmail() +" </p>");
 	

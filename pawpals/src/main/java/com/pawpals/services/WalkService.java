@@ -42,8 +42,8 @@ public class WalkService {
 	public void addWalkOffer(int walkId, int walkerUserId) {
 		WalkDao.dao.addWalkOffer(walkId, walkerUserId);
 	}
-	public void acceptWalkOffer(Walk walk, User walkOfferUser) {
-		WalkDao.dao.acceptWalkOffer(walk, walkOfferUser);
+	public void acceptWalkOffer(int walkId, int walkOfferUserId) {
+		WalkDao.dao.acceptWalkOffer(walkId, walkOfferUserId);
 	}
 	public List<WalkOffer> getWalkOffers_by_WalkId(int walkId) {
 		return WalkDao.dao.getWalkOffers(walkId); 

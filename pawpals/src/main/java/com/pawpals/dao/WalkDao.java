@@ -113,13 +113,13 @@ public class WalkDao {
 			e.printStackTrace();
 		}
 	}
-	public void acceptWalkOffer(Walk walk, User walkOfferUser) {
+	public void acceptWalkOffer(int walkId, int walkOfferUserId) {
 		String sql = "UPDATE " + WALKS_TABLE + " SET " + WALKER_ID + " = ?, " + STATUS + " = "
 					+ Walk.EnumStatus.WALKER_CHOSEN.toInt() + " WHERE " + WALK_ID + " = ?;" ;
 		
 		try (Connection conn = DBConnection.getDBInstance(); PreparedStatement stmt = conn.prepareStatement(sql);) {
-			stmt.setInt(1, walkOfferUser.getId());
-			stmt.setInt(2, walk.getWalkId());
+			stmt.setInt(1, walkOfferUserId);
+			stmt.setInt(2, walkId);
 			stmt.executeUpdate();
 			return;
 		} catch (SQLException e) {
