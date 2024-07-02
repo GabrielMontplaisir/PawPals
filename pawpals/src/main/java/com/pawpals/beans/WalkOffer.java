@@ -10,6 +10,7 @@ public class WalkOffer {
 		this.declined = declined;
 	}
 	public User getWalkOfferUser() { return this.walkerUser; }
+	public int getWalkOfferUserId() { return this.walkerUser.getId(); }
 	public Walk getWalk() { return this.walk; }
 	public int getDeclined() { return this.declined;}
 }

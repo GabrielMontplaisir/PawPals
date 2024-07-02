@@ -78,7 +78,7 @@
 							out.write("<form class='miniForm' action='accept-walk-offer' method='POST'>"
 			       					+ "<input type='submit' value='Accept' class='greenBack'/>" 
 			     					+ "<input type='hidden' name='walkId' value='" +walk.getWalkId()+ "'>" 
-									+ "<input type='hidden' name='walkerId' value='" +walkOffer.getWalkOfferUser().getId()+ "'>"
+									+ "<input type='hidden' name='walkerId' value='" +walkOffer.getWalkOfferUserId()+ "'>"
 							+"</form></td></tr>");						
 	
 						out.write(walkOffer.getWalkOfferUser().getEmail() +" </p>");
