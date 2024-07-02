@@ -29,7 +29,7 @@ public class ApplicationDao {
 				stmt.executeUpdate(sql);
 				System.out.println("Created DB");		
 			} else {
-				System.out.println("DB Exists");
+//				System.out.println("DB Exists");
 			}
 			DBUtil.setConnStr();
 			
@@ -51,7 +51,7 @@ public class ApplicationDao {
 				stmt.executeUpdate(sql);
 				System.out.println("Created User Table");
 			} else {
-				System.out.println("User Table exists");
+//				System.out.println("User Table exists");
 			}
 			
 		} catch (SQLException e) {
@@ -79,7 +79,7 @@ public class ApplicationDao {
 	                stmt.executeUpdate(sql);
 	                System.out.println("Created Dogs Table");
 	            } else {
-	                System.out.println("Dogs Table exists");
+//	                System.out.println("Dogs Table exists");
 	            }
 	        } catch (SQLException e) {
 	            DBUtil.processException(e);

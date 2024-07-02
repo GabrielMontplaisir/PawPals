@@ -36,7 +36,7 @@ public class LoginServlet extends FormValidation {
 		UserDao.userDao.authenticateUser(req);
 		HttpSession session = req.getSession();
 		if (session.getAttribute("user") != null) {
-			resp.sendRedirect("./dashboard/");
+			resp.sendRedirect("./account-panel");
 			return;
 		} else {
 			req.setAttribute("message", "Cannot find user with this email address. Please register for an account.");

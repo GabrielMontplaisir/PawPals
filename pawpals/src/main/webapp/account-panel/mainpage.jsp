@@ -26,12 +26,12 @@
 		<nav>
 		<a href="./" class="nav_btn">Home</a>
 			<a href="./settings.jsp" class="nav_btn">Settings</a>
-			<a href="../dashboard/logout" class="nav_btn">Logout</a>
+			<a href="../logout" class="nav_btn">Logout</a>
 		</nav>
 	</header>
 	<main>
-	<p><a href = "../dashboard-walker/">Walk Dogs</a></p>
-	<p><a href = "../dashboard-owner/">Walk My Dog(s)</a></p>
+	<p><a href = "../walker-dashboard/">Walk Dogs</a></p>
+	<p><a href = "../owner-dashboard/">Walk My Dog(s)</a></p>
 	</main>
 </body>
 </html>

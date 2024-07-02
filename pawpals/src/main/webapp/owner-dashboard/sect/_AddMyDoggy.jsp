@@ -1,3 +1,4 @@
+
 		<section class="container">
 		
 			<header>
@@ -6,7 +7,7 @@
 				
 			</header>
 							<!--  It just seems weird to use the word "Create" when people are adding their dogs -->
-			<form id="dogForm" action="AddMyDog" method="post">
+			<form id="dogForm" action="add-my-doggy" method="post">
 			
                 <div class="form-group, border1">
                     <label for="name">Name:</label> 

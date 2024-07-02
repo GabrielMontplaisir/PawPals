@@ -65,7 +65,7 @@ public class DogDao {
         }
     }
 
-    public List<Dog> getDogsByUserId(int userId) {
+    public List<Dog> getDogsByOwnerUserId(int userId) {
         List<Dog> dogs = new ArrayList<>();
         String sql = "SELECT " + DOG_ID + ", " + OWNER_ID + ", " + NAME + ", " + SIZE + ", " + SPECIAL_NEEDS + ", " + IMMUNIZED + " FROM " + ApplicationDao.DOGS_TABLE + " WHERE " + OWNER_ID + " = ?";
 
@@ -79,12 +79,9 @@ public class DogDao {
 
             while (rs != null && rs.next()) {
                 Dog dog = new Dog(
-                    rs.getInt(DOG_ID),
-                    rs.getInt(OWNER_ID),
-                    rs.getString(NAME),
-                    rs.getString(SIZE),
-                    rs.getString(SPECIAL_NEEDS),
-                    rs.getBoolean(IMMUNIZED)
+                    rs.getInt(DOG_ID),				rs.getInt(OWNER_ID),
+                    rs.getString(NAME),				rs.getString(SIZE),
+                    rs.getString(SPECIAL_NEEDS),	rs.getBoolean(IMMUNIZED)
                 );
                 dogs.add(dog);
             }

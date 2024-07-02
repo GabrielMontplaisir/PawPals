@@ -1,18 +1,23 @@
-<%@ page import="com.pawpals.beans.Dog,com.pawpals.beans.User,com.pawpals.beans.Walk,java.util.List" %>
+<%@ page import="com.pawpals.beans.*,java.util.List,java.util.HashMap" %>
 
 <%
 	User user = (User) session.getAttribute("user");
-	List<Walk> walks = user.getWalks_for_Soliciting_WalkOffers();
+	HashMap<Integer, Boolean> walkOffers = new HashMap<>();
+	List<Walk> walks = (List<Walk>) user.getWalks_for_Soliciting_WalkOffers(walkOffers);
+	
 	if (walks != null) {
 		for (Walk walk: walks ){
 			List<Dog> doggies = walk.getDogs();
+			Boolean walkHasOffer = walkOffers.get(walk.getWalkId());
+			
 			
 			out.write("<section class='container'>");
        		out.write("<table class='temptable'>");
-       			out.write("<tr><th>Status</th><td><form action='page_WalkDetails.jsp' method='POST'>"
-       					+ "<input type='submit' value='" + walk.getFriendlyStatus() + "' />" 
+       		out.write("<tr><th>Action</th><td><form action='walk-detail' method='POST'>"
+       					+ "<input type='submit' value='Open' />" 
      					+ "<input type='hidden' name='walkId' value='" +walk.getWalkId()+ "'></form></td></tr>");
        			
+       			out.write("<tr><th>Offer</th><td>" + walkHasOffer + "</td></tr>");
        			out.write("<tr><th>Location</th><td>" +walk.getLocation()+ "</td></tr>");
        			out.write("<tr><th>Date</th><td>" +walk.getDate()+ "</td></tr>");
        		out.write("</table>");

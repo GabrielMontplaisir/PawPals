@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.pawpals.beans.Dog" %>
 <%@ page import="com.pawpals.beans.User" %>
-<%@ page import="java.util.List" %>
+<%
+	User user = (User) session.getAttribute("user") ;
+	if (user == null) {	response.sendRedirect("../index.jsp");	return; }
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,30 +20,28 @@
 	<link rel="stylesheet" href="../css/dashboard.css">
 	<link rel="stylesheet" href="../css/dashboard-dogOwner.css">
 </head>
-<%
-	if (session.getAttribute("user") == null) {
-		response.sendRedirect("../index.jsp");
-		return;
-	}
-
-%>
-<body class="dashboard">
+    <body class="dashboard">
 	<header class="dashboard_header">
 		<h2>PawPals</h2>
 		<p class="welcome_msg">Welcome ${user.getFirstName()}!</p>
 		
 		<nav>
-			<a href="../dashboard-walker/" class="nav_btn">Switch to Walker</a>
+		<%
+
+		boolean isOwner = request.getRequestURL().toString().contains("/owner-");
+		
+//			boolean isOwner = request.getAttribute("_owner_") == null;
+		
+			if (    isOwner   ) {
+				out.write("<a href='../walker-dashboard' class='nav_btn'>Switch to Doggy Walker</a>");				
+			} else {
+				out.write("<a href='../owner-dashboard' class='nav_btn'>Switch to Doggy Owner</a>");
+			}
+			
+			
+		 %>
 			<a href="./" class="nav_btn">Home</a>
 			<a href="./settings.jsp" class="nav_btn">Settings</a>
-			<a href="../dashboard/logout" class="nav_btn">Logout</a>
+			<a href="../logout" class="nav_btn">Logout</a>
 		</nav>
 	</header>
-	<main>
-		<jsp:include page="sect_AddMyDog.jsp" />
-		<jsp:include page="sect_CreateWalk.jsp" />
-		<jsp:include page="sect_MyDogsWalks.jsp" />
-	</main>
-	
-</body>
-</html>

@@ -1,34 +1,28 @@
-package com.pawpals.servlets;
-
+package com.pawpals.servlets.owner;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import com.pawpals.beans.Dog;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
 import com.pawpals.dao.DogDao;
 import com.pawpals.dao.WalkDao;
+import com.pawpals.services.SessionService;
 
-@WebServlet("/dashboard-owner/CreateWalk")
-public class Owner_CreateWalk extends HttpServlet {
+@WebServlet("/owner-dashboard/create-walk")
+public class CreateWalk extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
-    public Owner_CreateWalk() {
+    public CreateWalk() {
         super();
     }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        User user = (User) session.getAttribute("user");
+    	User user = SessionService.srv.getSessionUser(request);
+    	if (user == null) { response.sendRedirect("../index.jsp"); return;}
 
-        if (user == null) {
-            response.sendRedirect("../index.jsp");
-            return;
-        }
+    	
 
         String[] dogIds = request.getParameterValues("dogIds[]");
         String startTime = request.getParameter("startTime");
@@ -36,7 +30,7 @@ public class Owner_CreateWalk extends HttpServlet {
         String length = request.getParameter("length");
         Walk newWalk = WalkDao.dao.addWalk(user, startTime, location, length);
         
-        
+        System.out.println("New walk created. ID: " + newWalk.getWalkId());
         
         if ( dogIds == null || dogIds.length == 0) {		// ToDo: Make addDogs method accepts string array of dogIds.
         	System.err.println("No doggies!! Error");
@@ -47,21 +41,21 @@ public class Owner_CreateWalk extends HttpServlet {
         		int dogId = Integer.parseInt(dogIdString);
         		Dog dog = DogDao.dogDao.getDogById(dogId);
         		WalkDao.dao.addDog(newWalk, dog);
+        		System.out.println("Doggie added: " + dog.getName());
         	}
         
         request.setAttribute("walkId", String.valueOf(newWalk.getWalkId()));
-        request.getRequestDispatcher("./page_WalkDetails.jsp").forward(request, response);
+        
+        
+        request.getRequestDispatcher("walk-detail").forward(request, response);
         
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            response.sendRedirect("../index.jsp");
-            return;
-        }
-        response.sendRedirect("./");
+    	User user = SessionService.srv.getSessionUser(request);
+    	if (user == null) { response.sendRedirect("../index.jsp"); return;}
+return;
+       // response.sendRedirect("../owner-walkdetail/");
     }
     
 }

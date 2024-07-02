@@ -5,9 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import com.pawpals.beans.User;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -68,6 +66,32 @@ public class UserDao {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public User getUserById(int userId) {
+		User user = null;
+		String sql = "SELECT * FROM " +ApplicationDao.USERS_TABLE+" WHERE " + USER_ID + " = ?";
+		try (
+				Connection conn = DBConnection.getDBInstance();
+				PreparedStatement stmt = conn.prepareStatement(sql);
+			) {
+			stmt.setInt(1, userId);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			
+			String userEmail = rs.getString(EMAIL_ADDRESS);
+			String firstName = rs.getString(FIRST_NAME);
+			String lastName =  rs.getString(LAST_NAME);
+			String dob =	   rs.getString(DATE_OF_BIRTH);
+			user = new User(userId, userEmail, firstName, lastName, dob);
+			rs.close();
+		} catch (SQLException e) {
+			DBUtil.processException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			
+		}
+		return user;
 	}
 	
 	public void authenticateUser(HttpServletRequest req) {

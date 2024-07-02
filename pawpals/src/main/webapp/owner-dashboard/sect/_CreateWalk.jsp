@@ -1,12 +1,14 @@
-<%@ page import="com.pawpals.beans.Dog,com.pawpals.beans.User" %>
-
+<%@ page import="com.pawpals.beans.*,java.util.List" %>
+<%
+User user = (User) session.getAttribute("user");
+List<Dog> dogs = (List<Dog>) user.getDogs_as_DogOwner();
+%>
 	<section class="container">
 		
 			<header>
-			<Form action="CreateWalk" method="POST">
+			<Form action="create-walk" method="POST">
 				<%
-				User user = (User) session.getAttribute("user");
-				if ( user.getDogs_as_DogOwner().size() > 1 ){
+				if ( dogs.size() > 1 ){
 					out.write("<h1 class='subtitle'>Walk My Doggie(s)</h1>");
 				} else {
 					out.write("<h1 class='subtitle'>Walk My Doggy</h1>");
@@ -21,7 +23,7 @@
                     <select class='selectDoggies' id="dogIds" name="dogIds[]" required multiple>
                     	<%
                     	
-           	            	for (Dog dog: user.getDogs_as_DogOwner() ){
+           	            	for (Dog dog: dogs ){
                 	    		out.write("<option value=" + dog.getDogId() +">" + dog.getName() + "</option>");
                 	    	}
                     	%>

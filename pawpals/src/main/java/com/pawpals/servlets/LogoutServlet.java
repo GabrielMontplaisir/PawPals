@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/dashboard/logout")
+@WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -18,7 +18,7 @@ public class LogoutServlet extends HttpServlet {
 		HttpSession session = req.getSession(false);
 		if (session != null) {
 			session.invalidate();
-			resp.sendRedirect("../index.jsp");
+			resp.sendRedirect("./index.jsp");
 		}
 	}
 }

@@ -1,51 +1,49 @@
-package com.pawpals.servlets;
+package com.pawpals.servlets.owner;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
+import com.pawpals.dao.WalkDao;
+import com.pawpals.services.SessionService;
+import com.pawpals.services.WalkService;
 
-@WebServlet("/dashboard-owner/CancelWalk")
-public class CancelWalk extends HttpServlet {
+@WebServlet("/owner-dashboard/post-walk")
+public class PostWalk extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public CancelWalk() {
+    public PostWalk() {
         super();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        User user = (User) session.getAttribute("user");
+    	User user = SessionService.srv.getSessionUser(request);
+    	if (user == null) { response.sendRedirect("../index.jsp"); return;}
 
-        if (user == null) {
-            response.sendRedirect("../index.jsp");
-            return;
-        }
 
+        System.out.println("PostWalk DoPost x1");
         int walkId = Integer.parseInt(request.getParameter("walkId"));
 
-        Walk walk = user.getWalk_by_WalkId_as_Owner(walkId);
+        Walk walk =  WalkService.svc.getWalk_by_WalkId_as_Owner(user.getId(), walkId);
 
         if (walk == null) {
+        	System.out.println("PostWalk DoPost: walk is null");
             response.sendRedirect("./");
             return;
         }
-        walk.doCancel();
+        System.out.println("PostWalk DoPost: walk is not null");
+        WalkDao.dao.setStatus(walkId, Walk.EnumStatus.OWNER_POSTED );
         response.sendRedirect("./");
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            response.sendRedirect("../index.jsp");
-            return;
-        }
+    	User user = SessionService.srv.getSessionUser(request);
+    	if (user == null) { response.sendRedirect("../index.jsp"); return;}
+
         response.sendRedirect("./");
     }
     
