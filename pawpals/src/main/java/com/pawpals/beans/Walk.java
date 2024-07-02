@@ -2,16 +2,18 @@ package com.pawpals.beans;
 
 import java.util.List;
 
+import com.pawpals.services.UserService;
 import com.pawpals.services.WalkService;
 
 public class Walk {
-	public Walk(int walkId, int intStatus, int owner_id, String date, String location, String length) {
+	public Walk(int walkId, int intStatus, int owner_id, String date, String location, String length, int walkerId) {
 		super();
 		this.walkId = walkId;
 		this.status = EnumStatus.fromInt(intStatus);
 		this.owner_id = owner_id;
 		this.date = date;
 		this.location = location;
+		this.walker_id = walkerId;
 	}
 	public int getStatus() {
 		return status.toInt();
@@ -40,9 +42,13 @@ public class Walk {
 	public int getWalker_id() {
 		return walker_id;
 	}
-	public void setWalker_id(int walker_id) {
-		this.walker_id = walker_id;
+	public User getWalker() {
+		System.out.println("getWalker id " + walker_id);
+		return UserService.svc.getUserById(walker_id);
 	}
+//	public void setWalker_id(int walker_id) {
+//		this.walker_id = walker_id;
+//	}
 	public int getWalkId() {
 		return walkId;
 	}

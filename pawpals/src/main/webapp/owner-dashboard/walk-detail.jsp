@@ -32,6 +32,13 @@
 		     					+ "<input type='hidden' name='walkId' value='" +walk.getWalkId()+ "'></form></td></tr>");						
 					}
 					
+					if ( walk.getStatus() == Walk.EnumStatus.WALKER_CHOSEN.toInt() ) {
+						out.write("<tr><th>Walker</th><td>" +walk.getWalker().getFirstName() + " " 
+						+ walk.getWalker().getLastName() + "</td></tr>");
+					}
+										
+					
+					
             		out.write("<tr><th>Location</th><td>" +walk.getLocation()+ "</td></tr>");
             		out.write("<tr><th>Date</th><td>" +walk.getDate()+ "</td></tr>");
             		List<Dog> doggies = walk.getDogs();
@@ -56,21 +63,30 @@
 
 		</section>
 
-		<h1 class="subtitle">Active Offers</h1>
 		<%
 		
-				for (WalkOffer walkOffer: offers ){
-    
+			if ( walk.getStatus() == Walk.EnumStatus.OWNER_POSTED.toInt() ) {
+				out.write("<h1 class='subtitle'>Active Offers</h1>");
+			
+					for (WalkOffer walkOffer: offers ){
+	    
+						
+						out.write("<section class='container'>");
+	
+						out.write("<p>");
+	
+						
+						out.write("<form class='miniForm' action='accept-walk-offer' method='POST'>"
+		       					+ "<input type='submit' value='Accept' class='greenBack'/>" 
+		     					+ "<input type='hidden' name='walkId' value='" +walk.getWalkId()+ "'></form></td></tr>");						
+	
+						out.write(walkOffer.getWalkOfferUser().getEmail() +" </p>");
+	
+						
+						out.write("</section>");
 					
-					out.write("<section class='container'>");
-
-					out.write("<p> "+ walkOffer.getWalkOfferUser().getEmail() +" </p>");
-					
-					
-					out.write("</section>");
-				
-				}
-		
+					}
+			}
 		%>
 		
 		

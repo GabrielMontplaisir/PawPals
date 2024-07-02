@@ -52,7 +52,7 @@ public class WalkDao {
 			ResultSet rs = sqlGetNewID.executeQuery();
 			rs.next();
 			int walkId = rs.getInt(1);
-			Walk newWalk = new Walk(walkId, newStatus, owner.getId(), date_time, location, length);
+			Walk newWalk = new Walk(walkId, newStatus, owner.getId(), date_time, location, length, 0);
 			return newWalk;
 
 		} catch (SQLException e) {
@@ -113,7 +113,37 @@ public class WalkDao {
 			e.printStackTrace();
 		}
 	}
-
+	public void acceptWalkOffer(Walk walk, User walkOfferUser) {
+		String sql = "UPDATE " + WALKS_TABLE + " SET " + WALKER_ID + " = ?, " + STATUS + " = "
+					+ Walk.EnumStatus.WALKER_CHOSEN.toInt() + " WHERE " + WALK_ID + " = ?;" ;
+		
+		try (Connection conn = DBConnection.getDBInstance(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+			stmt.setInt(1, walkOfferUser.getId());
+			stmt.setInt(2, walk.getWalkId());
+			stmt.executeUpdate();
+			return;
+		} catch (SQLException e) {
+			DBUtil.processException(e);
+			return;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return;
+		}	
+		
+		/*
+		sql = "UPDATE " + WALKOFFERS_TABLE + " (" + WALK_ID + ", " + WALKER_ID + ") VALUES (? , ?);";
+		try (Connection conn = DBConnection.getDBInstance(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+			stmt.setInt(1, walkId);
+			stmt.setInt(2, walkerUserId);
+			stmt.executeUpdate();
+			return;
+		} catch (SQLException e) {
+			DBUtil.processException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		*/
+	}
 	public void cancelWalkOffer(int walkId, int walkerUserId) {
 		String sql = "DELETE FROM " + WALKOFFERS_TABLE + " WHERE " + WALK_ID + " = ? AND " + WALKER_ID + " = ?;";
 		try (Connection conn = DBConnection.getDBInstance(); PreparedStatement stmt = conn.prepareStatement(sql);) {
@@ -158,8 +188,9 @@ public class WalkDao {
 			String date = rs.getString(START_TIME);
 			String location = rs.getString(LOCATION);
 			String length = rs.getString(LENGTH);
+			int walkerUserId = rs.getInt(WALKER_ID);
 
-			return new Walk(walkId, status, dog_owner, date, location, length);
+			return new Walk(walkId, status, dog_owner, date, location, length, walkerUserId);
 
 		} catch (SQLException e) {
 			DBUtil.processException(e);
@@ -183,7 +214,9 @@ public class WalkDao {
 				String date = rs.getString(START_TIME);
 				String location = rs.getString(LOCATION);
 				String length = rs.getString(LENGTH);
-				userWalks.add(new Walk(walkId, status, dog_owner, date, location, length));
+				int walkerUserId = rs.getInt(WALKER_ID);
+				
+				userWalks.add(new Walk(walkId, status, dog_owner, date, location, length, walkerUserId));
 			}
 			return userWalks;
 		} catch (SQLException e) {
@@ -210,7 +243,8 @@ public class WalkDao {
 				String date = rs.getString(START_TIME);
 				String location = rs.getString(LOCATION);
 				String length = rs.getString(LENGTH);
-				postedWalks.add(new Walk(walkId, status, dog_owner, date, location, length));
+				int walkerUserId = rs.getInt(WALKER_ID);
+				postedWalks.add(new Walk(walkId, status, dog_owner, date, location, length, walkerUserId));
 				walkOffers.put(walkId, rs.getBoolean("OfferPending"));
 			}
 			return postedWalks;

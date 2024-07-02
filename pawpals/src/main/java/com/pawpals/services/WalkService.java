@@ -32,6 +32,9 @@ public class WalkService {
 		System.err.println(" * * " + userId + " Tried to get walkId as owner but isn't owner " + walkId) ;
 		return null;
 	}
+	public void acceptWalkOffer(Walk walk, User walkOfferUser) {
+		WalkDao.dao.acceptWalkOffer(walk, walkOfferUser);
+	}
 	public List<WalkOffer> getWalkOffers_by_WalkId(int walkId) {
 		return WalkDao.dao.getWalkOffers(walkId); 
 	}
