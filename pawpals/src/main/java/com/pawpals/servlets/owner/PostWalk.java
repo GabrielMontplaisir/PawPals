@@ -23,19 +23,12 @@ public class PostWalk extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(request);
     	if (user == null) { response.sendRedirect("../index.jsp"); return;}
-
-
-        System.out.println("PostWalk DoPost x1");
         int walkId = Integer.parseInt(request.getParameter("walkId"));
-
         Walk walk =  WalkService.svc.getWalk_by_WalkId_as_Owner(user.getId(), walkId);
-
         if (walk == null) {
-        	System.out.println("PostWalk DoPost: walk is null");
             response.sendRedirect("./");
             return;
         }
-        System.out.println("PostWalk DoPost: walk is not null");
         WalkDao.dao.setStatus(walkId, Walk.EnumStatus.OWNER_POSTED );
         response.sendRedirect("./");
     }
@@ -43,7 +36,6 @@ public class PostWalk extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(request);
     	if (user == null) { response.sendRedirect("../index.jsp"); return;}
-
         response.sendRedirect("./");
     }
     

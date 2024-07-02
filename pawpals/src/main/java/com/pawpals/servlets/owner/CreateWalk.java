@@ -22,15 +22,11 @@ public class CreateWalk extends HttpServlet {
     	User user = SessionService.srv.getSessionUser(request);
     	if (user == null) { response.sendRedirect("../index.jsp"); return;}
 
-    	
-
         String[] dogIds = request.getParameterValues("dogIds[]");
         String startTime = request.getParameter("startTime");
         String location = request.getParameter("location");
         String length = request.getParameter("length");
         Walk newWalk = WalkDao.dao.addWalk(user, startTime, location, length);
-        
-        System.out.println("New walk created. ID: " + newWalk.getWalkId());
         
         if ( dogIds == null || dogIds.length == 0) {		// ToDo: Make addDogs method accepts string array of dogIds.
         	System.err.println("No doggies!! Error");
@@ -41,12 +37,8 @@ public class CreateWalk extends HttpServlet {
         		int dogId = Integer.parseInt(dogIdString);
         		Dog dog = DogDao.dogDao.getDogById(dogId);
         		WalkDao.dao.addDog(newWalk, dog);
-        		System.out.println("Doggie added: " + dog.getName());
         	}
-        
         request.setAttribute("walkId", String.valueOf(newWalk.getWalkId()));
-        
-        
         request.getRequestDispatcher("walk-detail").forward(request, response);
         
     }

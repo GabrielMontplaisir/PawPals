@@ -22,27 +22,15 @@ public class WalkDetail extends HttpServlet {
     	User user = SessionService.srv.getSessionUser(request);
     	if (user == null) { response.sendRedirect("../index.jsp"); return;}
     	if (request.getParameter("walkId") == null ) {return;}
-
-    	
     	int walkId = Integer.parseInt( (String) request.getParameter("walkId"));
-    	System.out.println("walk id" + walkId);
     	if ( ! (walkId > 0) ) { response.sendRedirect("../index.jsp"); return; }
-
-    	System.out.println("Walk id " +  walkId ) ;
-    	
-    	System.out.println("Offer status: " +WalkDao.dao.checkWalkOffer(walkId, user.getId()));
-    	
     	request.setAttribute("offer", WalkDao.dao.checkWalkOffer(walkId, user.getId()));
     	request.setAttribute("walk", WalkDao.dao.getWalkById(walkId));
-    	
     	request.getRequestDispatcher("walk-detail.jsp").forward(request, response);
-    	
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	System.out.println("doGet redurect walker/walkdetail");
     	User user = SessionService.srv.getSessionUser(request);
     	if (user == null) { response.sendRedirect("../index.jsp"); return;}
-        
     	response.sendRedirect("../index.jsp"); return;
     }
     

@@ -43,7 +43,6 @@ public class Walk {
 		return walker_id;
 	}
 	public User getWalker() {
-		System.out.println("getWalker id " + walker_id);
 		return UserService.svc.getUserById(walker_id);
 	}
 //	public void setWalker_id(int walker_id) {

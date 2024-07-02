@@ -26,29 +26,14 @@ public class WalkDetail extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(request);
     	if (user == null) { response.sendRedirect("../index.jsp"); return;}
-    	
-    	
-    	System.out.println("User " + user.getEmail());
-    	
     	Object obj_walkId = request.getAttribute("walkId");
     	if ( obj_walkId == null) {
-    		System.out.println("walk id not passed as attribute");
     		obj_walkId = request.getParameter("walkId");
-    	} else {
-    		System.out.println("walk id passed as attribute: " + obj_walkId);
     	}
-    	
     	if ( obj_walkId == null) {
-    		System.out.println("walk id not passed as parameter");
     		response.sendRedirect("../index.jsp");
     		return;
-    	} else {
-    		System.out.println("walk id passed as parameter: " + obj_walkId);
-    		
-    		//String) 
     	}
-    	
-    	
 
     	int walkId;
     	try {
