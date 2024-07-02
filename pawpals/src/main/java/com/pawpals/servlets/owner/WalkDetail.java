@@ -8,12 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import com.pawpals.beans.User;
-import com.pawpals.beans.Walk;
-import com.pawpals.beans.WalkOffer;
-import com.pawpals.dao.WalkDao;
-import com.pawpals.services.SessionService;
-import com.pawpals.services.WalkService;
+import com.pawpals.beans.*;
+import com.pawpals.services.*;
 
 @WebServlet("/owner-dashboard/walk-detail")
 public class WalkDetail extends HttpServlet {
@@ -44,10 +40,8 @@ public class WalkDetail extends HttpServlet {
     	}
 
     	if ( ! (walkId > 0) ) { response.sendRedirect("../index.jsp"); return; }
-
-    	Walk walk = WalkDao.dao.getWalkById(walkId);
+    	Walk walk = WalkService.svc.getWalkById(walkId);
     	if ( walk == null )  { response.sendRedirect("../index.jsp"); return; }
-    	
     	if ( walk.getOwnerId() != user.getId()  ) {
     		 response.sendRedirect("../index.jsp"); return;
     	}

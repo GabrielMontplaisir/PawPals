@@ -11,4 +11,10 @@ public class DogService {
 	public List<Dog> getDogs_by_DogOwnerUserId(int userId) {
 		return DogDao.dogDao.getDogsByOwnerUserId(userId);
 	}	
+	public void addDog(int ownerId, String name, String size, String specialNeeds, boolean immunized) {
+		DogDao.dogDao.addDog(ownerId, name, size, specialNeeds, immunized);
+	}
+	public Dog getDogById(int dogId) {
+		return DogDao.dogDao.getDogById(dogId);
+	}
 }

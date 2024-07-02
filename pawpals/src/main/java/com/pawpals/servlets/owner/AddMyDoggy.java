@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.pawpals.beans.User;
-import com.pawpals.dao.DogDao;
+import com.pawpals.services.DogService;
 import com.pawpals.services.SessionService;
 
 @WebServlet("/owner-dashboard/add-my-doggy")
@@ -26,8 +26,7 @@ public class AddMyDoggy extends HttpServlet {
         String size = request.getParameter("size");
         String specialNeeds = request.getParameter("special_needs");
         boolean immunized = request.getParameter("immunized") != null;
-        DogDao.dogDao.addDog(user.getId(), name, size, specialNeeds, immunized);
-        
+        DogService.svc.addDog(user.getId(), name, size, specialNeeds, immunized);
         request.getRequestDispatcher("./").forward(request, response);
         
     }

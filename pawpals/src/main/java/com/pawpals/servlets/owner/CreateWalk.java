@@ -5,12 +5,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import com.pawpals.beans.Dog;
-import com.pawpals.beans.User;
-import com.pawpals.beans.Walk;
-import com.pawpals.dao.DogDao;
-import com.pawpals.dao.WalkDao;
-import com.pawpals.services.SessionService;
+import com.pawpals.beans.*;
+import com.pawpals.services.*;
 
 @WebServlet("/owner-dashboard/create-walk")
 public class CreateWalk extends HttpServlet {
@@ -26,7 +22,7 @@ public class CreateWalk extends HttpServlet {
         String startTime = request.getParameter("startTime");
         String location = request.getParameter("location");
         String length = request.getParameter("length");
-        Walk newWalk = WalkDao.dao.addWalk(user, startTime, location, length);
+        Walk newWalk = WalkService.svc.addWalk(user, startTime, location, length);
         
         if ( dogIds == null || dogIds.length == 0) {		// ToDo: Make addDogs method accepts string array of dogIds.
         	System.err.println("No doggies!! Error");
@@ -35,8 +31,8 @@ public class CreateWalk extends HttpServlet {
         
         	for (String dogIdString : dogIds ) {
         		int dogId = Integer.parseInt(dogIdString);
-        		Dog dog = DogDao.dogDao.getDogById(dogId);
-        		WalkDao.dao.addDog(newWalk, dog);
+        		Dog dog = DogService.svc.getDogById(dogId);
+        		WalkService.svc.addDog(newWalk, dog);
         	}
         request.setAttribute("walkId", String.valueOf(newWalk.getWalkId()));
         request.getRequestDispatcher("walk-detail").forward(request, response);

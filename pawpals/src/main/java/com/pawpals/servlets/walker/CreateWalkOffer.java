@@ -6,11 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import com.pawpals.beans.User;
-import com.pawpals.beans.Walk;
-import com.pawpals.dao.WalkDao;
-import com.pawpals.services.SessionService;
-import com.pawpals.services.WalkService;
+import com.pawpals.beans.*;
+import com.pawpals.services.*;
 
 @WebServlet("/walker-dashboard/create-walk-offer")
 public class CreateWalkOffer extends HttpServlet {
@@ -29,7 +26,7 @@ public class CreateWalkOffer extends HttpServlet {
             response.sendRedirect("./");
             return;
         }
-        WalkDao.dao.addWalkOffer(walkId, user.getId());
+        WalkService.svc.addWalkOffer(walkId, user.getId());
         request.getRequestDispatcher("walk-detail").forward(request, response);
     }
     

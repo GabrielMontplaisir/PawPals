@@ -6,11 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import com.pawpals.beans.User;
-import com.pawpals.beans.Walk;
-import com.pawpals.dao.WalkDao;
-import com.pawpals.services.SessionService;
-import com.pawpals.services.WalkService;
+import com.pawpals.beans.*;
+import com.pawpals.services.*;
 
 @WebServlet("/owner-dashboard/post-walk")
 public class PostWalk extends HttpServlet {
@@ -29,7 +26,7 @@ public class PostWalk extends HttpServlet {
             response.sendRedirect("./");
             return;
         }
-        WalkDao.dao.setStatus(walkId, Walk.EnumStatus.OWNER_POSTED );
+        WalkService.svc.setStatus(walkId, Walk.EnumStatus.OWNER_POSTED );
         response.sendRedirect("./");
     }
     

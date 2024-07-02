@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
-import com.pawpals.dao.WalkDao;
 import com.pawpals.services.SessionService;
 import com.pawpals.services.WalkService;
 
