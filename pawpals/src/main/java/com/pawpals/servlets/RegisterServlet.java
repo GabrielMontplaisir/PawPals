@@ -7,8 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import com.pawpals.dao.UserDao;
-import com.pawpals.interfaces.FormValidation;
-import javax.servlet.RequestDispatcher;
+import com.pawpals.interfaces.AuthValidation;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,27 +15,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebServlet("/register")
-public class RegisterServlet extends FormValidation {
+public class RegisterServlet extends AuthValidation {
 	private static final long serialVersionUID = 1L;
 
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String message;	
-		RequestDispatcher dispatcher = null;
+		String message;
 		message = validateForm(req.getParameterMap());
 
 		if (message != null) {
 			req.setAttribute("message", message);
-			dispatcher = req.getRequestDispatcher("register.jsp");
-			dispatcher.forward(req, resp);
+			req.getRequestDispatcher("register.jsp").forward(req, resp);
 			return;
 		}
 		
-		UserDao.userDao.createUser(req);
+		UserDao.dao.createUser(req);
 		HttpSession session = req.getSession();
 		if (session.getAttribute("user") != null) {
-			resp.sendRedirect("./account-panel");
+			resp.sendRedirect("./dashboard/profile.jsp");
 			return;
 		} else {
 			req.setAttribute("message", "We could not create a user at this time. Please try again later.");
@@ -55,7 +52,7 @@ public class RegisterServlet extends FormValidation {
 			if (isEmpty(paramName)) {return paramName+" cannot be empty.";}
 			if (paramName.equals("email")) {
 				if (!paramValue.matches(emailRegEx)) return "Email is invalid.";
-				if (UserDao.userDao.userExists(paramValue)) return "User already exists. Please login using your email & password.";
+				if (UserDao.dao.userExists(paramValue)) return "User already exists. Please login using your email & password.";
 			}
 				
 			if (paramName.equals("dob") && !meetsAgeReq(paramValue, 18)) {
