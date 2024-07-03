@@ -3,18 +3,21 @@ package com.pawpals.dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.pawpals.interfaces.DBType;
+
 public class DBConnection {
 	
 	private static boolean initializedDB = false;
+	
 	private static void initDB() {
 		if (initializedDB) { return; }
 		initializedDB = true;
 		ApplicationDao.createDatabase();
 		ApplicationDao.dao.createUserTable();
 		ApplicationDao.dao.createDogsTable();
-		WalkDao.dao.createWalkOffersTable();
-		WalkDao.dao.createWalksTable();
-		WalkDao.dao.createWalkDogsTable();
+		ApplicationDao.dao.createWalkOffersTable();
+		ApplicationDao.dao.createWalksTable();
+		ApplicationDao.dao.createWalkDogsTable();
 	}	
 	
     public static Connection getDBInstance() throws ClassNotFoundException {

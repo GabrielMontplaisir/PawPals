@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.pawpals.interfaces.DBType;
+
 /*
  * Utility to get the connection to our database by simply passing the DBType enum.
  * Also includes a processException() method to format the type of error we get if there's a problem in connecting to the DB.
