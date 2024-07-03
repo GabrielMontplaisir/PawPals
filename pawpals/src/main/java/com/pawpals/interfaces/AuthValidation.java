@@ -4,7 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 
-public abstract class FormValidation extends HttpServlet {
+public abstract class AuthValidation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected final String emailRegEx = "\\S+@\\S+\\.\\S+";
 	
