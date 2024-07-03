@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class UserDao {
-	public static final UserDao userDao = new UserDao();
-	private final String USER_ID = "user_id";
-	private final String EMAIL_ADDRESS = "email_address";
-	private final String FIRST_NAME = "first_name";
-	private final String LAST_NAME = "last_name";
-	private final String DATE_OF_BIRTH = "date_of_birth";
+	public static final UserDao dao = new UserDao();
+	public static final String USER_ID = "user_id";
+	public static final String EMAIL_ADDRESS = "email_address";
+	public static final String FIRST_NAME = "first_name";
+	public static final String LAST_NAME = "last_name";
+	public static final String DATE_OF_BIRTH = "date_of_birth";
 	private final String PASSWORD = "password";
 	
 	private UserDao() {}	
@@ -26,17 +26,6 @@ public class UserDao {
 		String lastName = req.getParameter("lastname");
 		String dob = req.getParameter("dob");
 		String password = req.getParameter("password");
-		
-		/*
-		 * USERS TABLE SCHEMA
-		 * user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		 * email_address VARCHAR(128) NOT NULL UNIQUE, 
-		 * first_name VARCHAR(25) NOT NULL, 
-		 * last_name VARCHAR(25) NOT NULL,
-		 * date_of_birth DATE NOT NULL,
-		 * password VARCHAR(64) NOT NULL,
-		 * createTimestamp TIMESTAMP NOT NULL
-		 */
 		
 		String sql = "INSERT INTO "+ApplicationDao.USERS_TABLE+" ("+EMAIL_ADDRESS+","+FIRST_NAME+","+LAST_NAME+","+DATE_OF_BIRTH+","+PASSWORD+") VALUES (?, ?, ?, ?, ?)";
 		
@@ -70,7 +59,7 @@ public class UserDao {
 	
 	public User getUserById(int userId) {
 		User user = null;
-		String sql = "SELECT * FROM " +ApplicationDao.USERS_TABLE+" WHERE " + USER_ID + " = ?";
+		String sql = "SELECT "+USER_ID+", "+EMAIL_ADDRESS+", "+FIRST_NAME+", "+LAST_NAME+", "+DATE_OF_BIRTH+" FROM " +ApplicationDao.USERS_TABLE+" WHERE " + USER_ID + " = ?";
 		try (
 				Connection conn = DBConnection.getDBInstance();
 				PreparedStatement stmt = conn.prepareStatement(sql);
@@ -79,11 +68,14 @@ public class UserDao {
 			ResultSet rs = stmt.executeQuery();
 			rs.next();
 			
-			String userEmail = rs.getString(EMAIL_ADDRESS);
-			String firstName = rs.getString(FIRST_NAME);
-			String lastName =  rs.getString(LAST_NAME);
-			String dob =	   rs.getString(DATE_OF_BIRTH);
-			user = new User(userId, userEmail, firstName, lastName, dob);
+			user = new User(
+					userId, 
+					rs.getString(EMAIL_ADDRESS), 
+					rs.getString(FIRST_NAME), 
+					rs.getString(LAST_NAME), 
+					rs.getString(DATE_OF_BIRTH)
+			);
+			
 			rs.close();
 		} catch (SQLException e) {
 			DBUtil.processException(e);
@@ -110,12 +102,16 @@ public class UserDao {
 			ResultSet rs = stmt.executeQuery();
 			
 			if (rs != null && rs.next()) {
-				int id = rs.getInt(USER_ID);
-				String firstName = rs.getString(FIRST_NAME);
-				String lastName = rs.getString(LAST_NAME);
-				String dob = rs.getDate(DATE_OF_BIRTH).toString();
 				HttpSession session = req.getSession();
-				session.setAttribute("user", new User(id, email, firstName, lastName, dob));
+				
+				session.setAttribute("user", new User(
+						rs.getInt(USER_ID), 
+						email, 
+						rs.getString(FIRST_NAME), 
+						rs.getString(LAST_NAME), 
+						rs.getDate(DATE_OF_BIRTH).toString()
+						)
+				);
 			}
 			
 			if (rs != null) rs.close();
