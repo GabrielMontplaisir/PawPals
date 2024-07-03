@@ -8,35 +8,39 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
+import com.pawpals.dao.WalkDao;
 import com.pawpals.services.SessionService;
-import com.pawpals.services.WalkService;
 
-@WebServlet("/owner-dashboard/accept-walk-offer")
+@WebServlet("/dashboard/accept-offer")
 public class AcceptWalkOffer extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public AcceptWalkOffer() {
-        super();
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	User user = SessionService.srv.getSessionUser(request);
-    	if (user == null) { response.sendRedirect("../index.jsp"); return;}
-        int walkId = Integer.parseInt(request.getParameter("walkId"));
-        Walk walk =  WalkService.svc.getWalk_by_WalkId(walkId);
-        if (walk == null) {
-            response.sendRedirect("./");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	User user = SessionService.srv.getSessionUser(req);
+    	if (user == null) { 
+    		resp.sendRedirect("../index.jsp"); 
+    		return;
+    	}
+        int walkId = Integer.parseInt(req.getParameter("id"));
+        Walk walk =  WalkDao.dao.getWalkById(walkId);
+        if (walk == null || walk.getOwnerId() != user.getId()) {
+        	System.out.println("Error: Could not accept walker. Walk not found or user not owner.");
+            resp.sendRedirect("./owner.jsp");
             return;
         }
-        WalkService.svc.acceptWalkOffer(walk, user);
-        request.getRequestDispatcher("walk-detail").forward(request, response);
+        
+        int walkerId = Integer.parseInt(req.getParameter("walker"));
+        if (!WalkDao.dao.walkerOffered(walkId, walkerId)) {
+        	System.out.println("Error: Could not accept walker. Walker did not apply.");
+        	return;
+        }
+        
+        WalkDao.dao.acceptWalkOffer(walkId, walkerId);
+        resp.sendRedirect("./walkdetails?id="+walkId);
     }
     
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	User user = SessionService.srv.getSessionUser(request);
-    	if (user == null) { response.sendRedirect("../index.jsp"); return;}
-
-        response.sendRedirect("./");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	doPost(req, resp);
     }
     
 }
