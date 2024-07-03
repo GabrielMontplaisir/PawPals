@@ -4,20 +4,15 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
-import com.pawpals.services.DogService;
-import com.pawpals.services.WalkService;
+import com.pawpals.dao.DogDao;
+import com.pawpals.dao.WalkDao;
 
 public class User {
 	private final int userId;
 	private final String firstName, lastName, email;
 	private final LocalDate dob;
-	public int getId() {return userId;}
 	
-	
-	public String getFirstName() {return firstName;}
-	public String getLastName() {return lastName;}
-	public String getEmail() {return email;}
-	public LocalDate getDob() {return dob;}
+	// Constructor
 	
 	public User(int userId, String email, String firstName, String lastName,  String dob) {
 		this.userId = userId;
@@ -26,13 +21,16 @@ public class User {
 		this.email = email;
 		this.dob = LocalDate.parse(dob);
 	}
-
-	public List<Dog> getDogs_as_DogOwner() {
-		return DogService.svc.getDogs_by_DogOwnerUserId(userId);
-	}
 	
-	public List<Walk> getWalks_for_Soliciting_WalkOffers(HashMap<Integer, Boolean> walkOffers ){
-		return WalkService.svc.getWalks_for_Soliciting_WalkOffers(userId, walkOffers);
-	}
+	// Getter Methods
+	
+	public int getId() {return userId;}
+	public String getFirstName() {return firstName;}
+	public String getLastName() {return lastName;}
+	public String getEmail() {return email;}
+	public LocalDate getDob() {return dob;}
+	public List<Dog> getDogsFromDB() {return DogDao.dogDao.getDogsByOwner(userId);}
+	public List<Walk> getWalksFromDB() {return WalkDao.dao.getWalksByUser(userId);}
+	public List<Walk> getAvailableWalksFromDB(HashMap<Integer, Boolean> walkOffers) {return WalkDao.dao.getWalksPostedForReceivingOffers(userId, walkOffers);}
 	
 }
