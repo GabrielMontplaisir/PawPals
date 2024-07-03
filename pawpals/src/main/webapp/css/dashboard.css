@@ -16,6 +16,10 @@
 	background-color: var(--bg-offwhite);
 }
 
+/* ****************** */
+/* Navigation Bar     */
+/* ****************** */
+
 .dashboard_header {
 	min-width: 100%;
 	display: flex;
@@ -49,6 +53,25 @@
 	background-color: #3589C1;
 }
 
+/* ****************** */
+/* Main Section       */
+/* ****************** */
+
+main {
+	width: 100%;
+	padding: 2rem;
+}
+
+.flex {
+	display: flex;
+	justify-content: space-evenly;
+	gap: 8rem;
+}
+
+.flex > * {
+	flex: 1;
+}
+
 .container {
 	background-color: white;
 	border-radius: 2rem;
@@ -62,11 +85,6 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
-}
-
-.temptable {
-    width: 100%;
-    border-collapse: collapse;
 }
 
 .temptable th, .temptable td {
@@ -83,15 +101,95 @@
     margin: 0;
 }
 
-
-.border1 {
-	border: 1px solid #ddd;
-}
-
 .hRadioGroup {
 	display: flex;
 	gap: 10px;
 }
+
+/* ****************** */
+/* Form Section       */
+/* ****************** */
+
+.form_group {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.form_label {
+	font-style: italic;
+	display: block;
+}
+
+fieldset {
+	border: none;
+}
+
+.form_multiple_select {
+	display: block;
+	width: 100%;
+}
+
+.form_single_select {
+	display: inline-block;
+	padding: 0.25rem 1rem;
+	border-width: 2px solid;
+}
+
+.form_input {
+	border: 2px solid #ddd;
+	padding: 0.25rem 1rem;
+	border-radius: 0.25rem;
+	margin-left: 1rem;
+}
+
+.form_btn {
+	display: block;
+	min-width: 100%;
+	padding: 0.5rem 2rem;
+	background-color: var(--color-success);
+	font-weight: var(--fw-semibold);
+	border-radius: .25rem;
+	cursor: pointer;
+}
+
+.form_btn:hover {
+	transition: ease .35s background-color;
+	background-color: #3FBE49;
+}
+
+.form_btn:focus-visible {
+	outline: 2px solid black;
+}
+
+/* ****************** */
+/* Walk List          */
+/* ****************** */
+
+.walk_list {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.walk_card {
+	border-radius: 0.5rem;
+	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+	background-color: white;
+	display: flex;
+	width: 100%;
+	padding: 0.5rem 1rem;
+	text-decoration: none;
+}
+
+/* ********************* */
+/* Walk Details          */
+/* ********************* */
+
+.cancel {
+	background-color: var(--bg-offwhite);
+	color: black;
+}
+
 
 /* **************** */
 /* Media Queries    */
@@ -105,5 +203,13 @@
 
 	.welcome_msg {
 		display: none;
+	}
+}
+
+@media (max-width: 68em) {
+	
+	.flex {
+		flex-direction: column;
+		gap: 4rem;
 	}
 }

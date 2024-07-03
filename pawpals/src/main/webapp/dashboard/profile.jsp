@@ -5,7 +5,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
-	<title>PawPals | Walker Dashboard</title>
+	<title>PawPals | Profile</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
@@ -20,18 +20,10 @@
 	}
 %>
 <body class="dashboard">
-	<header class="dashboard_header">
-		<h2>PawPals</h2>
-		<p>Welcome ${user.getFirstName()}!</p>
-		<nav>
-		<a href="./" class="nav_btn">Home</a>
-			<a href="./settings.jsp" class="nav_btn">Settings</a>
-			<a href="../logout" class="nav_btn">Logout</a>
-		</nav>
-	</header>
+	<jsp:include page="./components/header.jsp" /> 
 	<main>
-	<p><a href = "../walker-dashboard/">Walk Dogs</a></p>
-	<p><a href = "../owner-dashboard/">Walk My Dog(s)</a></p>
+	<p><a href = "./walker.jsp">Walk Dogs</a></p>
+	<p><a href = "./owner.jsp">Walk My Dog(s)</a></p>
 	</main>
 </body>
 </html>
