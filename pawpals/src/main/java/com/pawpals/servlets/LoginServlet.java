@@ -5,11 +5,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.pawpals.dao.ApplicationDao;
 import com.pawpals.dao.UserDao;
-import com.pawpals.interfaces.FormValidation;
+import com.pawpals.interfaces.AuthValidation;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,29 +15,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebServlet("/login")
-public class LoginServlet extends FormValidation {
+public class LoginServlet extends AuthValidation {
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String message;
-		RequestDispatcher dispatcher = null;
-		ApplicationDao.dao.createDatabase();
-		ApplicationDao.dao.createUserTable();
 		
 		message = validateForm(req.getParameterMap());
 		if (message != null) {
 			req.setAttribute("message", message);
-			dispatcher = req.getRequestDispatcher("index.jsp");
-			dispatcher.forward(req, resp);
+			req.getRequestDispatcher("index.jsp").forward(req, resp);
 			return;
 		}
 		
 		
-		UserDao.userDao.authenticateUser(req);
+		UserDao.dao.authenticateUser(req);
 		HttpSession session = req.getSession();
 		if (session.getAttribute("user") != null) {
-			resp.sendRedirect("./dashboard/createwalk");
+			resp.sendRedirect("./dashboard/profile.jsp");
 			return;
 		} else {
 			req.setAttribute("message", "Cannot find user with this email address. Please register for an account.");
@@ -59,12 +53,12 @@ public class LoginServlet extends FormValidation {
 			if (isEmpty(paramName)) {return paramName+" cannot be empty.";}
 			if (paramName.equals("email")) {
 				if (!paramValue.matches(emailRegEx)) return "Email is invalid.";
-				if (!UserDao.userDao.userExists(paramValue)) return "Cannot find user with this email address.";
+				if (!UserDao.dao.userExists(paramValue)) return "Cannot find user with this email address.";
 				email = paramValue;
 			}
 			
 			if (paramName.equals("password")) {
-				if (!UserDao.userDao.passwordMatches(email, paramValue)) return "Email & Password do not match. Please try again.";
+				if (!UserDao.dao.passwordMatches(email, paramValue)) return "Email & Password do not match. Please try again.";
 			}
 				
 		}
