@@ -23,6 +23,7 @@
 <title>PawPals | Create a Walk</title>
 </head>
 <%
+
 	if (session.getAttribute("user") == null) {
 		response.sendRedirect("../index.jsp");
 		return;
@@ -30,7 +31,7 @@
 
 	User user = (User) session.getAttribute("user");
 	List<Dog> dogs = (List<Dog>) user.getDogsFromDB();
-	List<Walk> walks = (List<Walk>) user.getWalksFromDB_AsOwner();
+	List<Walk> walks = (List<Walk>) user.getWalksFromDBAsOwner();
 %>
 <body class="dashboard">
 	<jsp:include page="./components/header.jsp" />

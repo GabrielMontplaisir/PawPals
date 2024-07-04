@@ -270,13 +270,13 @@ public class WalkDao {
 	}
 
 	public List<Walk> getWalksByOwnerId(int ownerId) {
-		return getWalksBy_Switchable(ownerId, OWNER_ID);
+		return getWalksBySwitchable(ownerId, OWNER_ID);
 	}
 	public List<Walk> getWalksByWalkerId(int walkerId) {
-		return getWalksBy_Switchable(walkerId, WALKER_ID);
+		return getWalksBySwitchable(walkerId, WALKER_ID);
 	}	
 
-	public List<Walk> getWalksBy_Switchable(int userId, String userId_ColumnName) {
+	public List<Walk> getWalksBySwitchable(int userId, String userId_ColumnName) {
 		String sql = "SELECT * FROM walks WHERE "+userId_ColumnName+" = ?";
 		List<Walk> userWalks = new ArrayList<>();
 		

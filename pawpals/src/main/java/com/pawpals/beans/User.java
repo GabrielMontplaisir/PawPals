@@ -30,8 +30,8 @@ public class User {
 	public String getEmail() {return email;}
 	public LocalDate getDob() {return dob;}
 	public List<Dog> getDogsFromDB() {return DogDao.dogDao.getDogsByOwner(userId);}
-	public List<Walk> getWalksFromDB_AsOwner() {return WalkDao.dao.getWalksByOwnerId(userId);}
-	public List<Walk> getWalksFromDB_AsWalker() {return WalkDao.dao.getWalksByWalkerId(userId);}
+	public List<Walk> getWalksFromDBAsOwner() {return WalkDao.dao.getWalksByOwnerId(userId);}
+	public List<Walk> getWalksFromDBAsWalker() {return WalkDao.dao.getWalksByWalkerId(userId);}
 	public List<Walk> getAvailableWalksFromDB(HashMap<Integer, Boolean> walkOffers) {return WalkDao.dao.getWalksPostedForReceivingOffers(userId, walkOffers);}
 	
 }

@@ -55,50 +55,50 @@
 		<section>
 			<h2 class="subtitle">Current Walks</h2>
 			<%
-			walks = user.getWalksFromDB_AsWalker();
-			if (walks != null) {
-				out.write("<ul class='walk_list'>");
+			walks = user.getWalksFromDBAsWalker();
+				if (walks != null) {
+					out.write("<ul class='walk_list'>");
 
-				for (Walk walk : walks) {
-					if (walk.getStatus() != WalkStatus.CANCELLED && walk.getStatus() != WalkStatus.WALKER_COMPLETED) {
-				List<Dog> dogList = walk.getDogs();
+					for (Walk walk : walks) {
+						if (walk.getStatus() != WalkStatus.CANCELLED && walk.getStatus() != WalkStatus.WALKER_COMPLETED) {
+					List<Dog> dogList = walk.getDogs();
 
-				out.write("<li>");
-				out.write("<a href='./walkdetails?id=" + walk.getWalkId() + "' class='walk_card'><span>Walk in "
-						+ walk.getLocation() + " at " + walk.getDate() + "</span><span class='ml-auto'>"
-						+ walk.getStatusMessage() + "</span></a>");
-				out.write("</li>");
+					out.write("<li>");
+					out.write("<a href='./walkdetails?id=" + walk.getWalkId() + "' class='walk_card'><span>Walk in "
+							+ walk.getLocation() + " at " + walk.getDate() + "</span><span class='ml-auto'>"
+							+ walk.getStatusMessage() + "</span></a>");
+					out.write("</li>");
+						}
 					}
+					out.write("</ul>");
+				} else {
+					out.write("null");
 				}
-				out.write("</ul>");
-			} else {
-				out.write("null");
-			}
 			%>
 		</section>
 
 		<section>
 			<h2 class="subtitle">Past Walks</h2>
 			<%
-			walks = user.getWalksFromDB_AsWalker();
-			if (walks != null) {
-				out.write("<ul class='walk_list'>");
+			walks = user.getWalksFromDBAsWalker();
+				if (walks != null) {
+					out.write("<ul class='walk_list'>");
 
-				for (Walk walk : walks) {
-					if (walk.getStatus() == WalkStatus.CANCELLED || walk.getStatus() == WalkStatus.WALKER_COMPLETED) {
-				List<Dog> dogList = walk.getDogs();
+					for (Walk walk : walks) {
+						if (walk.getStatus() == WalkStatus.CANCELLED || walk.getStatus() == WalkStatus.WALKER_COMPLETED) {
+					List<Dog> dogList = walk.getDogs();
 
-				out.write("<li>");
-				out.write("<a href='./walkdetails?id=" + walk.getWalkId() + "' class='walk_card'><span>Walk in "
-						+ walk.getLocation() + " at " + walk.getDate() + "</span><span class='ml-auto'>"
-						+ walk.getStatusMessage() + "</span></a>");
-				out.write("</li>");
+					out.write("<li>");
+					out.write("<a href='./walkdetails?id=" + walk.getWalkId() + "' class='walk_card'><span>Walk in "
+							+ walk.getLocation() + " at " + walk.getDate() + "</span><span class='ml-auto'>"
+							+ walk.getStatusMessage() + "</span></a>");
+					out.write("</li>");
+						}
 					}
+					out.write("</ul>");
+				} else {
+					out.write("null");
 				}
-				out.write("</ul>");
-			} else {
-				out.write("null");
-			}
 			%>
 		</section>
 
