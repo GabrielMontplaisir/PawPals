@@ -168,21 +168,27 @@ public class WalkDao {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}	
+	}
+	
+	public void rejectWalkOffer(int walkId, int walkOfferUserId) {
+		String sql = "UPDATE " + ApplicationDao.WALKOFFERS_TABLE + " SET " + DECLINED + " = true "
+					 + " WHERE " + WALK_ID + " = ? AND "+WALKER_ID+" = ?;";
 		
-		/*
-		sql = "UPDATE " + WALKOFFERS_TABLE + " (" + WALK_ID + ", " + WALKER_ID + ") VALUES (? , ?);";
-		try (Connection conn = DBConnection.getDBInstance(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+		try (
+				Connection conn = DBConnection.getDBInstance(); 
+				PreparedStatement stmt = conn.prepareStatement(sql);
+			) {
 			stmt.setInt(1, walkId);
-			stmt.setInt(2, walkerUserId);
+			stmt.setInt(2, walkOfferUserId);
 			stmt.executeUpdate();
-			return;
 		} catch (SQLException e) {
 			DBUtil.processException(e);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		}
-		*/
+		}	
 	}
+	
+	
 	public void cancelWalkOffer(int walkId, int walkerUserId) {
 		String sql = "DELETE FROM " + ApplicationDao.WALKOFFERS_TABLE + " WHERE " + WALK_ID + " = ? AND " + WALKER_ID + " = ?;";
 		try (
@@ -263,8 +269,15 @@ public class WalkDao {
 		return null;
 	}
 
-	public List<Walk> getWalksByUser(int ownerId) {
-		String sql = "SELECT * FROM walks WHERE owner_id = ?";
+	public List<Walk> getWalksByOwnerId(int ownerId) {
+		return getWalksBySwitchable(ownerId, OWNER_ID);
+	}
+	public List<Walk> getWalksByWalkerId(int walkerId) {
+		return getWalksBySwitchable(walkerId, WALKER_ID);
+	}	
+
+	public List<Walk> getWalksBySwitchable(int userId, String userId_ColumnName) {
+		String sql = "SELECT * FROM walks WHERE "+userId_ColumnName+" = ?";
 		List<Walk> userWalks = new ArrayList<>();
 		
 		try (
@@ -272,14 +285,14 @@ public class WalkDao {
 				PreparedStatement stmt = conn.prepareStatement(sql);
 			) {
 			
-			stmt.setInt(1, ownerId);
+			stmt.setInt(1, userId);
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) {
 				userWalks.add(new Walk(
 						rs.getInt(WALK_ID), 
 						rs.getInt(STATUS), 
-						ownerId, 
+						userId, 
 						rs.getString(START_TIME),
 						rs.getString(LOCATION), 
 						rs.getString(LENGTH), 
@@ -298,6 +311,8 @@ public class WalkDao {
 		}
 		return null;
 	}
+	
+	
 
 	public List<Walk> getWalksPostedForReceivingOffers(int walkerId, HashMap<Integer, Boolean> walkOffers) {
 		List<Walk> postedWalks = new ArrayList<>();

@@ -36,7 +36,7 @@ public class Walk {
 	public int getOfferCount() {return offerCount;}
 	public List<Dog> getDogs() {return WalkDao.dao.getWalkDogs(walkId);}
 	
-	public String getStatus() {
+	public String getStatusMessage() {
 		switch (this.status) {
 			case OWNER_INITIALIZED: return "Owner Draft";
 			case OWNER_POSTED: return "Accepting Offers";
@@ -49,9 +49,15 @@ public class Walk {
 				return "Error";
 		}
 	}
+	public WalkStatus getStatus() {
+		return this.status;
+	}
 	
 	// Setter Methods
 		
+	public void setStatus(WalkStatus status) {
+		this.status = status;
+	}
 	public void setIntStatus(int intStatus) {
 		this.status = WalkStatus.fromInt(intStatus);
 	}
