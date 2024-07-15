@@ -6,18 +6,32 @@ import java.time.Period;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.pawpals.beans.User;
 import com.pawpals.dao.UserDao;
 import com.pawpals.interfaces.AuthValidation;
+import com.pawpals.services.SessionService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @WebServlet("/register")
 public class RegisterServlet extends AuthValidation {
 	private static final long serialVersionUID = 1L;
-
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		User user = SessionService.srv.getSessionUser(req);
+		
+		if (user != null) {
+			resp.sendRedirect("./dashboard/profile");
+			return;
+		}
+		
+		req.getRequestDispatcher("register.jsp").forward(req, resp);
+	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,9 +45,9 @@ public class RegisterServlet extends AuthValidation {
 		}
 		
 		UserDao.dao.createUser(req);
-		HttpSession session = req.getSession();
-		if (session.getAttribute("user") != null) {
-			resp.sendRedirect("./dashboard/profile.jsp");
+		User user = SessionService.srv.getSessionUser(req);
+		if (user != null) {
+			resp.sendRedirect("./dashboard/profile");
 			return;
 		} else {
 			req.setAttribute("message", "We could not create a user at this time. Please try again later.");
