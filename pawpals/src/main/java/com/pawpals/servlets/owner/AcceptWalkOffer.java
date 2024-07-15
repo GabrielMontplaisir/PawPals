@@ -18,14 +18,14 @@ public class AcceptWalkOffer extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(req);
     	if (user == null) { 
-    		resp.sendRedirect("../index.jsp"); 
+    		resp.sendRedirect("../"); 
     		return;
     	}
         int walkId = Integer.parseInt(req.getParameter("id"));
         Walk walk =  WalkDao.dao.getWalkById(walkId);
         if (walk == null || walk.getOwnerId() != user.getId()) {
         	System.out.println("Error: Could not accept walker. Walk not found or user not owner.");
-            resp.sendRedirect("./owner.jsp");
+            resp.sendRedirect("./owner");
             return;
         }
         

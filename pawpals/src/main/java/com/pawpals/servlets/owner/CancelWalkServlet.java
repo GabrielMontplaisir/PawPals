@@ -19,7 +19,7 @@ public class CancelWalkServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(req);
     	if (user == null) { 
-    		resp.sendRedirect("../index.jsp");
+    		resp.sendRedirect("../");
     		return;
     	}
 
@@ -28,14 +28,14 @@ public class CancelWalkServlet extends HttpServlet {
 
         if (walk == null || walk.getOwnerId() != user.getId()) {
         	System.out.println("Error: Could not cancel walk. Walk not found or user not owner.");
-            resp.sendRedirect("./owner.jsp");
+            resp.sendRedirect("./owner");
             return;
         }
         
               
         walk.setIntStatus(WalkStatus.CANCELLED.toInt());
         WalkDao.dao.cancel(walk.getWalkId());
-        resp.sendRedirect("./owner.jsp");
+        resp.sendRedirect("./owner");
     }
     
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

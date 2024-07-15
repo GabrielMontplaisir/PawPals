@@ -17,7 +17,7 @@ public class CreateWalkServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(req);
     	if (user == null) {
-    		resp.sendRedirect("../index.jsp"); 
+    		resp.sendRedirect("../"); 
     		return;
     	}
 
@@ -38,7 +38,7 @@ public class CreateWalkServlet extends HttpServlet {
         	}
         	
         	
-        resp.sendRedirect("./owner.jsp");
+        resp.sendRedirect("./owner");
         
     }
 }
