@@ -1,7 +1,8 @@
+<%@page import="org.apache.tomcat.util.http.fileupload.RequestContext"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page
-	import="com.pawpals.beans.*, java.util.List, com.pawpals.beans.Dog, com.pawpals.beans.User, com.pawpals.beans.Walk, com.pawpals.dao.WalkDao, com.pawpals.interfaces.WalkStatus"%>
+	import="com.pawpals.beans.*, java.util.List, com.pawpals.dao.WalkDao, com.pawpals.interfaces.WalkStatus"%>
 <!--  For reference to enumeration (i.e. Status 2 = Posted) -->
 
 
@@ -18,20 +19,13 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
 	rel="stylesheet">
-<link rel="stylesheet" href="../css/root.css">
-<link rel="stylesheet" href="../css/dashboard.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/root.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 <title>PawPals | Create a Walk</title>
 </head>
 <%
-
-	if (session.getAttribute("user") == null) {
-		response.sendRedirect("../index.jsp");
-		return;
-	}
-
-	User user = (User) session.getAttribute("user");
-	List<Dog> dogs = (List<Dog>) user.getDogsFromDB();
-	List<Walk> walks = (List<Walk>) user.getWalksFromDBAsOwner();
+	List<Dog> dogs = (List<Dog>) request.getAttribute("dogs");
+	List<Walk> walks = (List<Walk>) request.getAttribute("walks");
 %>
 <body class="dashboard">
 	<jsp:include page="./components/header.jsp" />
@@ -39,13 +33,7 @@
 		<div class="flex">
 			<section class="container">
 				<header>
-					<%
-						if ( dogs.size() > 1 ){
-							out.write("<h1 class='subtitle'>Walk My Dog(s)</h1>");
-						} else {
-							out.write("<h1 class='subtitle'>Walk My Dog</h1>");
-						}
-					 %>
+					<h1 class='subtitle'>Walk My Dog(s)</h1>
 				</header>
 				<form action="create-walk" method="POST" class="form">
 					<label for="selectdogs" class="form_label">Select Dogs for
@@ -121,9 +109,9 @@
 								if ((walk.getStatus() != WalkStatus.CANCELLED
 									 && walk.getStatus() != WalkStatus.WALKER_COMPLETED )){
 									
-						       			out.write("<li>");
-						       			out.write("<a href='./walkdetails?id="+walk.getWalkId()+"' class='walk_card'><span>Walk in "+walk.getLocation()+" at "+walk.getDate()+"</span><span class='ml-auto'>"+walk.getStatusMessage()+"</span></a>");
-						       			out.write("</li>");
+						       			out.write("<li>"
+						       					+ "<a href='./walkdetails?id="+walk.getWalkId()+"' class='walk_card'><span>Walk in "+walk.getLocation()+" at "+walk.getDate()+"</span><span class='ml-auto'>"+walk.getStatusMessage()+"</span></a>"
+						       					+ "</li>");
 								}		
 							}
 						
@@ -143,9 +131,9 @@
 								if ( (walk.getStatus() == WalkStatus.CANCELLED
 									   || walk.getStatus() == WalkStatus.WALKER_COMPLETED )) {
 									
-						       			out.write("<li>");
-						       			out.write("<a href='./walkdetails?id="+walk.getWalkId()+"' class='walk_card'><span>Walk in "+walk.getLocation()+" at "+walk.getDate()+"</span><span class='ml-auto'>"+walk.getStatusMessage()+"</span></a>");
-						       			out.write("</li>");
+						       			out.write("<li>"
+						       				+ "<a href='./walkdetails?id="+walk.getWalkId()+"' class='walk_card'><span>Walk in "+walk.getLocation()+" at "+walk.getDate()+"</span><span class='ml-auto'>"+walk.getStatusMessage()+"</span></a>"
+						       				+ "</li>");
 								}
 							}
 						
