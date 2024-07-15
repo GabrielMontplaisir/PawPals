@@ -5,14 +5,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.pawpals.beans.User;
 import com.pawpals.dao.UserDao;
 import com.pawpals.interfaces.AuthValidation;
+import com.pawpals.services.SessionService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @WebServlet("/login")
 public class LoginServlet extends AuthValidation {
@@ -31,9 +32,10 @@ public class LoginServlet extends AuthValidation {
 		
 		
 		UserDao.dao.authenticateUser(req);
-		HttpSession session = req.getSession();
-		if (session.getAttribute("user") != null) {
-			resp.sendRedirect("./dashboard/profile.jsp");
+		
+		User user = SessionService.srv.getSessionUser(req);
+		if (user != null) {
+			resp.sendRedirect("./dashboard/profile");
 			return;
 		} else {
 			req.setAttribute("message", "Cannot find user with this email address. Please register for an account.");

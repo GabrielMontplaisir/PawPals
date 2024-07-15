@@ -234,7 +234,7 @@ public class WalkDao {
 	
 	public Walk getWalkById(int walkId) {
 		String sql = "SELECT * FROM walks WHERE walk_id = ?";
-
+		Walk walk = null;
 		try (
 				Connection conn = DBConnection.getDBInstance(); 
 				PreparedStatement stmt = conn.prepareStatement(sql);
@@ -242,23 +242,23 @@ public class WalkDao {
 			
 			stmt.setInt(1, walkId);
 			ResultSet rs = stmt.executeQuery();
-			rs.next();
-
-			Walk walk = new Walk(
-					walkId, 
-					rs.getInt(STATUS), 
-					rs.getInt(OWNER_ID), 
-					rs.getString(START_TIME), 
-					rs.getString(LOCATION), 
-					rs.getString(LENGTH), 
-					rs.getInt(WALKER_ID)
-			);
 			
-			if (walk.getWalkerId() > 0) walk.setWalker(UserDao.dao.getUserById(walk.getWalkerId()));
+			if (rs.next()) {
+				walk = new Walk(
+						walkId, 
+						rs.getInt(STATUS), 
+						rs.getInt(OWNER_ID), 
+						rs.getString(START_TIME), 
+						rs.getString(LOCATION), 
+						rs.getString(LENGTH), 
+						rs.getInt(WALKER_ID)
+				);
+				
+				if (walk.getWalkerId() > 0) walk.setWalker(UserDao.dao.getUserById(walk.getWalkerId()));
+				
+			};
 			
 			if (rs != null) rs.close();
-			
-			return walk;
 
 		} catch (SQLException e) {
 			DBUtil.processException(e);
@@ -266,7 +266,7 @@ public class WalkDao {
 			e.printStackTrace();
 		}
 
-		return null;
+		return walk;
 	}
 
 	public List<Walk> getWalksByOwnerId(int ownerId) {

@@ -16,15 +16,11 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
 	rel="stylesheet">
-<link rel="stylesheet" href="../css/root.css">
-<link rel="stylesheet" href="../css/dashboard.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/root.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 <title>PawPals | Walk Details</title>
 </head>
 <%
-		if (session.getAttribute("user") == null) {
-			response.sendRedirect("../index.jsp");
-			return;
-		}
 		User user = (User) session.getAttribute("user");
 		Walk walk = (Walk) request.getAttribute("walk");
 		boolean offer = request.getAttribute("offer") != null ? (boolean) request.getAttribute("offer") : false;
@@ -33,6 +29,7 @@
 <body class="dashboard">
 	<jsp:include page="./components/header.jsp" />
 	<main>
+		<Button onclick="history.back()" class="back_btn"> < Back to Dashboard</Button>
 		<section class="container flex">
 			<div>
 				<header>
@@ -52,14 +49,8 @@
 						}
 	            		List<Dog> dogList = walk.getDogs();
 	           		out.write("</table>");
-	           		if ( dogList.size() == 1 ) {
-	           			out.write("<p>Dog</p>"); 
-	           		} else if (dogList.size() > 1) {
-	           			out.write("<p>Dogs</p>");
-	           		} else {
-	           			out.write("<p>Error</p>");
-	           		}
-	           		out.write("<table class=\"temptable\">");
+	           		out.write("<p>Dogs</p>");
+	           		out.write("<table class='temptable'>");
 	           		out.write("<tr><th>Dog Name</th><th>Size</th><th>Special Needs</th></tr>");
 	            																                    		
 	             		for ( Dog dog : dogList ) {

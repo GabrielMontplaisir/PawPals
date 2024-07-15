@@ -7,15 +7,15 @@
 		<nav>
 		<%
 			if (request.getRequestURL().toString().contains("/walker")) {
-				out.write("<a href='./owner.jsp' class='nav_btn'>Switch to Dog Owner</a>");				
+				out.write("<a href='./owner' class='nav_btn'>Switch to Dog Owner</a>");				
 			} else if (request.getRequestURL().toString().contains("/owner")) {
-				out.write("<a href='./walker.jsp' class='nav_btn'>Switch to Dog Walker</a>");
+				out.write("<a href='./walker' class='nav_btn'>Switch to Dog Walker</a>");
 			}
 			
 			
 		 %>
-			<a href="./profile.jsp" class="nav_btn">Profile</a>
-			<a href="./settings.jsp" class="nav_btn">Settings</a>
+			<a href="./profile" class="nav_btn">Profile</a>
+			<a href="./settings" class="nav_btn">Settings</a>
 			<a href="../logout" class="nav_btn">Logout</a>
 		</nav>
 	</header>

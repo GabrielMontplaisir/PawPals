@@ -10,8 +10,8 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="./css/root.css">
-	<link rel="stylesheet" href="./css/login.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/root.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
 </head>
 <body class="login">
 	<main>
@@ -35,7 +35,7 @@
 			<input id="password" type="password" name="password" placeholder="Enter your password" class="login_form_input" required />
 			<input id="submit" type="submit" name="submit" value="Register" class="login_form_btn mt-2"/>
 		</form>
-		<p class="mt-2 center">Already have an account? <a href="./index.jsp" class="login_link">Login Now</a></p>
+		<p class="mt-2 center">Already have an account? <a href="./" class="login_link">Login Now</a></p>
 		<p class="login_error mt-2">${requestScope.message}</p>
 		<p></p>
 	</main>

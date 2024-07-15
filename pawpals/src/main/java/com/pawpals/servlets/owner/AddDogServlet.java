@@ -17,12 +17,12 @@ public class AddDogServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(req);
     	if (user == null) { 
-    		resp.sendRedirect("../index.jsp"); 
+    		resp.sendRedirect("../"); 
     		return;
     	}
 
     	DogDao.dogDao.addDog(user.getId(), req);
-        resp.sendRedirect("./owner.jsp");
+        resp.sendRedirect("./owner");
         
     }
     

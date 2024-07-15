@@ -10,20 +10,14 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="../css/root.css">
-	<link rel="stylesheet" href="../css/dashboard.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/root.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 </head>
-<%
-	if (session.getAttribute("user") == null) {
-		response.sendRedirect("../index.jsp");
-		return;
-	}
-%>
 <body class="dashboard">
 	<jsp:include page="./components/header.jsp" /> 
 	<main>
-	<p><a href = "./walker.jsp">Walk Dogs</a></p>
-	<p><a href = "./owner.jsp">Walk My Dog(s)</a></p>
+	<p><a href = "./walker">Walk Dogs</a></p>
+	<p><a href = "./owner">Walk My Dog(s)</a></p>
 	</main>
 </body>
 </html>

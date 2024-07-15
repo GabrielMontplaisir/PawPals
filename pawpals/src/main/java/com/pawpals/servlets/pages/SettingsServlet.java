@@ -1,4 +1,4 @@
-package com.pawpals.servlets;
+package com.pawpals.servlets.pages;
 
 import java.io.IOException;
 
@@ -7,18 +7,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-@WebServlet("/logout")
-public class LogoutServlet extends HttpServlet {
+import com.pawpals.beans.User;
+import com.pawpals.services.SessionService;
+
+@WebServlet("/dashboard/settings")
+public class SettingsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession(false);
-		if (session != null) {
-			session.invalidate();
-			resp.sendRedirect("./");
+		User user = SessionService.srv.getSessionUser(req);
+		
+		if (user == null) {
+			resp.sendRedirect("../");
+			return;
 		}
+		
+		req.getRequestDispatcher("./settings.jsp").forward(req, resp);
 	}
 }

@@ -1,11 +1,6 @@
 package com.pawpals.beans;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-
-import com.pawpals.dao.DogDao;
-import com.pawpals.dao.WalkDao;
 
 public class User {
 	private final int userId;
@@ -29,9 +24,5 @@ public class User {
 	public String getLastName() {return lastName;}
 	public String getEmail() {return email;}
 	public LocalDate getDob() {return dob;}
-	public List<Dog> getDogsFromDB() {return DogDao.dogDao.getDogsByOwner(userId);}
-	public List<Walk> getWalksFromDBAsOwner() {return WalkDao.dao.getWalksByOwnerId(userId);}
-	public List<Walk> getWalksFromDBAsWalker() {return WalkDao.dao.getWalksByWalkerId(userId);}
-	public List<Walk> getAvailableWalksFromDB(HashMap<Integer, Boolean> walkOffers) {return WalkDao.dao.getWalksPostedForReceivingOffers(userId, walkOffers);}
 	
 }
