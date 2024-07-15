@@ -19,32 +19,40 @@ public class WalkDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(req);
     	if (user == null) { 
-    		resp.sendRedirect("../index.jsp");
+    		resp.sendRedirect("../");
     		return;
     	}
     	
     	if (req.getParameter("id") == null) {
-    		resp.sendRedirect("./profile.jsp");
+    		resp.sendRedirect(req.getHeader("referer"));
     		return;
     	}
     	
     	int walkId = Integer.parseInt((String) req.getParameter("id"));
     	
-    	if ( ! (walkId > 0) ) { resp.sendRedirect("./profile.jsp"); return; }
+    	if ( ! (walkId > 0) ) { 
+    		resp.sendRedirect(req.getHeader("referer")); 
+    		return; 
+    	}
+    	
     	Walk walk = WalkDao.dao.getWalkById(walkId);
-    	if ( walk == null )  { resp.sendRedirect("./profile.jsp"); return; }
+    	if ( walk == null )  { 
+    		resp.sendRedirect("../404");
+    		return; 
+    	}
     	
 //    	if ( walk.getOwnerId() != user.getId()  ) {
 //    		 resp.sendRedirect("./profile.jsp"); return;
 //    	}
     	
     	List<WalkOffer> offers = WalkDao.dao.getWalkOffers(walkId);
+    	boolean walkOffered = WalkDao.dao.walkerOffered(walkId, user.getId());
     	
     	req.setAttribute("walk", walk);
     	req.setAttribute("offers", offers);
-    	req.setAttribute("offer", WalkDao.dao.walkerOffered(walkId, user.getId()));
+    	req.setAttribute("offer", walkOffered);
     	
-    	req.getRequestDispatcher("./walk-detail.jsp").forward(req, resp);
+    	req.getRequestDispatcher("walk-detail.jsp").forward(req, resp);
     }
     
 }
