@@ -1,13 +1,5 @@
 @charset "UTF-8";
 
-.subtitle {
-	font-size: 2rem;
-	font-weight: var(--fw-bold);
-	font-family: var(--ff-headings);
-}
-
-
-
 /* ****************** */
 /* Dashboard Classes  */
 /* ****************** */
@@ -184,6 +176,18 @@ fieldset {
 /* ********************* */
 /* Walk Details          */
 /* ********************* */
+
+.back_btn {
+	background-color: transparent;
+	color: var(--color-secondary);
+	margin-bottom: 1rem;
+	margin-left: 1rem;
+	cursor: pointer;
+}
+
+.back_btn:hover {
+	text-decoration: underline;
+}
 
 .cancel {
 	background-color: var(--bg-offwhite);

@@ -15,18 +15,6 @@ main {
 	background: var(--bg-gradient);
 }
 
-.title {
-	font-family: var(--ff-headings);
-	font-size: 3rem;
-	font-weight: var(--fw-bold);
-}
-
-.subtitle {
-	font-family: var(--ff-headings);
-	font-size: 2rem;
-	font-weight: var(--fw-bold);
-}
-
 .login_form_label {
 	display: block;
 	font-style: italic;
