@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.pawpals.beans.*;
 import com.pawpals.dao.WalkDao;
+import com.pawpals.dao.WalkOfferDao;
 import com.pawpals.services.*;
 
 @WebServlet("/dashboard/create-offer")
@@ -31,7 +32,7 @@ public class CreateWalkOfferServlet extends HttpServlet {
             return;
         }
         
-        WalkDao.dao.addWalkOffer(walkId, user.getId());
+        WalkOfferDao.dao.addWalkOffer(walkId, user.getId());
         resp.sendRedirect("./walkdetails?id="+walkId);
     }
     

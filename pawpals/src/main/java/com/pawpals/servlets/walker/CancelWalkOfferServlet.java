@@ -9,6 +9,7 @@ import java.io.IOException;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
 import com.pawpals.dao.WalkDao;
+import com.pawpals.dao.WalkOfferDao;
 import com.pawpals.services.SessionService;
 
 @WebServlet("/dashboard/cancel-offer")
@@ -31,7 +32,7 @@ public class CancelWalkOfferServlet extends HttpServlet {
         	resp.sendRedirect("./walker");
             return;
         }
-        WalkDao.dao.cancelWalkOffer(walkId, user.getId());
+        WalkOfferDao.dao.cancelWalkOffer(walkId, user.getId());
         resp.sendRedirect("./walkdetails?id="+walkId);
     }
     

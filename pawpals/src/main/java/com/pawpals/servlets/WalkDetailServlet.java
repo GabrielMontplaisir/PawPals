@@ -10,6 +10,8 @@ import java.util.List;
 
 import com.pawpals.beans.*;
 import com.pawpals.dao.WalkDao;
+import com.pawpals.dao.WalkDogDao;
+import com.pawpals.dao.WalkOfferDao;
 import com.pawpals.services.*;
 
 @WebServlet("/dashboard/walkdetails")
@@ -46,9 +48,9 @@ public class WalkDetailServlet extends HttpServlet {
 //    		 resp.sendRedirect("./profile.jsp"); return;
 //    	}
     	
-    	List<Dog> dogs = WalkDao.dao.getWalkDogs(walkId);
-    	List<WalkOffer> offers = WalkDao.dao.getWalkOffers(walkId);
-    	boolean walkOffered = WalkDao.dao.walkerOffered(walkId, user.getId());
+    	List<Dog> dogs = WalkDogDao.dao.getWalkDogs(walkId);
+    	List<WalkOffer> offers = WalkOfferDao.dao.getWalkOffers(walkId);
+    	boolean walkOffered = WalkOfferDao.dao.walkerOffered(walkId, user.getId());
     	 	
     	req.setAttribute("walk", walk);
     	req.setAttribute("dogs", dogs);
