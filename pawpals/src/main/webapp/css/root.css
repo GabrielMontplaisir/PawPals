@@ -184,6 +184,14 @@ body {
 	text-align: center;
 }
 
+.right {
+	text-align: right;
+}
+
+.items-center {
+	align-items: center;
+}
+
 .btn {
 	display: inline-block;
 	padding: 0.5rem 2rem;
@@ -209,10 +217,6 @@ body {
 
 .w-full {
 	width: 100%;
-}
-
-.align-right {
-	text-align: right;
 }
 
 .flex {

@@ -78,7 +78,7 @@ public class ApplicationDao {
 	                    + "size ENUM('sm', 'md', 'lg') NOT NULL, "
 	                    + "special_needs TEXT, "
 	                    + "immunized BOOLEAN, "
-	                    + "FOREIGN KEY (owner_id) REFERENCES " + USERS_TABLE + "(user_id))";
+	                    + "FOREIGN KEY (owner_id) REFERENCES " + USERS_TABLE + "(user_id) ON DELETE CASCADE)";
 	                stmt.executeUpdate(sql);
 	                System.out.println("Created Dogs Table");
 	            }
@@ -104,8 +104,8 @@ public class ApplicationDao {
 						+ "location VARCHAR(100) NOT NULL, " 
 						+ "length VARCHAR(25) NOT NULL, " 
 						+ "walker_id INT, "
-						+ "FOREIGN KEY ( owner_id ) REFERENCES " + USERS_TABLE + "(user_id),"
-						+ "FOREIGN KEY ( walker_id ) REFERENCES " + USERS_TABLE + "(user_id))";
+						+ "FOREIGN KEY ( owner_id ) REFERENCES " + USERS_TABLE + "(user_id) ON DELETE CASCADE,"
+						+ "FOREIGN KEY ( walker_id ) REFERENCES " + USERS_TABLE + "(user_id) ON DELETE CASCADE)";
 				stmt.executeUpdate(sql);
 				System.out.println("Created Walks Table");
 			} else {
@@ -125,10 +125,12 @@ public class ApplicationDao {
 			) {
 			if (!tableExists(conn, WALKDOGS_TABLE)) {
 				System.out.print("Creating WalkDogs Table...");
-				String sql = "CREATE TABLE IF NOT EXISTS " + WALKDOGS_TABLE + " (" 
+				String sql = "CREATE TABLE IF NOT EXISTS " + WALKDOGS_TABLE + " ("
+						+ "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
 						+ "walk_id INT NOT NULL, "
 						+ "dog_id INT NOT NULL, " 
-						+ "PRIMARY KEY (walk_id, dog_id))";
+						+ "FOREIGN KEY (walk_id) REFERENCES " + WALKS_TABLE + "(walk_id) ON DELETE CASCADE,"
+						+ "FOREIGN KEY (dog_id) REFERENCES " +DOGS_TABLE+ "(dog_id) ON DELETE CASCADE);";
 				stmt.executeUpdate(sql);
 				System.out.println("Created WalkDogs Table");
 			}
@@ -146,11 +148,13 @@ public class ApplicationDao {
 			) {
 			if (!tableExists(conn, WALKOFFERS_TABLE)) {
 				System.out.print("Creating WalkOffers Table...");
-				String sql = "CREATE TABLE IF NOT EXISTS " + WALKOFFERS_TABLE + " (" 
+				String sql = "CREATE TABLE IF NOT EXISTS " + WALKOFFERS_TABLE + " ("
+						+ "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
 						+ "walk_id INT NOT NULL, "
 						+ "walker_id INT NOT NULL, " 
 						+ "declined BOOLEAN, "
-						+ "PRIMARY KEY (walk_id, walker_id))";
+						+ "FOREIGN KEY (walk_id) REFERENCES " + WALKS_TABLE + "(walk_id) ON DELETE CASCADE,"
+						+ "FOREIGN KEY (walker_id) REFERENCES " + USERS_TABLE + "(user_id) ON DELETE CASCADE);";
 				stmt.executeUpdate(sql);
 				System.out.println("Created WalkOffers Table");
 			}

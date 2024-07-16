@@ -76,79 +76,6 @@ public class WalkDao {
 		}
 		return null;
 	}
-
-	public void addDogToWalk(int walkId, int dogId) {
-		String sql = "INSERT INTO " + ApplicationDao.WALKDOGS_TABLE + " (" + WALK_ID + ", " + DogDao.DOG_ID + ") VALUES (?, ?);";
-		try (
-				Connection conn = DBConnection.getDBInstance(); 
-				PreparedStatement sqlAddDog = conn.prepareStatement(sql);
-		) {
-			sqlAddDog.setInt(1, walkId);
-			sqlAddDog.setInt(2, dogId);
-			
-			sqlAddDog.execute();
-			
-		} catch (SQLException e) {
-			DBUtil.processException(e);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public List<Dog> getWalkDogs(int walkId) {
-		List<Dog> dogsList = new ArrayList<>();
-
-		String sql = "SELECT * FROM " + ApplicationDao.WALKDOGS_TABLE + " LEFT JOIN "+ApplicationDao.DOGS_TABLE+" USING ("+DogDao.DOG_ID+") WHERE " + WALK_ID + " = ?";
-		try (
-				Connection conn = DBConnection.getDBInstance(); 
-				PreparedStatement stmt = conn.prepareStatement(sql);
-			) {
-			stmt.setInt(1, walkId);
-			
-			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				dogsList.add(new Dog(
-						rs.getInt(DogDao.DOG_ID), 
-	            		rs.getInt(DogDao.OWNER_ID), 
-	            		rs.getString(DogDao.NAME), 
-	            		rs.getString(DogDao.SIZE), 
-	            		rs.getString(DogDao.SPECIAL_NEEDS), 
-	            		rs.getBoolean(DogDao.IMMUNIZED)
-					)
-				);
-			}
-			
-			if (rs != null) rs.close();
-			
-			return dogsList;
-		} catch (SQLException e) {
-			DBUtil.processException(e);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		System.err.println("Could not get dogs list");
-		return null;
-
-	}
-
-	public void addWalkOffer(int walkId, int walkerUserId) {
-		String sql = "INSERT INTO " + ApplicationDao.WALKOFFERS_TABLE + " (" + WALK_ID + ", " + WALKER_ID + ") VALUES (? , ?);";
-		try (
-				Connection conn = DBConnection.getDBInstance(); 
-				PreparedStatement stmt = conn.prepareStatement(sql);
-			) {
-			stmt.setInt(1, walkId);
-			stmt.setInt(2, walkerUserId);
-			
-			stmt.executeUpdate();
-
-		} catch (SQLException e) {
-			DBUtil.processException(e);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void acceptWalkOffer(int walkId, int walkOfferUserId) {
 		String sql = "UPDATE " + ApplicationDao.WALKS_TABLE + " SET " + WALKER_ID + " = ?, " + STATUS + " = "
@@ -170,70 +97,8 @@ public class WalkDao {
 		}	
 	}
 	
-	public void rejectWalkOffer(int walkId, int walkOfferUserId) {
-		String sql = "UPDATE " + ApplicationDao.WALKOFFERS_TABLE + " SET " + DECLINED + " = true "
-					 + " WHERE " + WALK_ID + " = ? AND "+WALKER_ID+" = ?;";
-		
-		try (
-				Connection conn = DBConnection.getDBInstance(); 
-				PreparedStatement stmt = conn.prepareStatement(sql);
-			) {
-			stmt.setInt(1, walkId);
-			stmt.setInt(2, walkOfferUserId);
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			DBUtil.processException(e);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}	
-	}
-	
-	
-	public void cancelWalkOffer(int walkId, int walkerUserId) {
-		String sql = "DELETE FROM " + ApplicationDao.WALKOFFERS_TABLE + " WHERE " + WALK_ID + " = ? AND " + WALKER_ID + " = ?;";
-		try (
-				Connection conn = DBConnection.getDBInstance(); 
-				PreparedStatement stmt = conn.prepareStatement(sql);
-			) {
-			stmt.setInt(1, walkId);
-			stmt.setInt(2, walkerUserId);
-			
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			DBUtil.processException(e);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public boolean walkerOffered(int walkId, int walkerUserId) {
-		boolean isTrue = false;
-		String sql = "SELECT COUNT(*) FROM " + ApplicationDao.WALKOFFERS_TABLE + " WHERE " + WALK_ID + " = ? AND " + WALKER_ID + " = ?;";
-		try (
-				Connection conn = DBConnection.getDBInstance(); 
-				PreparedStatement stmt = conn.prepareStatement(sql);
-			) {
-			stmt.setInt(1, walkId);
-			stmt.setInt(2, walkerUserId);
-			
-			ResultSet rs = stmt.executeQuery();
-			if (rs != null && rs.next() && rs.getInt(1) > 0) {
-				isTrue = true;
-			}
-			
-			if (rs != null) rs.close();
-			
-		} catch (SQLException e) {
-			DBUtil.processException(e);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return isTrue;
-	}
-	
-	
 	public Walk getWalkById(int walkId) {
-		String sql = "SELECT * FROM walks WHERE walk_id = ?";
+		String sql = "SELECT * FROM "+ApplicationDao.WALKS_TABLE+" WHERE "+WALK_ID+" = ?";
 		Walk walk = null;
 		try (
 				Connection conn = DBConnection.getDBInstance(); 
@@ -277,7 +142,7 @@ public class WalkDao {
 	}	
 
 	public List<Walk> getWalksBySwitchable(int userId, String userId_ColumnName) {
-		String sql = "SELECT * FROM walks WHERE "+userId_ColumnName+" = ?";
+		String sql = "SELECT * FROM "+ApplicationDao.WALKS_TABLE+" WHERE "+userId_ColumnName+" = ?";
 		List<Walk> userWalks = new ArrayList<>();
 		
 		try (
@@ -354,55 +219,6 @@ public class WalkDao {
 	}
 	
 	
-	public List<WalkOffer> getWalkOffers(int walkId) {
-		ArrayList<WalkOffer> walkOffers = new ArrayList<>();
-		String sql = "SELECT * FROM " + ApplicationDao.WALKOFFERS_TABLE + " AS wo LEFT JOIN "+ApplicationDao.WALKS_TABLE+" AS w USING ("+WALK_ID+") LEFT JOIN ( SELECT "+UserDao.USER_ID+", "+UserDao.EMAIL_ADDRESS+", "+UserDao.FIRST_NAME+", "+UserDao.LAST_NAME+", "+UserDao.DATE_OF_BIRTH+" FROM " +ApplicationDao.USERS_TABLE+") as u ON wo."+WALKER_ID+" = u."+UserDao.USER_ID+" WHERE " + WALK_ID + " = ? AND (" + DECLINED + " != TRUE OR " + DECLINED + " IS NULL)"; 
-		try (
-				Connection conn = DBConnection.getDBInstance(); 
-				PreparedStatement stmt = conn.prepareStatement(sql);
-			) {
-			stmt.setInt(1, walkId);
-			ResultSet rs = stmt.executeQuery();
-			
-			while (rs.next()) {
-				Walk walk = new Walk(
-						rs.getInt(WALK_ID), 
-						rs.getInt(STATUS), 
-						rs.getInt(OWNER_ID), 
-						rs.getString(START_TIME), 
-						rs.getString(LOCATION), 
-						rs.getString(LENGTH), 
-						rs.getInt(WALKER_ID)
-						
-				);
-				User walkUser = new User(
-						rs.getInt(UserDao.USER_ID), 
-						rs.getString(UserDao.EMAIL_ADDRESS), 
-						rs.getString(UserDao.FIRST_NAME), 
-						rs.getString(UserDao.LAST_NAME), 
-						rs.getString(UserDao.DATE_OF_BIRTH)
-						);
-						
-				WalkOffer walkOffer = new WalkOffer(
-						walk, 
-						walkUser, 
-						rs.getBoolean(DECLINED)
-				);
-				
-				walkOffers.add(walkOffer);
-			}
-			
-			if (rs != null) rs.close();
-			
-		} catch (SQLException e) {
-			DBUtil.processException(e);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return walkOffers;
-	}
-	
-	
 	public void cancel(int walkId) {
 		setStatus(walkId, WalkStatus.CANCELLED);
 	}
@@ -424,27 +240,29 @@ public class WalkDao {
 		}
 	}
 	
-	public int getWalkOfferCount(int walkId) {
-		String sql = "SELECT COUNT(*) FROM " + ApplicationDao.WALKOFFERS_TABLE + " WHERE " + WALK_ID + " = ? AND " + DECLINED + " is null OR " + DECLINED + " = 0;";
+	public void deleteWalksNoDogFromID(int dogId) {
+		String sql = "DELETE FROM "+ApplicationDao.WALKS_TABLE+" WHERE "+WALK_ID+" IN ( SELECT "+WALK_ID+" "
+				+ "FROM "+ApplicationDao.WALKDOGS_TABLE+" "
+				+ "WHERE " + WALK_ID + " IN ( "
+				+ "SELECT " + WALK_ID + " "
+				+ "FROM "+ApplicationDao.WALKDOGS_TABLE+" "
+				+ "GROUP BY " + WALK_ID + " "
+				+ "HAVING COUNT(DISTINCT " + DogDao.DOG_ID + ") = 1 AND " + DogDao.DOG_ID + " = ?));";
+		
 		try (
 				Connection conn = DBConnection.getDBInstance(); 
 				PreparedStatement stmt = conn.prepareStatement(sql);
 			) {
+			stmt.setInt(1, dogId);
 			
-			stmt.setInt(1, walkId);
-			ResultSet rs =  stmt.executeQuery();
-			rs.next();
+			stmt.execute();
 			
-			int count = rs.getInt(1);
-			
-			rs.close();
-			
-			return count;
 		} catch (SQLException e) {
 			DBUtil.processException(e);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		return -1;
+
 	}
+	
 }

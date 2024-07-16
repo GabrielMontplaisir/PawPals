@@ -1,4 +1,4 @@
-package com.pawpals.servlets.owner;
+package com.pawpals.servlets.dog;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

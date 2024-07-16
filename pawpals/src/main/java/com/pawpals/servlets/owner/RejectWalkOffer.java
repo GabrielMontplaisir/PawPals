@@ -9,6 +9,7 @@ import java.io.IOException;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
 import com.pawpals.dao.WalkDao;
+import com.pawpals.dao.WalkOfferDao;
 import com.pawpals.services.SessionService;
 
 @WebServlet("/dashboard/reject-offer")
@@ -30,12 +31,12 @@ public class RejectWalkOffer extends HttpServlet {
         }
         
         int walkerId = Integer.parseInt(req.getParameter("walker"));
-        if (!WalkDao.dao.walkerOffered(walkId, walkerId)) {
+        if (!WalkOfferDao.dao.walkerOffered(walkId, walkerId)) {
         	System.out.println("Error: Could not reject walker. Walker did not apply.");
         	return;
         }
         
-        WalkDao.dao.rejectWalkOffer(walkId, walkerId);
+        WalkOfferDao.dao.rejectWalkOffer(walkId, walkerId);
         resp.sendRedirect("./walkdetails?id="+walkId);
     }
     

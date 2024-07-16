@@ -8,6 +8,7 @@ import java.io.IOException;
 import com.pawpals.beans.*;
 import com.pawpals.dao.DogDao;
 import com.pawpals.dao.WalkDao;
+import com.pawpals.dao.WalkDogDao;
 import com.pawpals.services.*;
 
 @WebServlet("/dashboard/create-walk")
@@ -34,7 +35,7 @@ public class CreateWalkServlet extends HttpServlet {
         	for (String dogIdString : dogIds ) {
         		int dogId = Integer.parseInt(dogIdString);
         		Dog dog = DogDao.dogDao.getDogById(dogId);
-        		WalkDao.dao.addDogToWalk(newWalk.getWalkId(), dog.getDogId());
+        		WalkDogDao.dao.addDogToWalk(newWalk.getWalkId(), dog.getDogId());
         	}
         	
         	

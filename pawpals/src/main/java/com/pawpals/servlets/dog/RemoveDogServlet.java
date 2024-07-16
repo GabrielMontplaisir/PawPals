@@ -1,7 +1,6 @@
-package com.pawpals.servlets.pages;
+package com.pawpals.servlets.dog;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,25 +11,32 @@ import javax.servlet.http.HttpServletResponse;
 import com.pawpals.beans.Dog;
 import com.pawpals.beans.User;
 import com.pawpals.dao.DogDao;
+import com.pawpals.dao.WalkDao;
 import com.pawpals.services.SessionService;
 
-@WebServlet("/dashboard/profile")
-public class ProfileServlet extends HttpServlet {
+@WebServlet("/dashboard/remove-dog")
+public class RemoveDogServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		User user = SessionService.srv.getSessionUser(req);
 		
 		if (user == null) {
-			resp.sendRedirect("../login");
-			return;
+    		resp.sendRedirect("../login"); 
+    		return;
 		}
 		
-		List<Dog> dogs = DogDao.dogDao.getDogsByOwner(user.getId());
+		int dogId = Integer.parseInt(req.getParameter("id"));
+		Dog dog = DogDao.dogDao.getDogById(dogId);
 		
-		req.setAttribute("dogs", dogs);
+		if (dog.getOwnerId() != user.getId()) {
+			throw new Error("Cannot delete dog which doesn't belong to you.");
+		}
 		
-		req.getRequestDispatcher("./profile.jsp").forward(req, resp);
+		WalkDao.dao.deleteWalksNoDogFromID(dogId);
+		DogDao.dogDao.removeDog(dogId);
+		
+		resp.sendRedirect("./profile");
 	}
 }
