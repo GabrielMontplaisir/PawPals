@@ -29,6 +29,8 @@ public class OwnerServlet extends HttpServlet {
 			return;
 		}
 		
+		user.setOwnerMode(true);
+		
 		List<Dog> dogs = DogDao.dogDao.getDogsByOwner(user.getId());
 		List<Walk> walks = WalkDao.dao.getWalksByOwnerId(user.getId());
 		

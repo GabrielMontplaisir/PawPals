@@ -6,6 +6,7 @@ public class User {
 	private final int userId;
 	private final String firstName, lastName, email;
 	private final LocalDate dob;
+	private boolean isOwnerMode = false;
 	
 	// Constructor
 	
@@ -24,5 +25,12 @@ public class User {
 	public String getLastName() {return lastName;}
 	public String getEmail() {return email;}
 	public LocalDate getDob() {return dob;}
+	public boolean isOwnerMode() {return isOwnerMode;}
+	
+	// Setter Methods
+	
+	public void setOwnerMode(boolean isOwnerMode) {
+		this.isOwnerMode = isOwnerMode;
+	}
 	
 }

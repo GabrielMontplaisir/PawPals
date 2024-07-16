@@ -8,11 +8,13 @@
 		<p class="welcome_msg">Welcome ${user.getFirstName()}!</p>
 		
 		<nav>
-			<c:if test="${fn:contains(pageContext.request.requestURI, '/walker')}">
-				<a href='./owner' class='nav_btn'>Switch to Dog Owner</a>
-			</c:if>
-			<c:if test="${fn:contains(pageContext.request.requestURI, '/owner')}">
-				<a href='./walker' class='nav_btn'>Switch to Dog Walker</a>
+			<c:if test="${!fn:contains(pageContext.request.requestURI, '/profile') && !fn:contains(pageContext.request.requestURI, '/settings')}">
+				<c:if test="${!user.isOwnerMode()}">
+					<a href='./owner' class='nav_btn'>Switch to Dog Owner</a>
+				</c:if>
+				<c:if test="${user.isOwnerMode()}">
+					<a href='./walker' class='nav_btn'>Switch to Dog Walker</a>
+				</c:if>
 			</c:if>
 			<a href="./profile" class="nav_btn">Profile</a>
 			<a href="./settings" class="nav_btn">Settings</a>

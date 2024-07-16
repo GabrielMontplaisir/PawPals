@@ -22,7 +22,7 @@
 <body class="dashboard">
 	<jsp:include page="./components/header.jsp" />
 	<main>
-		<Button onclick="history.back()" class="back_btn"> < Back to Dashboard</Button>
+		<a href="${user.isOwnerMode() ? './owner' : './walker'}" class="back_btn"> < Back to Dashboard</a>
 		<section class="container flex">
 			<div>
 				<header>
