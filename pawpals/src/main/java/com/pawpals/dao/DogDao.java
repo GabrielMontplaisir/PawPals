@@ -113,4 +113,22 @@ public class DogDao {
 
         return dogs;
     }
+    
+    public void removeDog(int dogId) {
+        String sql = "DELETE FROM " + ApplicationDao.DOGS_TABLE + " WHERE " + DOG_ID + " = ?;";
+
+        try (
+                Connection conn = DBConnection.getDBInstance();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+            ) {
+            stmt.setInt(1, dogId);
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            DBUtil.processException(e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
