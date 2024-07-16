@@ -18,7 +18,7 @@ public class AcceptWalkOffer extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(req);
     	if (user == null) { 
-    		resp.sendRedirect("../"); 
+    		resp.sendRedirect("../login"); 
     		return;
     	}
         int walkId = Integer.parseInt(req.getParameter("id"));

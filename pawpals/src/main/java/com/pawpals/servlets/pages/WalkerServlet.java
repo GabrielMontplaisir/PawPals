@@ -24,7 +24,7 @@ public class WalkerServlet extends HttpServlet {
 		User user = SessionService.srv.getSessionUser(req);
 		
 		if (user == null) {
-			resp.sendRedirect("../");
+			resp.sendRedirect("../login");
 			return;
 		}
 		

@@ -13,13 +13,13 @@ import com.pawpals.interfaces.WalkStatus;
 import com.pawpals.services.SessionService;
 
 @WebServlet("/dashboard/cancel-walk-walker")
-public class CancelWalkServlet extends HttpServlet {
+public class CancelWalkWalkerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(req);
     	if (user == null) { 
-    		resp.sendRedirect("../index.jsp");
+    		resp.sendRedirect("../login");
     		return;
     	}
 
@@ -28,7 +28,7 @@ public class CancelWalkServlet extends HttpServlet {
 
         if (walk == null || walk.getWalkerId() != user.getId()) {
         	System.out.println("Error: Could not cancel walk. Walk not found or user not walker.");
-            resp.sendRedirect("./walker.jsp");
+            resp.sendRedirect("./walker");
             return;
         }
         
