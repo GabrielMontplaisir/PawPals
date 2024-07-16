@@ -13,12 +13,6 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/root.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 </head>
-<%
-	if (session.getAttribute("user") == null) {
-		response.sendRedirect("../index.jsp");
-		return;
-	}
-%>
 <body class="dashboard">
 	<jsp:include page="./components/header.jsp" /> 
 </body>
