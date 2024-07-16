@@ -19,7 +19,7 @@ public class StartWalkServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(req);
     	if (user == null) { 
-    		resp.sendRedirect("../index.jsp");
+    		resp.sendRedirect("../login");
     		return;
     	}
 
@@ -28,7 +28,7 @@ public class StartWalkServlet extends HttpServlet {
 
         if (walk == null || walk.getWalkerId() != user.getId()) {
         	System.out.println("Error: Could not start walk. Walk not found or user not walker.");
-            resp.sendRedirect("./walker.jsp");
+            resp.sendRedirect("./walker");
             return;
         }
         
