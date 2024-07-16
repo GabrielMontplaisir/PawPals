@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 	<header class="dashboard_header">
-		<h2>PawPals</h2>
+		<h2><a href="./profile">PawPals</a></h2>
 		<p class="welcome_msg">Welcome ${user.getFirstName()}!</p>
 		
 		<nav>
