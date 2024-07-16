@@ -214,3 +214,17 @@ body {
 .align-right {
 	text-align: right;
 }
+
+.flex {
+	display: flex;
+	justify-content: space-evenly;
+	gap: 8rem;
+}
+
+.flex > * {
+	flex: 1;
+}
+
+.success {
+	background-color: var(--color-success);
+}

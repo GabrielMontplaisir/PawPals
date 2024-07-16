@@ -17,7 +17,7 @@ public class AddDogServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(req);
     	if (user == null) { 
-    		resp.sendRedirect("../"); 
+    		resp.sendRedirect("../login"); 
     		return;
     	}
 

@@ -18,7 +18,7 @@ public class CancelWalkOfferServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(req);
     	if (user == null) { 
-    		resp.sendRedirect("../index.jsp"); 
+    		resp.sendRedirect("../login"); 
     		return;
     	}
     	
@@ -28,7 +28,7 @@ public class CancelWalkOfferServlet extends HttpServlet {
         
         if (walk == null) {
         	System.out.println("Error: Could not cancel services. Walk not found.");
-        	resp.sendRedirect("./walker.jsp");
+        	resp.sendRedirect("./walker");
             return;
         }
         WalkDao.dao.cancelWalkOffer(walkId, user.getId());

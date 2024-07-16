@@ -20,11 +20,13 @@
 	color: white;
 }
 
-.dashboard_header h2 {
+.dashboard_header h2 a {
 	font-family: var(--ff-headings);
 	font-weight: var(--fw-xtrabold);
 	font-size: 1.25rem;
 	padding-inline: 1rem;
+	text-decoration: none;
+	color: white;
 }
 
 .dashboard_header nav {
@@ -52,16 +54,6 @@
 main {
 	width: 100%;
 	padding: 2rem;
-}
-
-.flex {
-	display: flex;
-	justify-content: space-evenly;
-	gap: 8rem;
-}
-
-.flex > * {
-	flex: 1;
 }
 
 .container {

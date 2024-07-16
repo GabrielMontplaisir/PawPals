@@ -1,8 +1,6 @@
-<%@page import="org.apache.tomcat.util.http.fileupload.RequestContext"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page
-	import="com.pawpals.beans.*, java.util.List, com.pawpals.dao.WalkDao, com.pawpals.interfaces.WalkStatus"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!--  For reference to enumeration (i.e. Status 2 = Posted) -->
 
 
@@ -23,10 +21,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 <title>PawPals | Create a Walk</title>
 </head>
-<%
-	List<Dog> dogs = (List<Dog>) request.getAttribute("dogs");
-	List<Walk> walks = (List<Walk>) request.getAttribute("walks");
-%>
 <body class="dashboard">
 	<jsp:include page="./components/header.jsp" />
 	<main>
@@ -39,11 +33,9 @@
 					<label for="selectdogs" class="form_label">Select Dogs for
 						this walk:</label> <select class="form_multiple_select border-2 rounded"
 						id="selectdogs" name="selecteddogs" required multiple>
-						<%
-	          	            for (Dog dog: dogs ) {
-	               	    		out.write("<option value=" + dog.getDogId() +">" + dog.getName() + "</option>");
-	               	    	}
-	                   	%>
+						<c:forEach var="dog" items="${dogs}">
+							<option value="${dog.getDogId()}">${dog.getName()}</option>
+						</c:forEach>
 					</select>
 					<div class="form_group">
 						<label class="form_label mt-2">Location: <input
@@ -103,44 +95,27 @@
 		<section class="mt-8">
 			<h2 class="subtitle">Current Walks</h2>
 			<ul class="walk_list">
-				<%
-				if (walks != null) {
-							for (Walk walk: walks ) {
-								if ((walk.getStatus() != WalkStatus.CANCELLED
-									 && walk.getStatus() != WalkStatus.WALKER_COMPLETED )){
-									
-						       			out.write("<li>"
-						       					+ "<a href='./walkdetails?id="+walk.getWalkId()+"' class='walk_card'><span>Walk in "+walk.getLocation()+" at "+walk.getDate()+"</span><span class='ml-auto'>"+walk.getStatusMessage()+"</span></a>"
-						       					+ "</li>");
-								}		
-							}
-						
-						} else {
-							out.write("Error");
-						}
-				%>
+				<c:if test="${walks != null}">
+					<c:forEach var="walk" items="${walks}">
+						<c:if test="${!walk.isFinished()}">
+							<li><a href="./walkdetails?id=${walk.getWalkId()}" class="walk_card"><span>Walk in ${walk.getLocation()} at ${walk.getDate()}</span><span class="ml-auto">${walk.getStatus().toString()}</span></a></li>
+						</c:if>
+					</c:forEach>
+				</c:if>
 			</ul>
 
 		</section>
 		<section class="mt-8">
 			<h2 class="subtitle">Past Walks</h2>
 			<ul class="walk_list">
-				<%
-				if (walks != null) {
-							for (Walk walk: walks ) {
-								if ( (walk.getStatus() == WalkStatus.CANCELLED
-									   || walk.getStatus() == WalkStatus.WALKER_COMPLETED )) {
-									
-						       			out.write("<li>"
-						       				+ "<a href='./walkdetails?id="+walk.getWalkId()+"' class='walk_card'><span>Walk in "+walk.getLocation()+" at "+walk.getDate()+"</span><span class='ml-auto'>"+walk.getStatusMessage()+"</span></a>"
-						       				+ "</li>");
-								}
-							}
-						
-						} else {
-							out.write("Error");
-						}
-				%>
+				<c:if test="${walks != null}">
+					<c:forEach var="walk" items="${walks}">
+						<c:if test="${walk.isFinished()}">
+							<li><a href="./walkdetails?id=${walk.getWalkId()}" class="walk_card"><span>Walk in ${walk.getLocation()} at ${walk.getDate()}</span><span class="ml-auto">${walk.getStatus().toString()}</span></a></li>
+						</c:if>
+					</c:forEach>
+				
+				</c:if>
 			</ul>
 
 		</section>

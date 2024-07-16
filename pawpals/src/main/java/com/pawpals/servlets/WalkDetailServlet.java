@@ -18,8 +18,9 @@ public class WalkDetailServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(req);
+    	
     	if (user == null) { 
-    		resp.sendRedirect("../");
+    		resp.sendRedirect("../login");
     		return;
     	}
     	
@@ -37,7 +38,7 @@ public class WalkDetailServlet extends HttpServlet {
     	
     	Walk walk = WalkDao.dao.getWalkById(walkId);
     	if ( walk == null )  { 
-    		resp.sendRedirect("../404");
+    		resp.sendRedirect("../404.jsp");
     		return; 
     	}
     	
@@ -45,10 +46,12 @@ public class WalkDetailServlet extends HttpServlet {
 //    		 resp.sendRedirect("./profile.jsp"); return;
 //    	}
     	
+    	List<Dog> dogs = WalkDao.dao.getWalkDogs(walkId);
     	List<WalkOffer> offers = WalkDao.dao.getWalkOffers(walkId);
     	boolean walkOffered = WalkDao.dao.walkerOffered(walkId, user.getId());
-    	
+    	 	
     	req.setAttribute("walk", walk);
+    	req.setAttribute("dogs", dogs);
     	req.setAttribute("offers", offers);
     	req.setAttribute("offer", walkOffered);
     	

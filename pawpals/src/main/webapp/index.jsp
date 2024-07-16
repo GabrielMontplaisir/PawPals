@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
@@ -14,24 +14,12 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css" type="text/css">
 </head>
 <body class="login">
-	<main>
-		<header>
-			<h1 class="title center">Welcome to PawPals</h1>
-		</header>
-		<form class="login_form" method="POST" action="login">
-			<label for="email" class="login_form_label">Email:</label>
-			<input id="email" type="email" name="email" placeholder="Enter your email" pattern="\S+@\S+\.\S+" class="login_form_input" required />
-			<label for="password" class="login_form_label mt-2">Password:</label>
-			<input id="password" type="password" name="password" placeholder="Enter your password" class="login_form_input" required />
-			<input id="submit" type="submit" name="submit" value="Log in" class="login_form_btn mt-2"/>
-		</form>
-		<p class="mt-2 center">Don't have an account? <a href="./register" class="login_link">Register Now</a></p>
-		<p class="login_error mt-2">${requestScope.message}</p>
+	<main class="center">
+		<h1 class="title">Welcome to PawPals!</h1>
+		<section class="flex">
+			<a href="./login" class="btn">Login</a>
+			<a href="./register" class="btn success">Register</a>
+		</section>
 	</main>
-	
-	<footer class="center">
-		<p>Created by Nadia, Jeffrey &amp; Gabriel</p>
-		<p>for CST8288 -- Algonquin College (2024)</p>
-	</footer>
 </body>
 </html>

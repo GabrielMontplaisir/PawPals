@@ -18,7 +18,7 @@ public class CreateWalkOfferServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	User user = SessionService.srv.getSessionUser(req);
     	if (user == null) { 
-    		resp.sendRedirect("../index.jsp"); 
+    		resp.sendRedirect("../login"); 
     		return;
     	}
     	
@@ -27,7 +27,7 @@ public class CreateWalkOfferServlet extends HttpServlet {
         
         if (walk == null) {
         	System.out.println("Error: Could not offer services. Walk not found.");
-        	resp.sendRedirect("./walker.jsp");
+        	resp.sendRedirect("./walker");
             return;
         }
         

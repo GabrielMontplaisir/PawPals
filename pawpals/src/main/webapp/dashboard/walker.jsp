@@ -1,7 +1,6 @@
-<%@page import="com.pawpals.interfaces.WalkStatus"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.pawpals.beans.*,java.util.List, java.util.HashMap" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,85 +14,45 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 	<title>PawPals | Walker Dashboard</title>
 </head>
-<%
-	HashMap<Integer, Boolean> walkOffers = (HashMap<Integer, Boolean>) request.getAttribute("walkOffers");
-	List<Walk> walks = (List<Walk>) request.getAttribute("walks");
-	List<Walk> userWalks = (List<Walk>) request.getAttribute("userWalks");
-%>
 <body class="dashboard">
 	<jsp:include page="./components/header.jsp" /> 
 	<main>
 		<h1 class="subtitle">Walker Dashboard</h1>
 		<section>
-		<h2 class="subtitle">Find Walks</h2>
-		<%
-		
-		if (walks != null) {
-			out.write("<ul class='walk_list'>");
-			
-			for (Walk walk: walks ){
-				List<Dog> dogList = walk.getDogs();
-				Boolean walkHasOffer = walkOffers.get(walk.getWalkId());
-				
-
-				out.write("<li>");
-				out.write("<a href='./walkdetails?id="+walk.getWalkId()+"' class='walk_card'><span>Walk in "+walk.getLocation()+" at "+walk.getDate()+"</span><span class='ml-auto'>"+walk.getStatusMessage()+"</span></a>");
-			       		out.write("</li>");
-			}
-				out.write("</ul>");
-				} else {
-			out.write("null");
-				}
-		%>
+			<h2 class="subtitle">Find Walks</h2>
+			<c:if test="${walks != null}">
+				<ul class="walk_list">
+					<c:forEach var="walk" items="${walks}">
+						<li><a href="./walkdetails?id=${walk.getWalkId()}" class="walk_card"><span>Walk in ${walk.getLocation()} at ${walk.getDate()}</span><span class="ml-auto">${walk.getStatus().toString()}</span></a></li>
+					</c:forEach>
+				</ul>
+			</c:if>
 		</section>
 
 		<section>
 			<h2 class="subtitle">Current Walks</h2>
-			<%
-
-				if (userWalks != null) {
-					out.write("<ul class='walk_list'>");
-
-					for (Walk walk : userWalks) {
-						if (walk.getStatus() != WalkStatus.CANCELLED && walk.getStatus() != WalkStatus.WALKER_COMPLETED) {
-					List<Dog> dogList = walk.getDogs();
-
-					out.write("<li>");
-					out.write("<a href='./walkdetails?id=" + walk.getWalkId() + "' class='walk_card'><span>Walk in "
-							+ walk.getLocation() + " at " + walk.getDate() + "</span><span class='ml-auto'>"
-							+ walk.getStatusMessage() + "</span></a>");
-					out.write("</li>");
-						}
-					}
-					out.write("</ul>");
-				} else {
-					out.write("null");
-				}
-			%>
+			<c:if test="${userWalks != null}">
+				<ul class="walk_list">
+					<c:forEach var="walk" items="${userWalks}">
+						<c:if test="${!walk.isFinished()}">
+							<li><a href="./walkdetails?id=${walk.getWalkId()}" class="walk_card"><span>Walk in ${walk.getLocation()} at ${walk.getDate()}</span><span class="ml-auto">${walk.getStatus().toString()}</span></a></li>
+						</c:if>
+					</c:forEach>
+				</ul>
+			</c:if>
 		</section>
 
 		<section>
 			<h2 class="subtitle">Past Walks</h2>
-			<%
-				if (userWalks != null) {
-					out.write("<ul class='walk_list'>");
-
-					for (Walk walk : userWalks) {
-						if (walk.getStatus() == WalkStatus.CANCELLED || walk.getStatus() == WalkStatus.WALKER_COMPLETED) {
-					List<Dog> dogList = walk.getDogs();
-
-					out.write("<li>");
-					out.write("<a href='./walkdetails?id=" + walk.getWalkId() + "' class='walk_card'><span>Walk in "
-							+ walk.getLocation() + " at " + walk.getDate() + "</span><span class='ml-auto'>"
-							+ walk.getStatusMessage() + "</span></a>");
-					out.write("</li>");
-						}
-					}
-					out.write("</ul>");
-				} else {
-					out.write("null");
-				}
-			%>
+			<c:if test="${userWalks != null}">
+				<ul class="walk_list">
+					<c:forEach var="walk" items="${userWalks}">
+						<c:if test="${walk.isFinished()}">
+							<li><a href="./walkdetails?id=${walk.getWalkId()}" class="walk_card"><span>Walk in ${walk.getLocation()} at ${walk.getDate()}</span><span class="ml-auto">${walk.getStatus().toString()}</span></a></li>
+						</c:if>
+					</c:forEach>
+				</ul>
+			</c:if>
 		</section>
 
 
