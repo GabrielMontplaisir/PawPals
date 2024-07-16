@@ -1,8 +1,5 @@
 package com.pawpals.beans;
 
-import java.util.List;
-
-import com.pawpals.dao.WalkDao;
 import com.pawpals.interfaces.WalkStatus;
 
 public class Walk {
@@ -34,7 +31,6 @@ public class Walk {
 	public User getOwner() {return owner;}
 	public User getWalker() {return walker;}
 	public int getOfferCount() {return offerCount;}
-	public List<Dog> getDogs() {return WalkDao.dao.getWalkDogs(walkId);}
 	
 	public WalkStatus getStatus() {
 		return this.status;
