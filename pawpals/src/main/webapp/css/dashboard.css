@@ -56,6 +56,11 @@ main {
 	padding: 2rem;
 }
 
+main header {
+	display: flex;
+	align-items: center;
+}
+
 .container {
 	background-color: white;
 	border-radius: 2rem;
@@ -69,6 +74,12 @@ main {
 	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
+}
+
+.section_title {
+	font-family: var(--ff-headings);
+	font-weight: var(--fw-bold);
+	font-size: 1.25rem;
 }
 
 .temptable th, .temptable td {
@@ -88,6 +99,39 @@ main {
 .hRadioGroup {
 	display: flex;
 	gap: 10px;
+}
+
+/* ****************** */
+/* Card Section       */
+/* ****************** */
+
+.card_list {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+}
+
+.card {
+	min-width: 10rem;
+	max-width: 20rem;
+	flex: 1;
+	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+	padding: 1rem;
+	border-radius: .5rem;
+	background-color: white;
+}
+
+.card_header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.card_title {
+	font-family: var(--ff-headings);
+	font-weight: var(--fw-bold);
+	text-align: center;
 }
 
 /* ****************** */

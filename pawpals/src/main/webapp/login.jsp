@@ -16,7 +16,7 @@
 <body class="login">
 	<main>
 		<header>
-			<h1 class="title center">Welcome to PawPals</h1>
+			<h1 class="title center">Log In to PawPals</h1>
 		</header>
 		<form class="login_form" method="POST" action="login">
 			<label for="email" class="login_form_label">Email:</label>
