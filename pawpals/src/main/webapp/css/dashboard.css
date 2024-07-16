@@ -170,11 +170,12 @@ fieldset {
 /* ********************* */
 
 .back_btn {
-	background-color: transparent;
+	display: block;
 	color: var(--color-secondary);
 	margin-bottom: 1rem;
 	margin-left: 1rem;
 	cursor: pointer;
+	text-decoration: none;
 }
 
 .back_btn:hover {
