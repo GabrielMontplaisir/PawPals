@@ -18,6 +18,18 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/login")
 public class LoginServlet extends AuthValidation {
 	private static final long serialVersionUID = 1L;
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		User user = SessionService.srv.getSessionUser(req);
+		
+		if (user != null) {
+			resp.sendRedirect("./dashboard/profile");
+			return;
+		}
+		
+		req.getRequestDispatcher("login.jsp").forward(req, resp);
+	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,7 +38,7 @@ public class LoginServlet extends AuthValidation {
 		message = validateForm(req.getParameterMap());
 		if (message != null) {
 			req.setAttribute("message", message);
-			req.getRequestDispatcher("index.jsp").forward(req, resp);
+			req.getRequestDispatcher("login.jsp").forward(req, resp);
 			return;
 		}
 		
