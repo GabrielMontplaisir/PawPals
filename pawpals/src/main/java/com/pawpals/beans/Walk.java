@@ -36,19 +36,6 @@ public class Walk {
 	public int getOfferCount() {return offerCount;}
 	public List<Dog> getDogs() {return WalkDao.dao.getWalkDogs(walkId);}
 	
-	public String getStatusMessage() {
-		switch (this.status) {
-			case OWNER_INITIALIZED: return "Owner Draft";
-			case OWNER_POSTED: return "Accepting Offers";
-			case WALKER_CHOSEN: return "Walker Selected";
-			case WALKER_STARTED: return "Walking Now";
-			case WALKER_COMPLETED: return "Completed";
-			case CANCELLED: return "Cancelled";
-			default: 
-				System.err.println("getFriendlyStatus() encountered unexpected status: " + this.status);
-				return "Error";
-		}
-	}
 	public WalkStatus getStatus() {
 		return this.status;
 	}
@@ -70,8 +57,8 @@ public class Walk {
 		this.length = length;
 	}
 
-	public boolean isCancelled() {
-		return this.status == WalkStatus.CANCELLED;
+	public boolean isFinished() {
+		return this.status == WalkStatus.CANCELLED || this.status == WalkStatus.WALKER_COMPLETED;
 	}
 	
 	public void setWalker(User walker) {
