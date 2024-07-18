@@ -21,7 +21,7 @@ public class AddDogServlet extends HttpServlet {
     		return;
     	}
 
-    	DogDao.dogDao.addDog(user.getId(), req);
+    	DogDao.dao.addDog(user, req);
         resp.sendRedirect("./owner");
         
     }
