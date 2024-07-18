@@ -2,6 +2,7 @@ package com.pawpals.servlets.pages;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +28,7 @@ public class ProfileServlet extends HttpServlet {
 			return;
 		}
 		
-		List<Dog> dogs = DogDao.dogDao.getDogsByOwner(user.getId());
+		Map<Integer, Dog> dogs = user.getDogList();
 		
 		req.setAttribute("dogs", dogs);
 		

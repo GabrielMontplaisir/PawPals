@@ -4,15 +4,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.pawpals.beans.Dog;
+import com.pawpals.beans.User;
 
 public class DogDao {
-    public static final DogDao dogDao = new DogDao();
+    public static final DogDao dao = new DogDao();
     public static final String DOG_ID = "dog_id";
     public static final String OWNER_ID = "owner_id";
     public static final String NAME = "name";
@@ -53,7 +55,7 @@ public class DogDao {
     	return null;
     }
 
-    public void addDog(int ownerId, HttpServletRequest req) {
+    public void addDog(User user, HttpServletRequest req) {
         String name = req.getParameter("name");
         String size = req.getParameter("size");
         String specialNeeds = req.getParameter("specialneeds");
@@ -62,15 +64,32 @@ public class DogDao {
 
         try (
                 Connection conn = DBConnection.getDBInstance();
-                PreparedStatement stmt = conn.prepareStatement(sql);
+                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ) {
-            stmt.setInt(1, ownerId);
+            stmt.setInt(1, user.getId());
             stmt.setString(2, name);
             stmt.setString(3, size);
             stmt.setString(4, specialNeeds);
             stmt.setBoolean(5, immunized);
 
             stmt.executeUpdate();
+            
+            ResultSet rs = stmt.getGeneratedKeys();
+            
+            if (rs != null && rs.next()) {
+            	Dog dog = new Dog(
+            			rs.getInt(1),
+            			user.getId(),
+            			name,
+            			size,
+            			specialNeeds,
+            			immunized
+            	);
+            	
+            	user.getDogList().put(rs.getInt(1), dog);
+            }
+            
+            if (rs != null) rs.close();
 
         } catch (SQLException e) {
             DBUtil.processException(e);
@@ -79,8 +98,8 @@ public class DogDao {
         }
     }
 
-    public List<Dog> getDogsByOwner(int userId) {
-        List<Dog> dogs = new ArrayList<>();
+    public Map<Integer, Dog> getDogsByOwner(int userId) {
+        Map<Integer, Dog> dogs = new HashMap<>();
         String sql = "SELECT * FROM " + ApplicationDao.DOGS_TABLE + " WHERE " + OWNER_ID + " = ?";
 
         try (
@@ -100,7 +119,8 @@ public class DogDao {
                     rs.getString(SPECIAL_NEEDS),
                     rs.getBoolean(IMMUNIZED)
                 );
-                dogs.add(dog);
+                
+                dogs.put(dog.getDogId(), dog);
             }
 
             if (rs != null) rs.close();
