@@ -69,11 +69,6 @@ fieldset .login_form_input {
 	outline: 2px solid black;
 }
 
-.login_error {
-	color: var(--color-error);
-	font-weight: var(--fw-semibold);
-}
-
 footer {
 	margin-top: auto;
 	padding-block: 2rem;
