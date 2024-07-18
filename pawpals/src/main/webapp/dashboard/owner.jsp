@@ -34,15 +34,15 @@
 						this walk:</label> <select class="form_multiple_select border-2 rounded"
 						id="selectdogs" name="selecteddogs" required multiple>
 						<c:forEach var="dog" items="${dogs}">
-							<option value="${dog.getDogId()}">${dog.getName()}</option>
+							<option value="${dog.key}">${dog.value.getName()}</option>
 						</c:forEach>
 					</select>
 					<div class="form_group">
 						<label class="form_label mt-2">Location: <input
 							type="text" id="location" name="location" class="form_input"
-							required></label> <label class="form_label mt-2">Select
-							start time: <input type="time" name="starttime"
-							class="form_input" required>
+							required></label> 
+						<label class="form_label mt-2">Select Date &amp; Time: 
+							<input type="datetime-local" name="starttime" class="form_input" value="${date}" required>
 						</label>
 					</div>
 
@@ -50,16 +50,16 @@
 						id="length" name="length"
 						class="form_single_select border-2 rounded w-full" required>
 						<option value="" disabled selected>Select Length</option>
-						<option value="">30min</option>
-						<option value="">60min</option>
-						<option value="">90min</option>
-						<option value="">120min</option>
-						<option value="">150min</option>
-						<option value="">180min</option>
+						<option value="30">30min</option>
+						<option value="60">60min</option>
+						<option value="90">90min</option>
+						<option value="120">120min</option>
+						<option value="150">150min</option>
+						<option value="180">180min</option>
 					</select> <input type="submit" value="Submit" class="form_btn mt-2">
 
 				</form>
-
+				<p class="message_error mt-2">${message}</p>
 			</section>
 
 			<section class="container">
@@ -94,11 +94,20 @@
 		</div>
 		<section class="mt-8">
 			<h2 class="subtitle">Current Walks</h2>
-			<ul class="walk_list">
+			<ul class="card_list">
 				<c:if test="${walks != null}">
 					<c:forEach var="walk" items="${walks}">
 						<c:if test="${!walk.isFinished()}">
-							<li><a href="./walkdetails?id=${walk.getWalkId()}" class="walk_card"><span>Walk in ${walk.getLocation()} at ${walk.getDate()}</span><span class="ml-auto">${walk.getStatus().toString()}</span></a></li>
+							<li class="card">
+								<header class="card_header">
+									<h3 class="card_title">Walk in ${walk.getLocation()}</h3>
+									<p>${walk.getStatus().toString()}</p>
+								</header>
+								
+								<p class="card_details">${walk.getFullDate()}</p>
+								
+								<a href="./walkdetails?id=${walk.getWalkId()}" class="btn mt-2">View</a>
+							</li>
 						</c:if>
 					</c:forEach>
 				</c:if>
@@ -107,11 +116,18 @@
 		</section>
 		<section class="mt-8">
 			<h2 class="subtitle">Past Walks</h2>
-			<ul class="walk_list">
+			<ul class="card_list">
 				<c:if test="${walks != null}">
 					<c:forEach var="walk" items="${walks}">
 						<c:if test="${walk.isFinished()}">
-							<li><a href="./walkdetails?id=${walk.getWalkId()}" class="walk_card"><span>Walk in ${walk.getLocation()} at ${walk.getDate()}</span><span class="ml-auto">${walk.getStatus().toString()}</span></a></li>
+							<li class="card">
+								<header class="card_header">
+									<h3 class="card_title">Walk in ${walk.getLocation()}</h3>
+									<p>${walk.getStatus().toString()}</p>
+								</header>
+								<p class="card_details">${walk.getFullDate()}</p>
+								<a href="./walkdetails?id=${walk.getWalkId()}" class="btn mt-2">View</a>
+							</li>
 						</c:if>
 					</c:forEach>
 				
