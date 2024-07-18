@@ -29,7 +29,7 @@
 					<h1 class="subtitle">Walk Details</h1>
 					<p>Status: ${walk.getStatus().toString()}</p>
 				</header>
-				<p>Location: ${walk.getLocation()} at ${walk.getDate()}</p>
+				<p>Location: ${walk.getLocation()} at ${walk.getFullDate()}</p>
 				<table class="temptable">
 					<c:if test="${walk.getWalker() != null}">
 						<c:if test="${walk.getWalkerId() != user.getId()}">

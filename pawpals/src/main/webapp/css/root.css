@@ -140,6 +140,11 @@ body {
 	color: var(--color-primary);
 }
 
+.message_error {
+	color: var(--color-error);
+	font-weight: var(--fw-semibold);
+}
+
 /* **************** */
 /* Utility Classes  */
 /* **************** */

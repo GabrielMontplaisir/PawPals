@@ -66,17 +66,20 @@ public class UserDao {
 			) {
 			stmt.setInt(1, userId);
 			ResultSet rs = stmt.executeQuery();
-			rs.next();
 			
-			user = new User(
-					userId, 
-					rs.getString(EMAIL_ADDRESS), 
-					rs.getString(FIRST_NAME), 
-					rs.getString(LAST_NAME), 
-					rs.getString(DATE_OF_BIRTH)
-			);
+			if (rs != null && rs.next()) {
+				user = new User(
+						userId, 
+						rs.getString(EMAIL_ADDRESS), 
+						rs.getString(FIRST_NAME), 
+						rs.getString(LAST_NAME), 
+						rs.getString(DATE_OF_BIRTH)
+				);
+			}
 			
-			rs.close();
+			user.setDogList(DogDao.dao.getDogsByOwner(userId));
+			
+			if (rs != null) rs.close();
 		} catch (SQLException e) {
 			DBUtil.processException(e);
 		} catch (ClassNotFoundException e) {
@@ -104,14 +107,17 @@ public class UserDao {
 			if (rs != null && rs.next()) {
 				HttpSession session = req.getSession();
 				
-				session.setAttribute("user", new User(
+				User user = new User(
 						rs.getInt(USER_ID), 
 						email, 
 						rs.getString(FIRST_NAME), 
 						rs.getString(LAST_NAME), 
 						rs.getDate(DATE_OF_BIRTH).toString()
-						)
-				);
+						);
+				
+				session.setAttribute("user", user);
+				
+				user.setDogList(DogDao.dao.getDogsByOwner(user.getId()));
 			}
 			
 			if (rs != null) rs.close();

@@ -28,18 +28,18 @@
 		<section class="container mt-2">
 			<h2 class="subtitle">${user.getFirstName()} ${user.getLastName()}</h2>
 		</section>
-		<h2 class="subtitle center my-2">Your Dogs</h2>
+		<h2 class="subtitle my-2">Your Dogs</h2>
 		<ul class="card_list">
 			<c:forEach var="dog" items="${dogs}">
 				<li class="card">
 				<header class="card_header">
-					<h4 class="card_title">${dog.getName()}</h4>
-					<a href="remove-dog?id=${dog.getDogId()}" class="error" title="Remove dog"><img src="${pageContext.request.contextPath}/assets/images/delete_24.svg" alt="Remove dog"></a>
+					<h4 class="card_title">${dog.value.getName()}</h4>
+					<a href="remove-dog?id=${dog.key}" class="error" title="Remove dog"><img src="${pageContext.request.contextPath}/assets/images/delete_24.svg" alt="Remove dog"></a>
 				</header>
 					
-					<p>Size: ${dog.getSize()}</p>
-					<p>Immunized: ${dog.isImmunized()}</p>
-					<p>Special Needs: ${dog.getSpecialNeeds()}</p>
+					<p>Size: ${dog.value.getSize()}</p>
+					<p>Immunized: ${dog.value.isImmunized()}</p>
+					<p>Special Needs: ${dog.value.getSpecialNeeds()}</p>
 				</li>					
 			</c:forEach>
 		</ul>

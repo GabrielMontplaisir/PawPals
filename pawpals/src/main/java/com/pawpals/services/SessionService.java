@@ -14,5 +14,12 @@ public class SessionService {
 		return user;
 	}
 	
+	public void showErrorMessage(HttpServletRequest req) {
+		if (req.getSession(false).getAttribute("message") != null) {
+			req.setAttribute("message", req.getSession(false).getAttribute("message"));
+			req.getSession(false).removeAttribute("message");
+		}
+	}
+	
 	
 }

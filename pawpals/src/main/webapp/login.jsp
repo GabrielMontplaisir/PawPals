@@ -26,7 +26,7 @@
 			<input id="submit" type="submit" name="submit" value="Log in" class="login_form_btn mt-2"/>
 		</form>
 		<p class="mt-2 center">Don't have an account? <a href="./register" class="login_link">Register Now</a></p>
-		<p class="login_error mt-2">${requestScope.message}</p>
+		<p class="message_error mt-2">${message}</p>
 	</main>
 	
 	<footer class="center">

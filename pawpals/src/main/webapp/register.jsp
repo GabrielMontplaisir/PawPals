@@ -36,7 +36,7 @@
 			<input id="submit" type="submit" name="submit" value="Register" class="login_form_btn mt-2"/>
 		</form>
 		<p class="mt-2 center">Already have an account? <a href="./login" class="login_link">Login Now</a></p>
-		<p class="login_error mt-2">${requestScope.message}</p>
+		<p class="message_error mt-2">${message}</p>
 		<p></p>
 	</main>
 	

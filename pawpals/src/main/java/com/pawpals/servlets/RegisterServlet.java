@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 
 import com.pawpals.beans.User;
 import com.pawpals.dao.UserDao;
-import com.pawpals.interfaces.AuthValidation;
+import com.pawpals.interfaces.Validation;
 import com.pawpals.services.SessionService;
 
 import javax.servlet.ServletException;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/register")
-public class RegisterServlet extends AuthValidation {
+public class RegisterServlet extends Validation {
 	private static final long serialVersionUID = 1L;
 	
 	@Override

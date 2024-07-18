@@ -1,5 +1,8 @@
 package com.pawpals.beans;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import com.pawpals.interfaces.WalkStatus;
 
 public class Walk {
@@ -26,7 +29,8 @@ public class Walk {
 	public int getWalkerId() {return walkerId;}
 	public int getWalkId() {return walkId;}
 	public int getOwnerId() {return ownerId;}
-	public String getDate() {return date;}
+	public String getFullDate() {return LocalDateTime.parse(date).format(DateTimeFormatter.ofPattern("E, MMM dd, yyyy 'at' HH:mm"));}
+	public String getShortDate() {return LocalDateTime.parse(date).format(DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm"));}
 	public String getLength() {return length;}
 	public User getOwner() {return owner;}
 	public User getWalker() {return walker;}

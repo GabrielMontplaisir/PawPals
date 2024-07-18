@@ -108,7 +108,6 @@ main header {
 .card_list {
 	display: flex;
 	gap: 1rem;
-	justify-content: center;
 }
 
 .card {
@@ -132,6 +131,13 @@ main header {
 	font-family: var(--ff-headings);
 	font-weight: var(--fw-bold);
 	text-align: center;
+}
+
+.card_details {
+	color: darkgray;
+	font-size: 0.85rem;
+	text-align: center;
+	margin-top: 0.5rem
 }
 
 /* ****************** */
