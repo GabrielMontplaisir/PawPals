@@ -15,16 +15,20 @@ public class WalkDogDao {
 	
 	private WalkDogDao() {}
 	
-	public void addDogToWalk(int walkId, int dogId) {
+	public void addDogsToWalk(int walkId,String[] dogIds) {
 		String sql = "INSERT INTO " + ApplicationDao.WALKDOGS_TABLE + " (" + WalkDao.WALK_ID + ", " + DogDao.DOG_ID + ") VALUES (?, ?);";
 		try (
 				Connection conn = DBConnection.getDBInstance(); 
-				PreparedStatement sqlAddDog = conn.prepareStatement(sql);
+				PreparedStatement stmt = conn.prepareStatement(sql);
 		) {
-			sqlAddDog.setInt(1, walkId);
-			sqlAddDog.setInt(2, dogId);
 			
-			sqlAddDog.execute();
+			for (String id: dogIds) {
+				stmt.setInt(1, walkId);
+				stmt.setInt(2, Integer.parseInt(id));
+				stmt.addBatch();
+			}
+
+			stmt.executeBatch();
 			
 		} catch (SQLException e) {
 			DBUtil.processException(e);
