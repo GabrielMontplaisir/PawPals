@@ -11,7 +11,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.pawpals.beans.*;
+import com.pawpals.beans.Walk;
 import com.pawpals.interfaces.WalkStatus;
 
 public class WalkDao {
@@ -135,8 +135,52 @@ public class WalkDao {
 	}
 
 	public List<Walk> getWalksByOwnerId(int ownerId) {
-		return getWalksBySwitchable(ownerId, OWNER_ID);
+	    List<Walk> userWalks = new ArrayList<>();
+	    String sql = "SELECT w.*, GROUP_CONCAT(d.name SEPARATOR ', ') AS dog_names, " +
+	                 "(SELECT COUNT(*) FROM walkoffers wo WHERE wo.walk_id = w.walk_id) AS offer_count " +
+	                 "FROM walks w " +
+	                 "JOIN walkdogs wd ON w.walk_id = wd.walk_id " +
+	                 "JOIN dogs d ON wd.dog_id = d.dog_id " +
+	                 "WHERE w.owner_id = ? " +
+	                 "GROUP BY w.walk_id";
+	    
+	    try (Connection conn = DBConnection.getDBInstance();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        
+	        stmt.setInt(1, ownerId);
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        while (rs.next()) {
+	            Walk walk = new Walk(
+	                rs.getInt("walk_id"),
+	                rs.getInt("status"),
+	                rs.getInt("owner_id"),
+	                rs.getString("start_time"),
+	                rs.getString("location"),
+	                rs.getString("length"),
+	                rs.getInt("walker_id")
+	            );
+	            walk.setDogNames(rs.getString("dog_names"));
+	            walk.setOfferCount(rs.getInt("offer_count"));
+	            
+	            if (walk.getWalkerId() > 0) {
+	                walk.setWalker(UserDao.dao.getUserById(walk.getWalkerId()));
+	            }
+	            
+	            userWalks.add(walk);
+	        }
+	        
+	        if (rs != null) rs.close();
+	        
+	    } catch (SQLException e) {
+	        DBUtil.processException(e);
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+	    return userWalks;
 	}
+
+	
 	public List<Walk> getWalksByWalkerId(int walkerId) {
 		return getWalksBySwitchable(walkerId, WALKER_ID);
 	}	

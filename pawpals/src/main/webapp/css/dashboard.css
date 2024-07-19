@@ -5,7 +5,7 @@
 /* ****************** */
 
 .dashboard {
-	background-color: var(--bg-offwhite);
+	background-image: url('../assets/images/PawPalsBackground.png');
 }
 
 /* ****************** */
@@ -138,6 +138,13 @@ main header {
 	font-size: 0.85rem;
 	text-align: center;
 	margin-top: 0.5rem
+}
+
+.card_footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
 }
 
 /* ****************** */

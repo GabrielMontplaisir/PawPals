@@ -12,7 +12,7 @@ main {
 /* ************************** */
 
 .login {
-	background: var(--bg-gradient);
+	background-image: url('../assets/images/PawPalsBackground.png');
 }
 
 .login_form_label {
