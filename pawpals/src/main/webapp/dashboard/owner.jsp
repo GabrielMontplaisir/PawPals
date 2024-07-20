@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 <title>PawPals | Create a Walk</title>
 </head>
-<body class="dashboard">
+<body class="background">
 	<jsp:include page="./components/header.jsp" />
 	<main>
 		<div class="flex">
@@ -106,7 +106,7 @@
 								<p class="card_details">${walk.getFullDate()}</p>
 								 <p>Dog(s): ${walk.dogNames}</p>
 								 <div class="card_footer">
-			                        <a href="./walkdetails?id=${walk.getWalkId()}" class="btn mt-2">View</a>
+			                        <a href="./walkdetails?id=${walk.getWalkId()}" class="btn">View</a>
 			                        <p class="offers">Offers: ${walk.getOfferCount()}</p>
 			                    </div>
 							</li>
@@ -128,7 +128,7 @@
 								</header>
 								<p class="card_details">${walk.getFullDate()}</p>
 								<p>Dog(s): ${walk.dogNames}</p>
-								<a href="./walkdetails?id=${walk.getWalkId()}" class="btn mt-2">View</a>
+								<a href="./walkdetails?id=${walk.getWalkId()}" class="btn">View</a>
 							</li>
 						</c:if>
 					</c:forEach>

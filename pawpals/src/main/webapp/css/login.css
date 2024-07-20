@@ -11,10 +11,6 @@ main {
 /* Login / Registration Form  */
 /* ************************** */
 
-.login {
-	background-image: url('../assets/images/PawPalsBackground.png');
-}
-
 .login_form_label {
 	display: block;
 	font-style: italic;
