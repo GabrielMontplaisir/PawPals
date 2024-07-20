@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/root.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 </head>
-<body class="dashboard">
+<body class="background">
 	<main class="center">
 		<h1 class="title">Oops. You found a 404 Error.</h1>
 		<p class="subtitle">We could not find the webpage you're looking for.</p>

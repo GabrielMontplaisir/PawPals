@@ -19,7 +19,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 	<title>PawPals | Walk Details</title>
 </head>
-<body class="dashboard">
+<body class="background">
 	<jsp:include page="./components/header.jsp" />
 	<main>
 		<a href="${user.isOwnerMode() ? './owner' : './walker'}" class="back_btn"> < Back to Dashboard</a>

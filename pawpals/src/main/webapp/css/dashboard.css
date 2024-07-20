@@ -1,12 +1,5 @@
 @charset "UTF-8";
 
-/* ****************** */
-/* Dashboard Classes  */
-/* ****************** */
-
-.dashboard {
-	background-image: url('../assets/images/PawPalsBackground.png');
-}
 
 /* ****************** */
 /* Navigation Bar     */
@@ -137,7 +130,7 @@ main header {
 	color: darkgray;
 	font-size: 0.85rem;
 	text-align: center;
-	margin-top: 0.5rem
+	margin-block: 0.5rem
 }
 
 .card_footer {
@@ -228,6 +221,7 @@ fieldset {
 
 .back_btn {
 	display: block;
+	font-weight: var(--fw-semibold);
 	color: var(--color-secondary);
 	margin-bottom: 1rem;
 	margin-left: 1rem;

@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/root.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css" type="text/css">
 </head>
-<body class="login">
+<body class="background">
 	<main>
 		<header>
 			<h1 class="title center">Log In to PawPals</h1>

@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 	<title>PawPals | Walker Dashboard</title>
 </head>
-<body class="dashboard">
+<body class="background">
 	<jsp:include page="./components/header.jsp" /> 
 	<main>
 		<h1 class="subtitle">Walker Dashboard</h1>
