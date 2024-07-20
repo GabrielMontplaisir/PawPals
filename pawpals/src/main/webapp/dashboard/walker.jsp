@@ -14,48 +14,68 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 	<title>PawPals | Walker Dashboard</title>
 </head>
-<body class="dashboard">
+<body class="background">
 	<jsp:include page="./components/header.jsp" /> 
 	<main>
 		<h1 class="subtitle">Walker Dashboard</h1>
 		<section>
-			<h2 class="subtitle">Find Walks</h2>
-			<c:if test="${walks != null}">
-				<ul class="walk_list">
-					<c:forEach var="walk" items="${walks}">
-						<li><a href="./walkdetails?id=${walk.getWalkId()}" class="walk_card"><span>Walk in ${walk.getLocation()} at ${walk.getDate()}</span><span class="ml-auto">${walk.getStatus().toString()}</span></a></li>
-					</c:forEach>
-				</ul>
-			</c:if>
+		    <h2 class="subtitle">Find Walks</h2>
+		    <c:if test="${walks != null}">
+		        <ul class="card_list">
+		            <c:forEach var="walk" items="${walks}">
+		                <li class="card">
+		                    <header class="card_header">
+		                        <h3 class="card_title">Walk in ${walk.getLocation()}</h3>
+		                        <p>${walk.getStatus().toString()}</p>
+		                    </header>
+		                    <p class="card_details">${walk.getFullDate()}</p>
+		                    <a href="./walkdetails?id=${walk.getWalkId()}" class="btn mt-2">View</a>
+		                </li>
+		            </c:forEach>
+		        </ul>
+		    </c:if>
+		</section>
+
+
+		<section>
+		    <h2 class="subtitle">Current Walks</h2>
+		    <c:if test="${userWalks != null}">
+		        <ul class="card_list">
+		            <c:forEach var="walk" items="${userWalks}">
+		                <c:if test="${!walk.isFinished()}">
+		                    <li class="card">
+		                        <header class="card_header">
+		                            <h3 class="card_title">Walk in ${walk.getLocation()}</h3>
+		                            <p>${walk.getStatus().toString()}</p>
+		                        </header>
+		                        <p class="card_details">${walk.getFullDate()}</p>
+		                        <a href="./walkdetails?id=${walk.getWalkId()}" class="btn mt-2">View</a>
+		                    </li>
+		                </c:if>
+		            </c:forEach>
+		        </ul>
+		    </c:if>
 		</section>
 
 		<section>
-			<h2 class="subtitle">Current Walks</h2>
-			<c:if test="${userWalks != null}">
-				<ul class="walk_list">
-					<c:forEach var="walk" items="${userWalks}">
-						<c:if test="${!walk.isFinished()}">
-							<li><a href="./walkdetails?id=${walk.getWalkId()}" class="walk_card"><span>Walk in ${walk.getLocation()} at ${walk.getDate()}</span><span class="ml-auto">${walk.getStatus().toString()}</span></a></li>
-						</c:if>
-					</c:forEach>
-				</ul>
-			</c:if>
+		    <h2 class="subtitle">Past Walks</h2>
+		    <c:if test="${userWalks != null}">
+		        <ul class="card_list">
+		            <c:forEach var="walk" items="${userWalks}">
+		                <c:if test="${walk.isFinished()}">
+		                    <li class="card">
+		                        <header class="card_header">
+		                            <h3 class="card_title">Walk in ${walk.getLocation()}</h3>
+		                            <p>${walk.getStatus().toString()}</p>
+		                        </header>
+		                        <p class="card_details">${walk.getFullDate()}</p>
+		                        <a href="./walkdetails?id=${walk.getWalkId()}" class="btn mt-2">View</a>
+		                    </li>
+		                </c:if>
+		            </c:forEach>
+		        </ul>
+		    </c:if>
 		</section>
-
-		<section>
-			<h2 class="subtitle">Past Walks</h2>
-			<c:if test="${userWalks != null}">
-				<ul class="walk_list">
-					<c:forEach var="walk" items="${userWalks}">
-						<c:if test="${walk.isFinished()}">
-							<li><a href="./walkdetails?id=${walk.getWalkId()}" class="walk_card"><span>Walk in ${walk.getLocation()} at ${walk.getDate()}</span><span class="ml-auto">${walk.getStatus().toString()}</span></a></li>
-						</c:if>
-					</c:forEach>
-				</ul>
-			</c:if>
-		</section>
-
-
 
 	</main>
 </body>

@@ -8,7 +8,7 @@ import com.pawpals.interfaces.WalkStatus;
 public class Walk {
 	private int walkId, ownerId, walkerId, offerCount;
 	private WalkStatus status;
-	private String date, location, length;
+	private String date, location, length, dogNames;
 	private User owner, walker;
 	
 	// Constructor
@@ -35,6 +35,7 @@ public class Walk {
 	public User getOwner() {return owner;}
 	public User getWalker() {return walker;}
 	public int getOfferCount() {return offerCount;}
+	public String getDogNames() { return dogNames; }
 	
 	public WalkStatus getStatus() {
 		return this.status;
@@ -55,6 +56,14 @@ public class Walk {
 
 	public void setLength(String length) {
 		this.length = length;
+	}
+	
+	 public void setOfferCount(int offerCount) { 
+		 this.offerCount = offerCount; 
+	}
+	
+	public void setDogNames(String dogNames) { 
+		this.dogNames = dogNames; 
 	}
 
 	public boolean isFinished() {

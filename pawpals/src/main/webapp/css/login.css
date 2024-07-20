@@ -11,10 +11,6 @@ main {
 /* Login / Registration Form  */
 /* ************************** */
 
-.login {
-	background: var(--bg-gradient);
-}
-
 .login_form_label {
 	display: block;
 	font-style: italic;

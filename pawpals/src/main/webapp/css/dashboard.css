@@ -1,12 +1,5 @@
 @charset "UTF-8";
 
-/* ****************** */
-/* Dashboard Classes  */
-/* ****************** */
-
-.dashboard {
-	background-color: var(--bg-offwhite);
-}
 
 /* ****************** */
 /* Navigation Bar     */
@@ -137,7 +130,14 @@ main header {
 	color: darkgray;
 	font-size: 0.85rem;
 	text-align: center;
-	margin-top: 0.5rem
+	margin-block: 0.5rem
+}
+
+.card_footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
 }
 
 /* ****************** */
@@ -221,6 +221,7 @@ fieldset {
 
 .back_btn {
 	display: block;
+	font-weight: var(--fw-semibold);
 	color: var(--color-secondary);
 	margin-bottom: 1rem;
 	margin-left: 1rem;

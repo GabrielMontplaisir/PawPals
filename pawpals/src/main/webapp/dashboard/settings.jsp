@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/root.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 </head>
-<body class="dashboard">
+<body class="background">
 	<jsp:include page="./components/header.jsp" /> 
 </body>
 </html>
