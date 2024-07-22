@@ -14,6 +14,7 @@ public class ApplicationDao {
 	public static final String WALKS_TABLE = "walks";
 	public static final String WALKDOGS_TABLE = "walkdogs";
 	public static final String WALKOFFERS_TABLE = "walkoffers";
+	public static final String NOTIFICATIONS_TABLE = "notifications";
 	
 	private ApplicationDao() {}
 	
@@ -162,6 +163,32 @@ public class ApplicationDao {
 						+ "FOREIGN KEY (walker_id) REFERENCES " + USERS_TABLE + "(user_id) ON DELETE CASCADE);";
 				stmt.executeUpdate(sql);
 				System.out.println("Created WalkOffers Table");
+			}
+		} catch (SQLException e) {
+			DBUtil.processException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void createNotificationsTable() {
+		try (
+				Connection conn = DBConnection.getDBInstance(); 
+				Statement stmt = conn.createStatement();
+			) {
+			if (!tableExists(conn, NOTIFICATIONS_TABLE)) {
+				System.out.print("Creating Notifications Table...");
+				String sql = "CREATE TABLE IF NOT EXISTS " + NOTIFICATIONS_TABLE + " ("
+						+ "notification_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+						+ "user_id INT NOT NULL, "
+						+ "title VARCHAR(100) NOT NULL, "
+						+ "description VARCHAR(1000) NOT NULL, "
+						+ "read_status BOOLEAN NOT NULL DEFAULT FALSE, "
+						+ "url VARCHAR(1000) NOT NULL, "
+						+ "datetime TIMESTAMP NOT NULL DEFAULT NOW(), "
+						+ "FOREIGN KEY (user_id) REFERENCES " + USERS_TABLE + "(user_id) ON DELETE CASCADE);";
+				stmt.executeUpdate(sql);
+				System.out.println("Created Notifications Table");
 			}
 		} catch (SQLException e) {
 			DBUtil.processException(e);
