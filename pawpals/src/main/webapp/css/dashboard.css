@@ -40,6 +40,63 @@
 	background-color: #3589C1;
 }
 
+/* ************************** */
+/* Notification Section       */
+/* ************************** */
+
+.notification_label {
+	display: block;
+	padding: 0.25rem;
+	margin-left: 0.5rem;
+	cursor: pointer;
+}
+
+.notification_container {
+	position: relative;
+}
+
+.notification_list {
+	display: none;
+	position:absolute;
+	bottom: 0;
+	right: 0;
+	min-width: 20rem;
+	transform: translate(100%, 100%);
+	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+	border-radius: 0.15rem;
+	background-color: white;
+	border: 1px solid black;
+	color: black;
+}
+
+.notification_container:has(.notification_btn:checked) .notification_list {
+	display: block;
+}
+
+.notification_title {
+	font-weight: var(--fw-bold);
+	border-bottom: 1px solid lightgray;
+	padding: 0.5rem;
+}
+
+.notification {
+	padding: 0.5rem;
+	font-size: 0.8rem;
+	cursor: pointer;
+	display: block;
+	text-decoration: none;
+	color: inherit;
+	border-bottom: 1px solid lightgray;
+}
+
+.notification:hover {
+	background-color: var(--bg-offwhite);
+}
+
+.notification_details {
+	color: gray;
+}
+
 /* ****************** */
 /* Main Section       */
 /* ****************** */

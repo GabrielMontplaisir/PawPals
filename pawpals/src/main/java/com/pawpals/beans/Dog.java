@@ -1,7 +1,8 @@
 package com.pawpals.beans;
 
 public class Dog {
-    private final int dogId, ownerId;
+    private int dogId;
+    private final int ownerId;
     private final String name, size, specialNeeds;
     private final boolean immunized;
     
@@ -24,4 +25,5 @@ public class Dog {
     public String getSize() {return size;}
     public String getSpecialNeeds() {return specialNeeds;}
     public boolean isImmunized() {return immunized;}
+    
 }
