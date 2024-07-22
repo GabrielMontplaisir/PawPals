@@ -43,7 +43,7 @@ public class LoginServlet extends Validation {
 		}
 		
 		
-		UserDao.dao.authenticateUser(req);
+		UserDao.getDao().authenticateUser(req);
 		
 		User user = SessionService.srv.getSessionUser(req);
 		if (user != null) {
@@ -67,12 +67,12 @@ public class LoginServlet extends Validation {
 			if (isEmpty(paramName)) {return paramName+" cannot be empty.";}
 			if (paramName.equals("email")) {
 				if (!paramValue.matches(emailRegEx)) return "Email is invalid.";
-				if (!UserDao.dao.userExists(paramValue)) return "Cannot find user with this email address.";
+				if (!UserDao.getDao().userExists(paramValue)) return "Cannot find user with this email address.";
 				email = paramValue;
 			}
 			
 			if (paramName.equals("password")) {
-				if (!UserDao.dao.passwordMatches(email, paramValue)) return "Email & Password do not match. Please try again.";
+				if (!UserDao.getDao().passwordMatches(email, paramValue)) return "Email & Password do not match. Please try again.";
 			}
 				
 		}

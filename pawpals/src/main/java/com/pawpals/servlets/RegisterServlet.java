@@ -44,7 +44,7 @@ public class RegisterServlet extends Validation {
 			return;
 		}
 		
-		UserDao.dao.createUser(req);
+		UserDao.getDao().createUser(req);
 		User user = SessionService.srv.getSessionUser(req);
 		if (user != null) {
 			resp.sendRedirect("./dashboard/profile");
@@ -66,7 +66,7 @@ public class RegisterServlet extends Validation {
 			if (isEmpty(paramName)) {return paramName+" cannot be empty.";}
 			if (paramName.equals("email")) {
 				if (!paramValue.matches(emailRegEx)) return "Email is invalid.";
-				if (UserDao.dao.userExists(paramValue)) return "User already exists. Please login using your email & password.";
+				if (UserDao.getDao().userExists(paramValue)) return "User already exists. Please login using your email & password.";
 			}
 				
 			if (paramName.equals("dob") && !meetsAgeReq(paramValue, 18)) {

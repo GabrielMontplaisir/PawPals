@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class UserDao {
-	public static final UserDao dao = new UserDao();
+	private static UserDao dao;
 	public static final String USER_ID = "user_id";
 	public static final String EMAIL_ADDRESS = "email_address";
 	public static final String FIRST_NAME = "first_name";
@@ -18,7 +18,12 @@ public class UserDao {
 	public static final String DATE_OF_BIRTH = "date_of_birth";
 	private final String PASSWORD = "password";
 	
-	private UserDao() {}	
+	private UserDao() {}
+	
+	public static synchronized UserDao getDao() {
+		if (dao == null) dao = new UserDao();
+		return dao;
+	}
 	
 	public void createUser(HttpServletRequest req) {
 		String email = req.getParameter("email");

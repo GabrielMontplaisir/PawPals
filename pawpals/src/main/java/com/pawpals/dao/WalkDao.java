@@ -124,7 +124,7 @@ public class WalkDao {
 						rs.getInt(WALKER_ID)
 				);
 				
-				if (walk.getWalkerId() > 0) walk.setWalker(UserDao.dao.getUserById(walk.getWalkerId()));
+				if (walk.getWalkerId() > 0) walk.setWalker(UserDao.getDao().getUserById(walk.getWalkerId()));
 				
 			};
 			
@@ -169,7 +169,7 @@ public class WalkDao {
 	            walk.setOfferCount(rs.getInt("offer_count"));
 	            
 	            if (walk.getWalkerId() > 0) {
-	                walk.setWalker(UserDao.dao.getUserById(walk.getWalkerId()));
+	                walk.setWalker(UserDao.getDao().getUserById(walk.getWalkerId()));
 	            }
 	            
 	            userWalks.add(walk);
