@@ -10,6 +10,8 @@ import java.util.List;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
 import com.pawpals.beans.WalkOffer;
+import com.pawpals.interfaces.WalkBuilder;
+import com.pawpals.interfaces.UserBuilder;
 
 public class WalkOfferDao {
 	private static WalkOfferDao dao;
@@ -32,23 +34,23 @@ public class WalkOfferDao {
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) {
-				Walk walk = new Walk(
-						rs.getInt(WalkDao.WALK_ID), 
-						rs.getInt(WalkDao.STATUS), 
-						rs.getInt(WalkDao.OWNER_ID), 
-						rs.getString(WalkDao.START_TIME), 
-						rs.getString(WalkDao.LOCATION), 
-						rs.getString(WalkDao.LENGTH), 
-						rs.getInt(WalkDao.WALKER_ID)
-						
-				);
-				User walkUser = new User(
-						rs.getInt(UserDao.USER_ID), 
-						rs.getString(UserDao.EMAIL_ADDRESS), 
-						rs.getString(UserDao.FIRST_NAME), 
-						rs.getString(UserDao.LAST_NAME), 
-						rs.getString(UserDao.DATE_OF_BIRTH)
-						);
+				Walk walk = new WalkBuilder()
+						.setWalkId(rs.getInt(WalkDao.WALK_ID))
+						.setStatus(rs.getInt(WalkDao.STATUS))
+						.setOwnerId(rs.getInt(WalkDao.OWNER_ID))
+						.setDate(rs.getString(WalkDao.START_TIME))
+						.setLocation(rs.getString(WalkDao.LOCATION))
+						.setLength(rs.getString(WalkDao.LENGTH))
+						.setWalkerId(rs.getInt(WalkDao.WALKER_ID))
+						.create();
+				
+				User walkUser = new UserBuilder()
+						.setUserId(rs.getInt(UserDao.USER_ID))
+						.setEmail(rs.getString(UserDao.EMAIL_ADDRESS))
+						.setFirstName(rs.getString(UserDao.FIRST_NAME))
+						.setLastName(rs.getString(UserDao.LAST_NAME)) 
+						.setDOB(rs.getString(UserDao.DATE_OF_BIRTH))
+						.create();
 						
 				WalkOffer walkOffer = new WalkOffer(
 						walk, 

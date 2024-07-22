@@ -12,6 +12,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.pawpals.beans.Walk;
+import com.pawpals.interfaces.WalkBuilder;
 import com.pawpals.interfaces.WalkStatus;
 
 public class WalkDao {
@@ -59,15 +60,15 @@ public class WalkDao {
 			ResultSet rs = stmt.getGeneratedKeys();
 			
 			if (rs != null && rs.next()) {
-				newWalk = new Walk(
-						rs.getInt(1), 
-						newStatus, 
-						ownerId, 
-						startTime, 
-						location, 
-						length, 
-						0
-				);
+				newWalk = new WalkBuilder()
+						.setWalkId(rs.getInt(1))
+						.setStatus(newStatus)
+						.setOwnerId(ownerId)
+						.setDate(startTime)
+						.setLocation(location)
+						.setLength(length)
+						.setWalkerId(0)
+						.create();
 			};
 			
 			if (rs != null) rs.close();
@@ -114,15 +115,15 @@ public class WalkDao {
 			ResultSet rs = stmt.executeQuery();
 			
 			if (rs.next()) {
-				walk = new Walk(
-						walkId, 
-						rs.getInt(STATUS), 
-						rs.getInt(OWNER_ID), 
-						rs.getString(START_TIME), 
-						rs.getString(LOCATION), 
-						rs.getString(LENGTH), 
-						rs.getInt(WALKER_ID)
-				);
+				walk = 	new WalkBuilder()
+							.setWalkId(walkId)
+							.setStatus(rs.getInt(STATUS))
+							.setOwnerId(rs.getInt(OWNER_ID))
+							.setDate(rs.getString(START_TIME))
+							.setLocation(rs.getString(LOCATION))
+							.setLength(rs.getString(LENGTH))
+							.setWalkerId(rs.getInt(WALKER_ID))
+							.create();
 				
 				if (walk.getWalkerId() > 0) walk.setWalker(UserDao.getDao().getUserById(walk.getWalkerId()));
 				
@@ -156,15 +157,16 @@ public class WalkDao {
 	        ResultSet rs = stmt.executeQuery();
 	        
 	        while (rs.next()) {
-	            Walk walk = new Walk(
-	                rs.getInt("walk_id"),
-	                rs.getInt("status"),
-	                rs.getInt("owner_id"),
-	                rs.getString("start_time"),
-	                rs.getString("location"),
-	                rs.getString("length"),
-	                rs.getInt("walker_id")
-	            );
+	            Walk walk = new WalkBuilder()
+						.setWalkId(rs.getInt(WALK_ID))
+						.setStatus(rs.getInt(STATUS))
+						.setOwnerId(rs.getInt(OWNER_ID))
+						.setDate(rs.getString(START_TIME))
+						.setLocation(rs.getString(LOCATION))
+						.setLength(rs.getString(LENGTH))
+						.setWalkerId(rs.getInt(WALKER_ID))
+						.create();
+	            
 	            walk.setDogNames(rs.getString("dog_names"));
 	            walk.setOfferCount(rs.getInt("offer_count"));
 	            
@@ -203,16 +205,15 @@ public class WalkDao {
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) {
-				userWalks.add(new Walk(
-						rs.getInt(WALK_ID), 
-						rs.getInt(STATUS), 
-						userId, 
-						rs.getString(START_TIME),
-						rs.getString(LOCATION), 
-						rs.getString(LENGTH), 
-						rs.getInt(WALKER_ID)
-						)
-				);
+				userWalks.add(new WalkBuilder()
+						.setWalkId(rs.getInt(WALK_ID))
+						.setStatus(rs.getInt(STATUS))
+						.setOwnerId(userId)
+						.setDate(rs.getString(START_TIME))
+						.setLocation(rs.getString(LOCATION))
+						.setLength(rs.getString(LENGTH))
+						.setWalkerId(rs.getInt(WALKER_ID))
+						.create());
 			}
 			
 			if (rs != null) rs.close();
@@ -242,16 +243,15 @@ public class WalkDao {
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {	
-				postedWalks.add(new Walk(
-						rs.getInt(WALK_ID), 
-						rs.getInt(STATUS), 
-						rs.getInt(OWNER_ID), 
-						rs.getString(START_TIME), 
-						rs.getString(LOCATION), 
-						rs.getString(LENGTH), 
-						rs.getInt(WALKER_ID)
-					)
-				);
+				postedWalks.add(new WalkBuilder()
+						.setWalkId(rs.getInt(WALK_ID))
+						.setStatus(rs.getInt(STATUS))
+						.setOwnerId(rs.getInt(OWNER_ID))
+						.setDate(rs.getString(START_TIME))
+						.setLocation(rs.getString(LOCATION))
+						.setLength(rs.getString(LENGTH))
+						.setWalkerId(rs.getInt(WALKER_ID))
+						.create());
 				
 				walkOffers.put(rs.getInt(WALK_ID), rs.getBoolean("OfferPending"));
 			}

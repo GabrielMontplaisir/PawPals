@@ -33,7 +33,7 @@ public class CancelWalkServlet extends HttpServlet {
         }
         
               
-        walk.setIntStatus(WalkStatus.CANCELLED.toInt());
+        walk.setStatus(WalkStatus.CANCELLED);
         WalkDao.getDao().cancel(walk.getWalkId());
         resp.sendRedirect("./owner");
     }
