@@ -15,7 +15,7 @@ import com.pawpals.beans.Walk;
 import com.pawpals.interfaces.WalkStatus;
 
 public class WalkDao {
-	public static final WalkDao dao = new WalkDao();
+	private static WalkDao dao;
 	public static final String WALK_ID = "walk_id";
 	public static final String STATUS = "status";
 	public static final String OWNER_ID = "owner_id";
@@ -26,6 +26,11 @@ public class WalkDao {
 	public static final String DECLINED = "declined";
 
 	private WalkDao() {}
+	
+	public static synchronized WalkDao getDao() {
+		if (dao == null) dao = new WalkDao();
+		return dao;
+	}
 
 	public Walk createWalk(int ownerId, HttpServletRequest req) {
         String startTime = req.getParameter("starttime");

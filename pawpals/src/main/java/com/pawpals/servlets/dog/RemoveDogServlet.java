@@ -28,14 +28,14 @@ public class RemoveDogServlet extends HttpServlet {
 		}
 		
 		int dogId = Integer.parseInt(req.getParameter("id"));
-		Dog dog = DogDao.dao.getDogById(dogId);
+		Dog dog = DogDao.getDao().getDogById(dogId);
 		
 		if (dog.getOwnerId() != user.getId()) {
 			throw new Error("Cannot delete dog which doesn't belong to you.");
 		}
 		
-		WalkDao.dao.deleteWalksNoDogFromID(dogId);
-		DogDao.dao.removeDog(dogId);
+		WalkDao.getDao().deleteWalksNoDogFromID(dogId);
+		DogDao.getDao().removeDog(dogId);
 		user.getDogList().remove(dogId);
 		
 		resp.sendRedirect("./profile");

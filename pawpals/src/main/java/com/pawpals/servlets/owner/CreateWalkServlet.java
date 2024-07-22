@@ -39,9 +39,9 @@ public class CreateWalkServlet extends Validation {
 		req.getSession(false).removeAttribute("message");
 		
 		String[] dogIds = req.getParameterValues("selecteddogs");
-        Walk newWalk = WalkDao.dao.createWalk(user.getId(), req);
+        Walk newWalk = WalkDao.getDao().createWalk(user.getId(), req);
         
-		WalkDogDao.dao.addDogsToWalk(newWalk.getWalkId(), dogIds);
+		WalkDogDao.getDao().addDogsToWalk(newWalk.getWalkId(), dogIds);
         	
         	
         resp.sendRedirect("./owner");

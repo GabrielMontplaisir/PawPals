@@ -24,7 +24,7 @@ public class CancelWalkServlet extends HttpServlet {
     	}
 
         int walkId = Integer.parseInt(req.getParameter("id"));
-        Walk walk = WalkDao.dao.getWalkById(walkId);
+        Walk walk = WalkDao.getDao().getWalkById(walkId);
 
         if (walk == null || walk.getOwnerId() != user.getId()) {
         	System.out.println("Error: Could not cancel walk. Walk not found or user not owner.");
@@ -34,7 +34,7 @@ public class CancelWalkServlet extends HttpServlet {
         
               
         walk.setIntStatus(WalkStatus.CANCELLED.toInt());
-        WalkDao.dao.cancel(walk.getWalkId());
+        WalkDao.getDao().cancel(walk.getWalkId());
         resp.sendRedirect("./owner");
     }
     

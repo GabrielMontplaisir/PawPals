@@ -14,7 +14,7 @@ import com.pawpals.beans.Dog;
 import com.pawpals.beans.User;
 
 public class DogDao {
-    public static final DogDao dao = new DogDao();
+    private static DogDao dao;
     public static final String DOG_ID = "dog_id";
     public static final String OWNER_ID = "owner_id";
     public static final String NAME = "name";
@@ -23,6 +23,11 @@ public class DogDao {
     public static final String IMMUNIZED = "immunized";
 
     private DogDao() {}
+    
+	public static synchronized DogDao getDao() {
+		if (dao == null) dao = new DogDao();
+		return dao;
+	}
     
     public Dog getDogById(int dogId) {
     	String sql = "SELECT * FROM " + ApplicationDao.DOGS_TABLE + " WHERE " + DOG_ID + " = ?";

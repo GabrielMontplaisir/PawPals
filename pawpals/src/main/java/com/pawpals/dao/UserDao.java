@@ -77,7 +77,7 @@ public class UserDao {
 				);
 			}
 			
-			user.setDogList(DogDao.dao.getDogsByOwner(userId));
+			user.setDogList(DogDao.getDao().getDogsByOwner(userId));
 			
 			if (rs != null) rs.close();
 		} catch (SQLException e) {
@@ -117,7 +117,7 @@ public class UserDao {
 				
 				session.setAttribute("user", user);
 				
-				user.setDogList(DogDao.dao.getDogsByOwner(user.getId()));
+				user.setDogList(DogDao.getDao().getDogsByOwner(user.getId()));
 			}
 			
 			if (rs != null) rs.close();

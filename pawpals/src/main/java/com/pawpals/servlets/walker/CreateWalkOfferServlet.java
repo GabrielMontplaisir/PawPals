@@ -24,7 +24,7 @@ public class CreateWalkOfferServlet extends HttpServlet {
     	}
     	
         int walkId = Integer.parseInt(req.getParameter("id"));
-        Walk walk =  WalkDao.dao.getWalkById(walkId);
+        Walk walk =  WalkDao.getDao().getWalkById(walkId);
         
         if (walk == null) {
         	System.out.println("Error: Could not offer services. Walk not found.");
@@ -32,7 +32,7 @@ public class CreateWalkOfferServlet extends HttpServlet {
             return;
         }
         
-        WalkOfferDao.dao.addWalkOffer(walkId, user.getId());
+        WalkOfferDao.getDao().addWalkOffer(walkId, user.getId());
         resp.sendRedirect("./walkdetails?id="+walkId);
     }
     

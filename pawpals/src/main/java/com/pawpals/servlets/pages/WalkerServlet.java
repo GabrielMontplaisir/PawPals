@@ -31,8 +31,8 @@ public class WalkerServlet extends HttpServlet {
 		user.setOwnerMode(false);
 		
 		HashMap<Integer, Boolean> walkOffers = new HashMap<>();
-		List<Walk> walks = (List<Walk>) WalkDao.dao.getWalksPostedForReceivingOffers(user.getId(), walkOffers);
-		List<Walk> userWalks = (List<Walk>) WalkDao.dao.getWalksByWalkerId(user.getId());
+		List<Walk> walks = (List<Walk>) WalkDao.getDao().getWalksPostedForReceivingOffers(user.getId(), walkOffers);
+		List<Walk> userWalks = (List<Walk>) WalkDao.getDao().getWalksByWalkerId(user.getId());
 		
 		req.setAttribute("walks", walks);		
 		req.setAttribute("walkOffers", walkOffers);

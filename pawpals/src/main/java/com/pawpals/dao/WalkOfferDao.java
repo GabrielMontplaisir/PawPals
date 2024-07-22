@@ -12,9 +12,14 @@ import com.pawpals.beans.Walk;
 import com.pawpals.beans.WalkOffer;
 
 public class WalkOfferDao {
-	public static final WalkOfferDao dao = new WalkOfferDao();
+	private static WalkOfferDao dao;
 	
 	private WalkOfferDao() {}
+	
+	public static synchronized WalkOfferDao getDao() {
+		if (dao == null) dao = new WalkOfferDao();
+		return dao;
+	}
 	
 	public List<WalkOffer> getWalkOffers(int walkId) {
 		ArrayList<WalkOffer> walkOffers = new ArrayList<>();

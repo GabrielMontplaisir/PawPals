@@ -23,7 +23,7 @@ public class AcceptWalkOffer extends HttpServlet {
     		return;
     	}
         int walkId = Integer.parseInt(req.getParameter("id"));
-        Walk walk =  WalkDao.dao.getWalkById(walkId);
+        Walk walk =  WalkDao.getDao().getWalkById(walkId);
         if (walk == null || walk.getOwnerId() != user.getId()) {
         	System.out.println("Error: Could not accept walker. Walk not found or user not owner.");
             resp.sendRedirect("./owner");
@@ -31,12 +31,12 @@ public class AcceptWalkOffer extends HttpServlet {
         }
         
         int walkerId = Integer.parseInt(req.getParameter("walker"));
-        if (!WalkOfferDao.dao.walkerOffered(walkId, walkerId)) {
+        if (!WalkOfferDao.getDao().walkerOffered(walkId, walkerId)) {
         	System.out.println("Error: Could not accept walker. Walker did not apply.");
         	return;
         }
         
-        WalkDao.dao.acceptWalkOffer(walkId, walkerId);
+        WalkDao.getDao().acceptWalkOffer(walkId, walkerId);
         resp.sendRedirect("./walkdetails?id="+walkId);
     }
     

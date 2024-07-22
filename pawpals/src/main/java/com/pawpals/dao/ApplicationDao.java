@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 
 public class ApplicationDao {
-	public static final ApplicationDao dao = new ApplicationDao();
+	private static ApplicationDao dao;
 	public static final String DB_NAME = "pawpals";
 	public static final String USERS_TABLE = "users";
 	public static final String DOGS_TABLE = "dogs";
@@ -16,6 +16,11 @@ public class ApplicationDao {
 	public static final String WALKOFFERS_TABLE = "walkoffers";
 	
 	private ApplicationDao() {}
+	
+	public static synchronized ApplicationDao getDao() {
+		if (dao == null) dao = new ApplicationDao();
+		return dao;
+	}
 	
 	public static void createDatabase() {		
 		try (
