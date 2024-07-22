@@ -1,6 +1,7 @@
 package com.pawpals.beans;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ public class User {
 	private final LocalDate dob;
 	private boolean isOwnerMode = false;
 	private Map<Integer, Dog> dogList = new HashMap<>();
+	private ArrayList<Notification> notificationList = new ArrayList<>();
 	
 	// Constructor
 	
@@ -30,6 +32,7 @@ public class User {
 	public LocalDate getDob() {return dob;}
 	public boolean isOwnerMode() {return isOwnerMode;}
 	public Map<Integer, Dog> getDogList() {return dogList;}
+	public ArrayList<Notification> getNotifications() {return notificationList;}
 	
 	// Setter Methods
 	
@@ -39,6 +42,10 @@ public class User {
 	
 	public void setDogList(Map<Integer, Dog> dogList) {
 		this.dogList = dogList;
+	}
+	
+	public void setNotificationList(ArrayList<Notification> notificationList) {
+		this.notificationList = notificationList;
 	}
 	
 }

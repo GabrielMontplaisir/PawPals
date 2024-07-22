@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import com.pawpals.beans.User;
+import com.pawpals.interfaces.UserBuilder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -50,7 +52,13 @@ public class UserDao {
     		
     		if (rs != null && rs.next()) {
     			HttpSession session = req.getSession();
-    			session.setAttribute("user", new User(rs.getInt(1), email, firstName, lastName, dob));
+    			session.setAttribute("user", new UserBuilder()
+    					.setUserId(rs.getInt(1))
+    					.setEmail(email)
+    					.setFirstName(firstName)
+    					.setLastName(lastName)
+    					.setDOB(dob)
+    					.create());
     		}
     		
     		if (rs != null) rs.close();
@@ -73,14 +81,14 @@ public class UserDao {
 			ResultSet rs = stmt.executeQuery();
 			
 			if (rs != null && rs.next()) {
-				user = new User(
-						userId, 
-						rs.getString(EMAIL_ADDRESS), 
-						rs.getString(FIRST_NAME), 
-						rs.getString(LAST_NAME), 
-						rs.getString(DATE_OF_BIRTH)
-				);
-			}
+				user = new UserBuilder()
+						.setUserId(userId)
+						.setEmail(rs.getString(EMAIL_ADDRESS))
+						.setFirstName(rs.getString(FIRST_NAME))
+						.setLastName(rs.getString(LAST_NAME))
+						.setDOB(rs.getString(DATE_OF_BIRTH))
+						.create();
+				}
 			
 			user.setDogList(DogDao.getDao().getDogsByOwner(userId));
 			
@@ -112,17 +120,18 @@ public class UserDao {
 			if (rs != null && rs.next()) {
 				HttpSession session = req.getSession();
 				
-				User user = new User(
-						rs.getInt(USER_ID), 
-						email, 
-						rs.getString(FIRST_NAME), 
-						rs.getString(LAST_NAME), 
-						rs.getDate(DATE_OF_BIRTH).toString()
-						);
+				User user = new UserBuilder()
+						.setUserId(rs.getInt(USER_ID))
+						.setEmail(email)
+						.setFirstName(rs.getString(FIRST_NAME))
+						.setLastName(rs.getString(LAST_NAME))
+						.setDOB(rs.getDate(DATE_OF_BIRTH).toString())
+						.create();
 				
 				session.setAttribute("user", user);
 				
 				user.setDogList(DogDao.getDao().getDogsByOwner(user.getId()));
+				user.setNotificationList(NotificationDao.getDao().getNotificationsByUser(user.getId()));
 			}
 			
 			if (rs != null) rs.close();
