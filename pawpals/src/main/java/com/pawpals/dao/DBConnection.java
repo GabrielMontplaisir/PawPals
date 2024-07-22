@@ -18,6 +18,7 @@ public class DBConnection {
 		ApplicationDao.getDao().createWalksTable();
 		ApplicationDao.getDao().createWalkOffersTable();
 		ApplicationDao.getDao().createWalkDogsTable();
+		ApplicationDao.getDao().createNotificationsTable();
 	}	
 	
     public static Connection getDBInstance() throws ClassNotFoundException {
