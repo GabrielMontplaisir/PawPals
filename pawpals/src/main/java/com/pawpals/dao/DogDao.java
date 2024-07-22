@@ -10,11 +10,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pawpals.interfaces.DogBuilder;
 import com.pawpals.beans.Dog;
-import com.pawpals.beans.User;
 
 public class DogDao {
-    public static final DogDao dao = new DogDao();
+    private static DogDao dao;
     public static final String DOG_ID = "dog_id";
     public static final String OWNER_ID = "owner_id";
     public static final String NAME = "name";
@@ -23,6 +23,11 @@ public class DogDao {
     public static final String IMMUNIZED = "immunized";
 
     private DogDao() {}
+    
+	public static synchronized DogDao getDao() {
+		if (dao == null) dao = new DogDao();
+		return dao;
+	}
     
     public Dog getDogById(int dogId) {
     	String sql = "SELECT * FROM " + ApplicationDao.DOGS_TABLE + " WHERE " + DOG_ID + " = ?";
@@ -34,14 +39,14 @@ public class DogDao {
             ResultSet rs = stmt.executeQuery();
             rs.next();
             
-            Dog dog = new Dog(
-            		dogId, 
-            		rs.getInt(OWNER_ID), 
-            		rs.getString(NAME), 
-            		rs.getString(SIZE), 
-            		rs.getString(SPECIAL_NEEDS), 
-            		rs.getBoolean(IMMUNIZED)
-            );
+            Dog dog = new DogBuilder()
+            		.setDogId(dogId)
+            		.setOwnerId(rs.getInt(OWNER_ID))
+            		.setName(rs.getString(NAME)) 
+            		.setSize(rs.getString(SIZE)) 
+            		.setSpecialNeeds(rs.getString(SPECIAL_NEEDS)) 
+            		.setImmunized(rs.getBoolean(IMMUNIZED))
+					.create();
             
             rs.close();
             
@@ -55,18 +60,20 @@ public class DogDao {
     	return null;
     }
 
-    public void addDog(User user, HttpServletRequest req) {
-        String name = req.getParameter("name");
-        String size = req.getParameter("size");
-        String specialNeeds = req.getParameter("specialneeds");
-        boolean immunized = req.getParameter("immunized") != null;
+    public Dog addDog(int userId, HttpServletRequest req) {
+    	Dog dog = null;
+    	String name = req.getParameter("name");
+    	String size = req.getParameter("size");
+    	String specialNeeds = req.getParameter("specialneeds");
+    	boolean immunized = req.getParameter("immunized") != null;
+
         String sql = "INSERT INTO " + ApplicationDao.DOGS_TABLE + " (" + OWNER_ID + "," + NAME + "," + SIZE + "," + SPECIAL_NEEDS + "," + IMMUNIZED + ") VALUES (?, ?, ?, ?, ?)";
 
         try (
                 Connection conn = DBConnection.getDBInstance();
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ) {
-            stmt.setInt(1, user.getId());
+            stmt.setInt(1, userId);
             stmt.setString(2, name);
             stmt.setString(3, size);
             stmt.setString(4, specialNeeds);
@@ -77,16 +84,14 @@ public class DogDao {
             ResultSet rs = stmt.getGeneratedKeys();
             
             if (rs != null && rs.next()) {
-            	Dog dog = new Dog(
-            			rs.getInt(1),
-            			user.getId(),
-            			name,
-            			size,
-            			specialNeeds,
-            			immunized
-            	);
-            	
-            	user.getDogList().put(rs.getInt(1), dog);
+            	dog = new DogBuilder()
+            		.setDogId(rs.getInt(1))
+	        		.setOwnerId(userId)
+	        		.setName(name) 
+	        		.setSize(size) 
+	        		.setSpecialNeeds(specialNeeds) 
+	        		.setImmunized(immunized)
+					.create();
             }
             
             if (rs != null) rs.close();
@@ -96,6 +101,8 @@ public class DogDao {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        
+        return dog;
     }
 
     public Map<Integer, Dog> getDogsByOwner(int userId) {
@@ -111,14 +118,14 @@ public class DogDao {
             ResultSet rs = stmt.executeQuery();
 
             while (rs != null && rs.next()) {
-                Dog dog = new Dog(
-                    rs.getInt(DOG_ID),
-                    rs.getInt(OWNER_ID),
-                    rs.getString(NAME),
-                    rs.getString(SIZE),
-                    rs.getString(SPECIAL_NEEDS),
-                    rs.getBoolean(IMMUNIZED)
-                );
+                Dog dog = new DogBuilder()
+                		.setDogId(rs.getInt(DOG_ID))
+                		.setOwnerId(rs.getInt(OWNER_ID))
+                		.setName(rs.getString(NAME)) 
+                		.setSize(rs.getString(SIZE)) 
+                		.setSpecialNeeds(rs.getString(SPECIAL_NEEDS)) 
+                		.setImmunized(rs.getBoolean(IMMUNIZED))
+    					.create();
                 
                 dogs.put(dog.getDogId(), dog);
             }

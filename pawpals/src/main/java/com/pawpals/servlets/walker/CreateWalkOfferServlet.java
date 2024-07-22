@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.pawpals.beans.*;
+import com.pawpals.dao.NotificationDao;
 import com.pawpals.dao.WalkDao;
 import com.pawpals.dao.WalkOfferDao;
+import com.pawpals.interfaces.NotificationBuilder;
 import com.pawpals.services.*;
 
 @WebServlet("/dashboard/create-offer")
@@ -24,7 +26,7 @@ public class CreateWalkOfferServlet extends HttpServlet {
     	}
     	
         int walkId = Integer.parseInt(req.getParameter("id"));
-        Walk walk =  WalkDao.dao.getWalkById(walkId);
+        Walk walk =  WalkDao.getDao().getWalkById(walkId);
         
         if (walk == null) {
         	System.out.println("Error: Could not offer services. Walk not found.");
@@ -32,7 +34,14 @@ public class CreateWalkOfferServlet extends HttpServlet {
             return;
         }
         
-        WalkOfferDao.dao.addWalkOffer(walkId, user.getId());
+        WalkOfferDao.getDao().addWalkOffer(walkId, user.getId());
+        NotificationDao.getDao().createNotificationForUser(new NotificationBuilder()
+        		.setUserId(walk.getOwnerId())
+        		.setTitle(user.getFirstName()+" "+user.getLastName()+" offered their services for your walk.")
+        		.setDescription("Walk in "+walk.getLocation()+" on "+walk.getShortDate())
+        		.setReadStatus(false)
+        		.setUrl(req.getContextPath()+"/dashboard/walkdetails?id="+walkId)
+        		.create());
         resp.sendRedirect("./walkdetails?id="+walkId);
     }
     

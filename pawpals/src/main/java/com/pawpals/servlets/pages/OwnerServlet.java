@@ -36,7 +36,7 @@ public class OwnerServlet extends HttpServlet {
 		user.setOwnerMode(true);
 		
 		Map<Integer, Dog> dogs = user.getDogList();
-		List<Walk> walks = WalkDao.dao.getWalksByOwnerId(user.getId());
+		List<Walk> walks = WalkDao.getDao().getWalksByOwnerId(user.getId());
 		
 		req.setAttribute("dogs", dogs);
 		req.setAttribute("walks", walks);

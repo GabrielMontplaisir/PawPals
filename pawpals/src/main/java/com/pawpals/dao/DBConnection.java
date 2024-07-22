@@ -13,11 +13,12 @@ public class DBConnection {
 		if (initializedDB) { return; }
 		initializedDB = true;
 		ApplicationDao.createDatabase();
-		ApplicationDao.dao.createUserTable();
-		ApplicationDao.dao.createDogsTable();
-		ApplicationDao.dao.createWalksTable();
-		ApplicationDao.dao.createWalkOffersTable();
-		ApplicationDao.dao.createWalkDogsTable();
+		ApplicationDao.getDao().createUserTable();
+		ApplicationDao.getDao().createDogsTable();
+		ApplicationDao.getDao().createWalksTable();
+		ApplicationDao.getDao().createWalkOffersTable();
+		ApplicationDao.getDao().createWalkDogsTable();
+		ApplicationDao.getDao().createNotificationsTable();
 	}	
 	
     public static Connection getDBInstance() throws ClassNotFoundException {

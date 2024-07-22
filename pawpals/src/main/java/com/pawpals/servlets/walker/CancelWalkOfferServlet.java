@@ -25,14 +25,14 @@ public class CancelWalkOfferServlet extends HttpServlet {
     	
         int walkId = Integer.parseInt(req.getParameter("id"));
         
-        Walk walk =  WalkDao.dao.getWalkById(walkId);
+        Walk walk =  WalkDao.getDao().getWalkById(walkId);
         
         if (walk == null) {
         	System.out.println("Error: Could not cancel services. Walk not found.");
         	resp.sendRedirect("./walker");
             return;
         }
-        WalkOfferDao.dao.cancelWalkOffer(walkId, user.getId());
+        WalkOfferDao.getDao().cancelWalkOffer(walkId, user.getId());
         resp.sendRedirect("./walkdetails?id="+walkId);
     }
     

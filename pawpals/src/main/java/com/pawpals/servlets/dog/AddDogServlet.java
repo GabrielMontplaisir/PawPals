@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import com.pawpals.beans.Dog;
 import com.pawpals.beans.User;
 import com.pawpals.dao.DogDao;
 import com.pawpals.services.SessionService;
@@ -21,7 +23,9 @@ public class AddDogServlet extends HttpServlet {
     		return;
     	}
 
-    	DogDao.dao.addDog(user, req);
+    	Dog newDog = DogDao.getDao().addDog(user.getId(), req);
+    	
+    	user.getDogList().put(newDog.getDogId(), newDog);
         resp.sendRedirect("./owner");
         
     }

@@ -13,12 +13,13 @@ public class Walk {
 	
 	// Constructor
 	
-	public Walk(int walkId, int intStatus, int ownerId, String date, String location, String length, int walkerId) {
+	public Walk(int walkId, WalkStatus status, int ownerId, String date, String location, String length, int walkerId) {
 		this.walkId = walkId;
-		this.status = WalkStatus.fromInt(intStatus);
+		this.status = status;
 		this.ownerId = ownerId;
 		this.date = date;
 		this.location = location;
+		this.length = length;
 		this.walkerId = walkerId;
 	}
 	
@@ -36,44 +37,27 @@ public class Walk {
 	public User getWalker() {return walker;}
 	public int getOfferCount() {return offerCount;}
 	public String getDogNames() { return dogNames; }
-	
-	public WalkStatus getStatus() {
-		return this.status;
-	}
-	
-	// Setter Methods
-		
-	public void setStatus(WalkStatus status) {
-		this.status = status;
-	}
-	public void setIntStatus(int intStatus) {
-		this.status = WalkStatus.fromInt(intStatus);
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public void setLength(String length) {
-		this.length = length;
-	}
-	
-	 public void setOfferCount(int offerCount) { 
-		 this.offerCount = offerCount; 
-	}
-	
-	public void setDogNames(String dogNames) { 
-		this.dogNames = dogNames; 
-	}
+	public WalkStatus getStatus() {return this.status;}
 
 	public boolean isFinished() {
 		return this.status == WalkStatus.CANCELLED || this.status == WalkStatus.WALKER_COMPLETED;
+	}
+	
+	public void setOfferCount(int offerCount) {
+		this.offerCount = offerCount;
+	}
+	
+	public void setDogNames(String dogNames) {
+		this.dogNames = dogNames;
 	}
 	
 	public void setWalker(User walker) {
 		this.walker = walker;
 	}
 	
+	public void setStatus(WalkStatus status) {
+		this.status = status;
+	}
 	
 	
 

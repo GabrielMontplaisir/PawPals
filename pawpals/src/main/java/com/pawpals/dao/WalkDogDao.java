@@ -10,10 +10,15 @@ import java.util.List;
 import com.pawpals.beans.Dog;
 
 public class WalkDogDao {
-	public static final WalkDogDao dao = new WalkDogDao();
+	private static WalkDogDao dao;
 	public static final String ID = "id";
 	
 	private WalkDogDao() {}
+	
+	public static synchronized WalkDogDao getDao() {
+		if (dao == null) dao = new WalkDogDao();
+		return dao;
+	}
 	
 	public void addDogsToWalk(int walkId,String[] dogIds) {
 		String sql = "INSERT INTO " + ApplicationDao.WALKDOGS_TABLE + " (" + WalkDao.WALK_ID + ", " + DogDao.DOG_ID + ") VALUES (?, ?);";

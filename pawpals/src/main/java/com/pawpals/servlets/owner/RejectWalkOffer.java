@@ -23,7 +23,7 @@ public class RejectWalkOffer extends HttpServlet {
     		return;
     	}
         int walkId = Integer.parseInt(req.getParameter("id"));
-        Walk walk =  WalkDao.dao.getWalkById(walkId);
+        Walk walk =  WalkDao.getDao().getWalkById(walkId);
         if (walk == null || walk.getOwnerId() != user.getId()) {
         	System.out.println("Error: Could not reject walker. Walk not found or user not owner.");
             resp.sendRedirect("./owner");
@@ -31,12 +31,12 @@ public class RejectWalkOffer extends HttpServlet {
         }
         
         int walkerId = Integer.parseInt(req.getParameter("walker"));
-        if (!WalkOfferDao.dao.walkerOffered(walkId, walkerId)) {
+        if (!WalkOfferDao.getDao().walkerOffered(walkId, walkerId)) {
         	System.out.println("Error: Could not reject walker. Walker did not apply.");
         	return;
         }
         
-        WalkOfferDao.dao.rejectWalkOffer(walkId, walkerId);
+        WalkOfferDao.getDao().rejectWalkOffer(walkId, walkerId);
         resp.sendRedirect("./walkdetails?id="+walkId);
     }
     

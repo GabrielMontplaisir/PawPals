@@ -6,11 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import com.pawpals.beans.User;
+import com.pawpals.interfaces.UserBuilder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class UserDao {
-	public static final UserDao dao = new UserDao();
+	private static UserDao dao;
 	public static final String USER_ID = "user_id";
 	public static final String EMAIL_ADDRESS = "email_address";
 	public static final String FIRST_NAME = "first_name";
@@ -18,7 +20,12 @@ public class UserDao {
 	public static final String DATE_OF_BIRTH = "date_of_birth";
 	private final String PASSWORD = "password";
 	
-	private UserDao() {}	
+	private UserDao() {}
+	
+	public static synchronized UserDao getDao() {
+		if (dao == null) dao = new UserDao();
+		return dao;
+	}
 	
 	public void createUser(HttpServletRequest req) {
 		String email = req.getParameter("email");
@@ -45,7 +52,13 @@ public class UserDao {
     		
     		if (rs != null && rs.next()) {
     			HttpSession session = req.getSession();
-    			session.setAttribute("user", new User(rs.getInt(1), email, firstName, lastName, dob));
+    			session.setAttribute("user", new UserBuilder()
+    					.setUserId(rs.getInt(1))
+    					.setEmail(email)
+    					.setFirstName(firstName)
+    					.setLastName(lastName)
+    					.setDOB(dob)
+    					.create());
     		}
     		
     		if (rs != null) rs.close();
@@ -68,16 +81,16 @@ public class UserDao {
 			ResultSet rs = stmt.executeQuery();
 			
 			if (rs != null && rs.next()) {
-				user = new User(
-						userId, 
-						rs.getString(EMAIL_ADDRESS), 
-						rs.getString(FIRST_NAME), 
-						rs.getString(LAST_NAME), 
-						rs.getString(DATE_OF_BIRTH)
-				);
-			}
+				user = new UserBuilder()
+						.setUserId(userId)
+						.setEmail(rs.getString(EMAIL_ADDRESS))
+						.setFirstName(rs.getString(FIRST_NAME))
+						.setLastName(rs.getString(LAST_NAME))
+						.setDOB(rs.getString(DATE_OF_BIRTH))
+						.create();
+				}
 			
-			user.setDogList(DogDao.dao.getDogsByOwner(userId));
+			user.setDogList(DogDao.getDao().getDogsByOwner(userId));
 			
 			if (rs != null) rs.close();
 		} catch (SQLException e) {
@@ -107,17 +120,18 @@ public class UserDao {
 			if (rs != null && rs.next()) {
 				HttpSession session = req.getSession();
 				
-				User user = new User(
-						rs.getInt(USER_ID), 
-						email, 
-						rs.getString(FIRST_NAME), 
-						rs.getString(LAST_NAME), 
-						rs.getDate(DATE_OF_BIRTH).toString()
-						);
+				User user = new UserBuilder()
+						.setUserId(rs.getInt(USER_ID))
+						.setEmail(email)
+						.setFirstName(rs.getString(FIRST_NAME))
+						.setLastName(rs.getString(LAST_NAME))
+						.setDOB(rs.getDate(DATE_OF_BIRTH).toString())
+						.create();
 				
 				session.setAttribute("user", user);
 				
-				user.setDogList(DogDao.dao.getDogsByOwner(user.getId()));
+				user.setDogList(DogDao.getDao().getDogsByOwner(user.getId()));
+				user.setNotificationList(NotificationDao.getDao().getNotificationsByUser(user.getId()));
 			}
 			
 			if (rs != null) rs.close();

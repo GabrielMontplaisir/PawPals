@@ -6,7 +6,26 @@
 	<header class="dashboard_header">
 		<h2><a href="./profile">PawPals</a></h2>
 		<p class="welcome_msg">Welcome ${user.getFirstName()}!</p>
-		
+		<div class="notification_container">
+		<label class="notification_label"><input type="checkbox" class="notification_btn" hidden><img src="../assets/images/notification_24.svg" alt="user notifications"></label>
+			<div class="notification_list">
+				<h3 class="notification_title">Your Notifications</h3>
+				<c:if test="${user.getNotifications().size() > 0}">
+					<c:forEach var="notification" items="${user.getNotifications()}">
+						<a href="${notification.getUrl()}" class="notification">
+							<p>${notification.getTitle()}</p>
+							<p class="notification_details">${notification.getDescription()}</p>
+							<p class="right">${notification.getDateTime()}</p>
+						</a>
+						
+					</c:forEach>
+				</c:if>
+				<c:if test="${user.getNotifications().size() == 0}">
+					<li class="notification_details center my-2">No new notifications</li>
+				</c:if>				
+			</div>
+		</div>
+
 		<nav>
 			<c:if test="${!fn:contains(pageContext.request.requestURI, '/profile') && !fn:contains(pageContext.request.requestURI, '/settings')}">
 				<c:if test="${!user.isOwnerMode()}">

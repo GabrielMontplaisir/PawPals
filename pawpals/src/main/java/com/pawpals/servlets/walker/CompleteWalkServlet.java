@@ -24,7 +24,7 @@ public class CompleteWalkServlet extends HttpServlet {
     	}
 
         int walkId = Integer.parseInt(req.getParameter("id"));
-        Walk walk = WalkDao.dao.getWalkById(walkId);
+        Walk walk = WalkDao.getDao().getWalkById(walkId);
 
         if (walk == null || walk.getWalkerId() != user.getId()) {
         	System.out.println("Error: Could not complete walk. Walk not found or user not walker.");
@@ -34,7 +34,7 @@ public class CompleteWalkServlet extends HttpServlet {
         
               
         walk.setStatus(WalkStatus.WALKER_COMPLETED);
-        WalkDao.dao.setStatus(walk.getWalkId(), walk.getStatus());
+        WalkDao.getDao().setStatus(walk.getWalkId(), walk.getStatus());
         resp.sendRedirect("./walkdetails?id="+walkId);
     }
     

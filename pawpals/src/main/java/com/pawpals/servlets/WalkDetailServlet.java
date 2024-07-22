@@ -38,7 +38,7 @@ public class WalkDetailServlet extends HttpServlet {
     		return; 
     	}
     	
-    	Walk walk = WalkDao.dao.getWalkById(walkId);
+    	Walk walk = WalkDao.getDao().getWalkById(walkId);
     	if ( walk == null )  { 
     		resp.sendRedirect("../404.jsp");
     		return; 
@@ -48,9 +48,9 @@ public class WalkDetailServlet extends HttpServlet {
 //    		 resp.sendRedirect("./profile.jsp"); return;
 //    	}
     	
-    	List<Dog> dogs = WalkDogDao.dao.getWalkDogs(walkId);
-    	List<WalkOffer> offers = WalkOfferDao.dao.getWalkOffers(walkId);
-    	boolean walkOffered = WalkOfferDao.dao.walkerOffered(walkId, user.getId());
+    	List<Dog> dogs = WalkDogDao.getDao().getWalkDogs(walkId);
+    	List<WalkOffer> offers = WalkOfferDao.getDao().getWalkOffers(walkId);
+    	boolean walkOffered = WalkOfferDao.getDao().walkerOffered(walkId, user.getId());
     	 	
     	req.setAttribute("walk", walk);
     	req.setAttribute("dogs", dogs);
