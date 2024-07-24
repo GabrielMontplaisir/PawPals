@@ -1,4 +1,4 @@
-package com.pawpals.interfaces;
+package com.pawpals.libs;
 
 import java.util.Map;
 
