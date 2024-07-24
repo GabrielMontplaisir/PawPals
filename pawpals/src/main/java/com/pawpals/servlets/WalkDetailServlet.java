@@ -7,12 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import com.pawpals.beans.*;
 import com.pawpals.dao.WalkDao;
 import com.pawpals.dao.WalkDogDao;
 import com.pawpals.dao.WalkOfferDao;
-import com.pawpals.services.*;
+import com.pawpals.libs.services.*;
 
 @WebServlet("/dashboard/walkdetails")
 public class WalkDetailServlet extends HttpServlet {
@@ -38,7 +39,18 @@ public class WalkDetailServlet extends HttpServlet {
     		return; 
     	}
     	
-    	Walk walk = WalkDao.getDao().getWalkById(walkId);
+		Walk temp = WalkDao.getDao().getWalkById(walkId);
+    	
+    	Walk walk;
+    	if (user.getWalkList().containsKey(walkId)) {
+    		walk = replaceWalk(temp, user.getWalkList(), walkId);
+    	} else if (user.getCachedWalks().containsKey(walkId)) {
+    		walk = replaceWalk(temp, user.getCachedWalks(), walkId);
+    	} else {
+    		user.getCachedWalks().put(temp.getWalkId(), temp);
+    		walk = temp;
+    	}
+    	
     	if ( walk == null )  { 
     		resp.sendRedirect("../404.jsp");
     		return; 
@@ -58,6 +70,16 @@ public class WalkDetailServlet extends HttpServlet {
     	req.setAttribute("offer", walkOffered);
     	
     	req.getRequestDispatcher("walk-detail.jsp").forward(req, resp);
+    }
+    
+    private Walk replaceWalk(Walk temp, Map<Integer, Walk> list, int walkId) {
+    	Walk walk = list.get(walkId);
+    	if (temp.compareTo(walk) != 0) {
+    		walk = temp;
+    		list.replace(walk.getWalkId(), walk);
+    	}
+    	
+    	return walk;
     }
     
 }
