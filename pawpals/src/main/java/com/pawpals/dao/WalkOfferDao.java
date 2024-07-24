@@ -10,8 +10,8 @@ import java.util.List;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
 import com.pawpals.beans.WalkOffer;
-import com.pawpals.interfaces.WalkBuilder;
-import com.pawpals.interfaces.UserBuilder;
+import com.pawpals.libs.builders.UserBuilder;
+import com.pawpals.libs.builders.WalkBuilder;
 
 public class WalkOfferDao {
 	private static WalkOfferDao dao;
