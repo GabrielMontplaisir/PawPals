@@ -8,9 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
-import com.pawpals.dao.WalkDao;
 import com.pawpals.dao.WalkOfferDao;
-import com.pawpals.services.SessionService;
+import com.pawpals.libs.services.SessionService;
 
 @WebServlet("/dashboard/reject-offer")
 public class RejectWalkOffer extends HttpServlet {
@@ -23,7 +22,7 @@ public class RejectWalkOffer extends HttpServlet {
     		return;
     	}
         int walkId = Integer.parseInt(req.getParameter("id"));
-        Walk walk =  WalkDao.getDao().getWalkById(walkId);
+        Walk walk =  user.getWalkList().get(walkId);
         if (walk == null || walk.getOwnerId() != user.getId()) {
         	System.out.println("Error: Could not reject walker. Walk not found or user not owner.");
             resp.sendRedirect("./owner");

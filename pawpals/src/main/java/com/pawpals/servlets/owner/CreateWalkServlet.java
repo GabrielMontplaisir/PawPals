@@ -7,21 +7,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import com.pawpals.beans.*;
 import com.pawpals.dao.WalkDao;
 import com.pawpals.dao.WalkDogDao;
-import com.pawpals.interfaces.Validation;
-import com.pawpals.services.*;
+import com.pawpals.libs.Validation;
+import com.pawpals.libs.services.*;
 
 @WebServlet("/dashboard/create-walk")
 public class CreateWalkServlet extends Validation {
     private static final long serialVersionUID = 1L;
     User user;
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	user = SessionService.srv.getSessionUser(req);
     	String message;
     	if (user == null) {
@@ -41,9 +43,12 @@ public class CreateWalkServlet extends Validation {
 		String[] dogIds = req.getParameterValues("selecteddogs");
 		
         Walk newWalk = WalkDao.getDao().createWalk(user.getId(), req);
-        
+        newWalk.setOwner(user);
 		WalkDogDao.getDao().addDogsToWalk(newWalk.getWalkId(), dogIds);
-        	
+		
+		List<Dog> dogs = WalkDogDao.getDao().getWalkDogs(newWalk.getWalkId());
+		newWalk.setDogNames(dogs.stream().map(dog -> dog.getName()).collect(Collectors.joining(", ")));
+		user.getWalkList().put(newWalk.getWalkId(), newWalk);
         	
         resp.sendRedirect("./owner");
         
