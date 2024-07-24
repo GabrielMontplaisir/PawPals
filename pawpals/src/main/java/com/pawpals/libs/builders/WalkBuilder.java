@@ -1,6 +1,7 @@
-package com.pawpals.interfaces;
+package com.pawpals.libs.builders;
 
 import com.pawpals.beans.Walk;
+import com.pawpals.libs.WalkStatus;
 
 public class WalkBuilder {
 	private int walkId, ownerId, walkerId;

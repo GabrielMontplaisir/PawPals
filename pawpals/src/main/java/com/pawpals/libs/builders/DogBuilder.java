@@ -1,4 +1,4 @@
-package com.pawpals.interfaces;
+package com.pawpals.libs.builders;
 
 import com.pawpals.beans.Dog;
 
