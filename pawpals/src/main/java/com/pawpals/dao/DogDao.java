@@ -10,8 +10,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.pawpals.interfaces.DogBuilder;
 import com.pawpals.beans.Dog;
+import com.pawpals.libs.builders.DogBuilder;
 
 public class DogDao {
     private static DogDao dao;

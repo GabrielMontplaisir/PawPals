@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.pawpals.beans.Notification;
-import com.pawpals.interfaces.NotificationBuilder;
+import com.pawpals.libs.builders.NotificationBuilder;
 
 public class NotificationDao {
 	private static NotificationDao dao;
@@ -25,7 +25,7 @@ public class NotificationDao {
 		return dao;
 	}
 	
-	public void createNotificationForUser(Notification notif) {
+	public Notification createNotificationForUser(Notification notif) {
 		String sql = "INSERT INTO " + ApplicationDao.NOTIFICATIONS_TABLE + " (" + USER_ID + "," + TITLE + "," + DESCRIPTION
 		+ ", "+URL+") VALUES (?, ?, ?, ?)";
 		
@@ -46,12 +46,14 @@ public class NotificationDao {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		return notif;
 	}
 	
 	public ArrayList<Notification> getNotificationsByUser(int userId) {
 		ArrayList<Notification> notifications = new ArrayList<>();
 		
-		String sql = "SELECT * FROM " + ApplicationDao.NOTIFICATIONS_TABLE + " WHERE " + USER_ID + " = ?";
+		String sql = "SELECT * FROM " + ApplicationDao.NOTIFICATIONS_TABLE + " WHERE " + USER_ID + " = ? "
+				+ "ORDER BY +" + DATETIME + " DESC";
 		
 		try (
                 Connection conn = DBConnection.getDBInstance();

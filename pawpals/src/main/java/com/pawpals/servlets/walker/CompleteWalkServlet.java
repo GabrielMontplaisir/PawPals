@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
+import com.pawpals.dao.NotificationDao;
 import com.pawpals.dao.WalkDao;
-import com.pawpals.interfaces.WalkStatus;
-import com.pawpals.services.SessionService;
+import com.pawpals.libs.WalkStatus;
+import com.pawpals.libs.builders.NotificationBuilder;
+import com.pawpals.libs.services.SessionService;
 
 @WebServlet("/dashboard/complete-walk-walker")
 public class CompleteWalkServlet extends HttpServlet {
@@ -24,7 +26,7 @@ public class CompleteWalkServlet extends HttpServlet {
     	}
 
         int walkId = Integer.parseInt(req.getParameter("id"));
-        Walk walk = WalkDao.getDao().getWalkById(walkId);
+        Walk walk = user.getCachedWalks().get(walkId);
 
         if (walk == null || walk.getWalkerId() != user.getId()) {
         	System.out.println("Error: Could not complete walk. Walk not found or user not walker.");
@@ -35,6 +37,17 @@ public class CompleteWalkServlet extends HttpServlet {
               
         walk.setStatus(WalkStatus.WALKER_COMPLETED);
         WalkDao.getDao().setStatus(walk.getWalkId(), walk.getStatus());
+        
+    	walk.notifyObservers(NotificationDao.getDao().createNotificationForUser(
+        		new NotificationBuilder()
+	        		.setUserId(walk.getOwnerId())
+	        		.setTitle(user.getFirstName()+" "+user.getLastName()+" completed a walk.")
+	        		.setDescription("Walk in "+walk.getLocation()+" on "+walk.getShortDate())
+	        		.setUrl(req.getContextPath()+"/dashboard/walkdetails?id="+walkId)
+	        		.create()
+    			)
+        );
+        
         resp.sendRedirect("./walkdetails?id="+walkId);
     }
     

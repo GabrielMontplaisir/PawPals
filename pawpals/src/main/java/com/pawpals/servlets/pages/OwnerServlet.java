@@ -3,7 +3,6 @@ package com.pawpals.servlets.pages;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -15,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pawpals.beans.Dog;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
-import com.pawpals.dao.WalkDao;
-import com.pawpals.services.SessionService;
+import com.pawpals.libs.services.SessionService;
 
 @WebServlet("/dashboard/owner")
 public class OwnerServlet extends HttpServlet {
@@ -36,7 +34,7 @@ public class OwnerServlet extends HttpServlet {
 		user.setOwnerMode(true);
 		
 		Map<Integer, Dog> dogs = user.getDogList();
-		List<Walk> walks = WalkDao.getDao().getWalksByOwnerId(user.getId());
+		Map<Integer, Walk> walks = user.getWalkList();
 		
 		req.setAttribute("dogs", dogs);
 		req.setAttribute("walks", walks);

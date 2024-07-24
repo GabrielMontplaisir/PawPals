@@ -97,17 +97,17 @@
 			<ul class="card_list">
 				<c:if test="${walks != null}">
 					<c:forEach var="walk" items="${walks}">
-						<c:if test="${!walk.isFinished()}">
+						<c:if test="${!walk.value.isFinished()}">
 							<li class="card">
 								<header class="card_header">
-									<h3 class="card_title">Walk in ${walk.getLocation()}</h3>
-									<p>${walk.getStatus().toString()}</p>
+									<h3 class="card_title">Walk in ${walk.value.getLocation()}</h3>
+									<p>${walk.value.getStatus().toString()}</p>
 								</header>
-								<p class="card_details">${walk.getFullDate()}</p>
-								 <p>Dog(s): ${walk.dogNames}</p>
+								<p class="card_details">${walk.value.getFullDate()}</p>
+								 <p>Dog(s): ${walk.value.dogNames}</p>
 								 <div class="card_footer">
-			                        <a href="./walkdetails?id=${walk.getWalkId()}" class="btn">View</a>
-			                        <p class="offers">Offers: ${walk.getOfferCount()}</p>
+			                        <a href="./walkdetails?id=${walk.value.getWalkId()}" class="btn">View</a>
+			                        <p class="offers">Offers: ${walk.value.getOfferCount()}</p>
 			                    </div>
 							</li>
 						</c:if>
@@ -120,15 +120,15 @@
 			<ul class="card_list">
 				<c:if test="${walks != null}">
 					<c:forEach var="walk" items="${walks}">
-						<c:if test="${walk.isFinished()}">
+						<c:if test="${walk.value.isFinished()}">
 							<li class="card">
 								<header class="card_header">
-									<h3 class="card_title">Walk in ${walk.getLocation()}</h3>
-									<p>${walk.getStatus().toString()}</p>
+									<h3 class="card_title">Walk in ${walk.value.getLocation()}</h3>
+									<p>${walk.value.getStatus().toString()}</p>
 								</header>
-								<p class="card_details">${walk.getFullDate()}</p>
-								<p>Dog(s): ${walk.dogNames}</p>
-								<a href="./walkdetails?id=${walk.getWalkId()}" class="btn">View</a>
+								<p class="card_details">${walk.value.getFullDate()}</p>
+								<p>Dog(s): ${walk.value.dogNames}</p>
+								<a href="./walkdetails?id=${walk.value.getWalkId()}" class="btn">View</a>
 							</li>
 						</c:if>
 					</c:forEach>

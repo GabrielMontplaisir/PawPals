@@ -8,9 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
-import com.pawpals.dao.WalkDao;
 import com.pawpals.dao.WalkOfferDao;
-import com.pawpals.services.SessionService;
+import com.pawpals.libs.services.SessionService;
 
 @WebServlet("/dashboard/cancel-offer")
 public class CancelWalkOfferServlet extends HttpServlet {
@@ -25,7 +24,7 @@ public class CancelWalkOfferServlet extends HttpServlet {
     	
         int walkId = Integer.parseInt(req.getParameter("id"));
         
-        Walk walk =  WalkDao.getDao().getWalkById(walkId);
+        Walk walk = user.getCachedWalks().get(walkId);
         
         if (walk == null) {
         	System.out.println("Error: Could not cancel services. Walk not found.");

@@ -61,6 +61,8 @@
 	bottom: 0;
 	right: 0;
 	min-width: 20rem;
+	max-height: 21.328rem;
+	overflow-y: auto;
 	transform: translate(100%, 100%);
 	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 	border-radius: 0.15rem;
@@ -77,6 +79,9 @@
 	font-weight: var(--fw-bold);
 	border-bottom: 1px solid lightgray;
 	padding: 0.5rem;
+	position: sticky;
+	background: white;
+	top:0;
 }
 
 .notification {
@@ -106,9 +111,10 @@ main {
 	padding: 2rem;
 }
 
-main header {
+.main_header {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 }
 
 .container {
@@ -156,14 +162,12 @@ main header {
 /* ****************** */
 
 .card_list {
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(16rem, 20rem));
 	gap: 1rem;
 }
 
 .card {
-	min-width: 10rem;
-	max-width: 20rem;
-	flex: 1;
 	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 	padding: 1rem;
 	border-radius: .5rem;
@@ -180,7 +184,6 @@ main header {
 .card_title {
 	font-family: var(--ff-headings);
 	font-weight: var(--fw-bold);
-	text-align: center;
 }
 
 .card_details {
@@ -306,8 +309,18 @@ fieldset {
 		font-size: 1.5rem;
 	}
 
+}
+
+@media (max-width: 45em) {
+
 	.welcome_msg {
 		display: none;
+	}
+	
+	.form_group, 
+	.main_header {
+		flex-direction: column;
+		align-items: flex-start;
 	}
 }
 
@@ -315,6 +328,12 @@ fieldset {
 	
 	.flex {
 		flex-direction: column;
-		gap: 4rem;
+	}
+}
+
+@media (max-width: 80em) {
+	
+	.flex {
+		gap: 2rem;
 	}
 }

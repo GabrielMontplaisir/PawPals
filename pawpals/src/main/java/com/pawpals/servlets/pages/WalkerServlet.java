@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
 import com.pawpals.dao.WalkDao;
-import com.pawpals.services.SessionService;
+import com.pawpals.libs.services.SessionService;
 
 @WebServlet("/dashboard/walker")
 public class WalkerServlet extends HttpServlet {

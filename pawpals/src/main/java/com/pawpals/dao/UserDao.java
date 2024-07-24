@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import com.pawpals.beans.User;
-import com.pawpals.interfaces.UserBuilder;
+import com.pawpals.libs.builders.UserBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -90,7 +90,7 @@ public class UserDao {
 						.create();
 				}
 			
-			user.setDogList(DogDao.getDao().getDogsByOwner(userId));
+			if (user != null) user.setDogList(DogDao.getDao().getDogsByOwner(userId));
 			
 			if (rs != null) rs.close();
 		} catch (SQLException e) {
@@ -102,7 +102,7 @@ public class UserDao {
 		return user;
 	}
 	
-	public void authenticateUser(HttpServletRequest req) {
+	public synchronized void authenticateUser(HttpServletRequest req) {
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 		
@@ -131,6 +131,10 @@ public class UserDao {
 				session.setAttribute("user", user);
 				
 				user.setDogList(DogDao.getDao().getDogsByOwner(user.getId()));
+				user.setWalkList(WalkDao.getDao().getWalksByOwnerId(user.getId()));
+				user.getWalkList().forEach((key, walk) -> {
+					walk.setOwner(user);
+				});
 				user.setNotificationList(NotificationDao.getDao().getNotificationsByUser(user.getId()));
 			}
 			

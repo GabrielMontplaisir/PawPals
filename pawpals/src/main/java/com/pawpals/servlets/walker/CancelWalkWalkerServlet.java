@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.pawpals.beans.User;
 import com.pawpals.beans.Walk;
+import com.pawpals.dao.NotificationDao;
 import com.pawpals.dao.WalkDao;
-import com.pawpals.interfaces.WalkStatus;
-import com.pawpals.services.SessionService;
+import com.pawpals.libs.WalkStatus;
+import com.pawpals.libs.builders.NotificationBuilder;
+import com.pawpals.libs.services.SessionService;
 
 @WebServlet("/dashboard/cancel-walk-walker")
 public class CancelWalkWalkerServlet extends HttpServlet {
@@ -24,7 +26,7 @@ public class CancelWalkWalkerServlet extends HttpServlet {
     	}
 
         int walkId = Integer.parseInt(req.getParameter("id"));
-        Walk walk = WalkDao.getDao().getWalkById(walkId);
+        Walk walk = user.getCachedWalks().get(walkId);
 
         if (walk == null || walk.getWalkerId() != user.getId()) {
         	System.out.println("Error: Could not cancel walk. Walk not found or user not walker.");
@@ -32,10 +34,22 @@ public class CancelWalkWalkerServlet extends HttpServlet {
             return;
         }
         
-        
-
         walk.setStatus(WalkStatus.CANCELLED);
         WalkDao.getDao().setStatus(walk.getWalkId(), walk.getStatus());
+        
+        walk.unsubscribe(user);
+        if (walk.getWalkerId() != 0) {
+        	walk.notifyObservers(NotificationDao.getDao().createNotificationForUser(
+            		new NotificationBuilder()
+    	        		.setUserId(walk.getOwnerId())
+    	        		.setTitle(user.getFirstName()+" "+user.getLastName()+" cancelled a walk.")
+    	        		.setDescription("Walk in "+walk.getLocation()+" on "+walk.getShortDate())
+    	        		.setUrl(req.getContextPath()+"/dashboard/walkdetails?id="+walkId)
+    	        		.create()
+        			)
+            );
+        }
+        
         resp.sendRedirect("./walkdetails?id="+walkId);
     }
     

@@ -15,5 +15,7 @@
 </head>
 <body class="background">
 	<jsp:include page="./components/header.jsp" /> 
+	<h1 class="title mt-8">Settings</h1>
+	<p class="subtitle">Currently in construction. Check back later!</p>
 </body>
 </html>

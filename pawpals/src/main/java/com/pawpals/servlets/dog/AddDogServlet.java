@@ -10,7 +10,7 @@ import java.io.IOException;
 import com.pawpals.beans.Dog;
 import com.pawpals.beans.User;
 import com.pawpals.dao.DogDao;
-import com.pawpals.services.SessionService;
+import com.pawpals.libs.services.SessionService;
 
 @WebServlet("/dashboard/add-dog")
 public class AddDogServlet extends HttpServlet {

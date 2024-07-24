@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class User {
+import com.pawpals.libs.interfaces.Observer;
+
+public class User implements Observer {
 	private final int userId;
 	private final String firstName, lastName, email;
 	private final LocalDate dob;
 	private boolean isOwnerMode = false;
 	private Map<Integer, Dog> dogList = new HashMap<>();
+	private Map<Integer, Walk> walkList = new HashMap<>();
+	private Map<Integer, Walk> cachedWalks = new HashMap<>();
 	private ArrayList<Notification> notificationList = new ArrayList<>();
 	
 	// Constructor
@@ -32,6 +36,8 @@ public class User {
 	public LocalDate getDob() {return dob;}
 	public boolean isOwnerMode() {return isOwnerMode;}
 	public Map<Integer, Dog> getDogList() {return dogList;}
+	public Map<Integer, Walk> getWalkList() {return walkList;}
+	public Map<Integer, Walk> getCachedWalks() {return cachedWalks;}
 	public ArrayList<Notification> getNotifications() {return notificationList;}
 	
 	// Setter Methods
@@ -44,8 +50,17 @@ public class User {
 		this.dogList = dogList;
 	}
 	
+	public void setWalkList(Map<Integer, Walk> walkList) {
+		this.walkList = walkList;
+	}
+	
 	public void setNotificationList(ArrayList<Notification> notificationList) {
 		this.notificationList = notificationList;
+	}
+
+	@Override
+	public void update(Notification notif) {
+		notificationList.add(notif);
 	}
 	
 }

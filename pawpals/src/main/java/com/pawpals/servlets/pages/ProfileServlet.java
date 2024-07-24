@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pawpals.beans.Dog;
 import com.pawpals.beans.User;
-import com.pawpals.services.SessionService;
+import com.pawpals.libs.services.SessionService;
 
 @WebServlet("/dashboard/profile")
 public class ProfileServlet extends HttpServlet {

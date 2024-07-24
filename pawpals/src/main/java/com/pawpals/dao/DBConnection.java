@@ -3,7 +3,7 @@ package com.pawpals.dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.pawpals.interfaces.DBType;
+import com.pawpals.libs.DBType;
 
 public class DBConnection {
 	

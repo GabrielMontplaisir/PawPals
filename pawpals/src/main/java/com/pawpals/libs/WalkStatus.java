@@ -1,4 +1,4 @@
-package com.pawpals.interfaces;
+package com.pawpals.libs;
 
 public enum WalkStatus {
 		OWNER_INITIALIZED(1, "Owner Draft"), // Dog owner has created walk but can still edit details before it's visible

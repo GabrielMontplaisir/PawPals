@@ -12,8 +12,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.pawpals.beans.Walk;
-import com.pawpals.interfaces.WalkBuilder;
-import com.pawpals.interfaces.WalkStatus;
+import com.pawpals.libs.WalkStatus;
+import com.pawpals.libs.builders.WalkBuilder;
 
 public class WalkDao {
 	private static WalkDao dao;
@@ -104,7 +104,13 @@ public class WalkDao {
 	}
 	
 	public Walk getWalkById(int walkId) {
-		String sql = "SELECT * FROM "+ApplicationDao.WALKS_TABLE+" WHERE "+WALK_ID+" = ?";
+		String sql = "SELECT w.*, GROUP_CONCAT(d."+DogDao.NAME+" SEPARATOR ', ') AS dog_names, "
+                + "(SELECT COUNT(*) FROM " +ApplicationDao.WALKOFFERS_TABLE+ " wo WHERE wo."+WALK_ID+" = w."+WALK_ID+") AS offer_count "
+                + "FROM " +ApplicationDao.WALKS_TABLE+ " w "
+                + "JOIN " +ApplicationDao.WALKDOGS_TABLE+ " wd ON w."+WALK_ID+" = wd."+WALK_ID
+                + " JOIN dogs d ON wd." + DogDao.DOG_ID + " = d." + DogDao.DOG_ID
+                + " WHERE w." + WALK_ID + " = ? "
+                + "GROUP BY w." +WALK_ID+"";
 		Walk walk = null;
 		try (
 				Connection conn = DBConnection.getDBInstance(); 
@@ -125,7 +131,12 @@ public class WalkDao {
 							.setWalkerId(rs.getInt(WALKER_ID))
 							.create();
 				
-				if (walk.getWalkerId() > 0) walk.setWalker(UserDao.getDao().getUserById(walk.getWalkerId()));
+	            walk.setDogNames(rs.getString("dog_names"));
+	            walk.setOfferCount(rs.getInt("offer_count"));
+	            
+	            if (walk.getWalkerId() > 0) {
+	                walk.setWalker(UserDao.getDao().getUserById(walk.getWalkerId()));
+	            }
 				
 			};
 			
@@ -140,15 +151,15 @@ public class WalkDao {
 		return walk;
 	}
 
-	public List<Walk> getWalksByOwnerId(int ownerId) {
-	    List<Walk> userWalks = new ArrayList<>();
-	    String sql = "SELECT w.*, GROUP_CONCAT(d.name SEPARATOR ', ') AS dog_names, " +
-	                 "(SELECT COUNT(*) FROM walkoffers wo WHERE wo.walk_id = w.walk_id) AS offer_count " +
-	                 "FROM walks w " +
-	                 "JOIN walkdogs wd ON w.walk_id = wd.walk_id " +
-	                 "JOIN dogs d ON wd.dog_id = d.dog_id " +
-	                 "WHERE w.owner_id = ? " +
-	                 "GROUP BY w.walk_id";
+	public HashMap<Integer, Walk> getWalksByOwnerId(int ownerId) {
+	    HashMap<Integer, Walk> userWalks = new HashMap<>();
+	    String sql = "SELECT w.*, GROUP_CONCAT(d."+DogDao.NAME+" SEPARATOR ', ') AS dog_names, "
+	                 + "(SELECT COUNT(*) FROM " +ApplicationDao.WALKOFFERS_TABLE+ " wo WHERE wo."+WALK_ID+" = w."+WALK_ID+") AS offer_count "
+	                 + "FROM " +ApplicationDao.WALKS_TABLE+ " w "
+	                 + "JOIN " +ApplicationDao.WALKDOGS_TABLE+ " wd ON w."+WALK_ID+" = wd."+WALK_ID
+	                 + " JOIN dogs d ON wd." + DogDao.DOG_ID + " = d." + DogDao.DOG_ID
+	                 + " WHERE w." + OWNER_ID + " = ? "
+	                 + "GROUP BY w." +WALK_ID+"";
 	    
 	    try (Connection conn = DBConnection.getDBInstance();
 	         PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -174,7 +185,7 @@ public class WalkDao {
 	                walk.setWalker(UserDao.getDao().getUserById(walk.getWalkerId()));
 	            }
 	            
-	            userWalks.add(walk);
+	            userWalks.put(walk.getWalkId(), walk);
 	        }
 	        
 	        if (rs != null) rs.close();
@@ -192,8 +203,8 @@ public class WalkDao {
 		return getWalksBySwitchable(walkerId, WALKER_ID);
 	}	
 
-	public List<Walk> getWalksBySwitchable(int userId, String userId_ColumnName) {
-		String sql = "SELECT * FROM "+ApplicationDao.WALKS_TABLE+" WHERE "+userId_ColumnName+" = ?";
+	public List<Walk> getWalksBySwitchable(int userId, String ColumnName) {
+		String sql = "SELECT * FROM "+ApplicationDao.WALKS_TABLE+" WHERE "+ColumnName+" = ?";
 		List<Walk> userWalks = new ArrayList<>();
 		
 		try (
@@ -205,7 +216,7 @@ public class WalkDao {
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) {
-				userWalks.add(new WalkBuilder()
+				Walk walk = new WalkBuilder()
 						.setWalkId(rs.getInt(WALK_ID))
 						.setStatus(rs.getInt(STATUS))
 						.setOwnerId(userId)
@@ -213,11 +224,20 @@ public class WalkDao {
 						.setLocation(rs.getString(LOCATION))
 						.setLength(rs.getString(LENGTH))
 						.setWalkerId(rs.getInt(WALKER_ID))
-						.create());
+						.create();
+				
+				walk.setOwner(UserDao.getDao().getUserById(walk.getOwnerId()));
+	            if (walk.getWalkerId() > 0) {
+	                walk.setWalker(UserDao.getDao().getUserById(walk.getWalkerId()));
+	            }
+	            
+				userWalks.add(walk);
 			}
 			
 			if (rs != null) rs.close();
 			
+            
+            
 			return userWalks;
 		} catch (SQLException e) {
 			DBUtil.processException(e);
@@ -242,8 +262,8 @@ public class WalkDao {
 			stmt.setInt(2, WalkStatus.OWNER_POSTED.toInt()); // Can't be too safe casting an int xD
 			ResultSet rs = stmt.executeQuery();
 
-			while (rs.next()) {	
-				postedWalks.add(new WalkBuilder()
+			while (rs.next()) {
+				Walk walk = new WalkBuilder()
 						.setWalkId(rs.getInt(WALK_ID))
 						.setStatus(rs.getInt(STATUS))
 						.setOwnerId(rs.getInt(OWNER_ID))
@@ -251,7 +271,14 @@ public class WalkDao {
 						.setLocation(rs.getString(LOCATION))
 						.setLength(rs.getString(LENGTH))
 						.setWalkerId(rs.getInt(WALKER_ID))
-						.create());
+						.create();
+				
+				walk.setOwner(UserDao.getDao().getUserById(walk.getOwnerId()));
+	            if (walk.getWalkerId() > 0) {
+	                walk.setWalker(UserDao.getDao().getUserById(walk.getWalkerId()));
+	            }
+	            
+				postedWalks.add(walk);
 				
 				walkOffers.put(rs.getInt(WALK_ID), rs.getBoolean("OfferPending"));
 			}
