@@ -7,8 +7,8 @@ import java.util.Map.Entry;
 
 import com.pawpals.beans.User;
 import com.pawpals.dao.UserDao;
-import com.pawpals.interfaces.Validation;
-import com.pawpals.services.SessionService;
+import com.pawpals.libs.Validation;
+import com.pawpals.libs.services.SessionService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,8 +44,8 @@ public class LoginServlet extends Validation {
 		
 		
 		UserDao.getDao().authenticateUser(req);
-		
 		User user = SessionService.srv.getSessionUser(req);
+		
 		if (user != null) {
 			resp.sendRedirect("./dashboard/profile");
 			return;
