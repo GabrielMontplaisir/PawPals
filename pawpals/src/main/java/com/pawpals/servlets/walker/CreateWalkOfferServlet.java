@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.pawpals.beans.*;
 import com.pawpals.dao.NotificationDao;
-import com.pawpals.dao.WalkDao;
 import com.pawpals.dao.WalkOfferDao;
-import com.pawpals.interfaces.NotificationBuilder;
-import com.pawpals.services.*;
+import com.pawpals.libs.builders.NotificationBuilder;
+import com.pawpals.libs.services.*;
 
 @WebServlet("/dashboard/create-offer")
 public class CreateWalkOfferServlet extends HttpServlet {
@@ -26,7 +25,7 @@ public class CreateWalkOfferServlet extends HttpServlet {
     	}
     	
         int walkId = Integer.parseInt(req.getParameter("id"));
-        Walk walk =  WalkDao.getDao().getWalkById(walkId);
+        Walk walk =  user.getCachedWalks().get(walkId);
         
         if (walk == null) {
         	System.out.println("Error: Could not offer services. Walk not found.");
@@ -35,13 +34,19 @@ public class CreateWalkOfferServlet extends HttpServlet {
         }
         
         WalkOfferDao.getDao().addWalkOffer(walkId, user.getId());
-        NotificationDao.getDao().createNotificationForUser(new NotificationBuilder()
-        		.setUserId(walk.getOwnerId())
-        		.setTitle(user.getFirstName()+" "+user.getLastName()+" offered their services for your walk.")
-        		.setDescription("Walk in "+walk.getLocation()+" on "+walk.getShortDate())
-        		.setReadStatus(false)
-        		.setUrl(req.getContextPath()+"/dashboard/walkdetails?id="+walkId)
-        		.create());
+        
+        walk.notifyObservers(NotificationDao.getDao().createNotificationForUser(
+        		new NotificationBuilder()
+	        		.setUserId(walk.getOwnerId())
+	        		.setTitle(user.getFirstName()+" "+user.getLastName()+" offered their services for your walk.")
+	        		.setDescription("Walk in "+walk.getLocation()+" on "+walk.getShortDate())
+	        		.setUrl(req.getContextPath()+"/dashboard/walkdetails?id="+walkId)
+	        		.create()
+	        	)
+        );
+        
+        walk.subscribe(user);
+        
         resp.sendRedirect("./walkdetails?id="+walkId);
     }
     
