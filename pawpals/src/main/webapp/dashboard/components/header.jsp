@@ -21,7 +21,7 @@
 					</c:forEach>
 				</c:if>
 				<c:if test="${user.getNotifications().size() == 0}">
-					<li class="notification_details center my-2">No new notifications</li>
+					<p class="notification_details center my-2">No new notifications</p>
 				</c:if>				
 			</div>
 		</div>

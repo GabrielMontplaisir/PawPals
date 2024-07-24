@@ -17,9 +17,9 @@
 <body class="background">
 	<jsp:include page="./components/header.jsp" /> 
 	<main>
-		<header>
+		<header class="main_header">
 			<h1 class="subtitle">Your Profile</h1>
-			<div class="ml-auto">
+			<div>
 				<a href="./owner" class="btn mr-2">Create a Walk</a>
 				<a href="./walker" class="btn">Find Walks</a>
 			</div>

@@ -13,8 +13,8 @@ public class Notification {
 		this.userId = userId;
 		this.title = title;
 		this.description = description;
-		this.date = date.replace(" ", "T");
-		this.readStatus = readStatus;
+		this.date = date != null ? date.replace(" ", "T") : LocalDateTime.now().toString();
+		this.readStatus = readStatus ? readStatus : false;
 		this.url = url;
 	}
 
@@ -27,7 +27,5 @@ public class Notification {
 	public String getDateTime() {
 		return LocalDateTime.parse(date).format(DateTimeFormatter.ofPattern("E, MMM dd, yyyy 'at' HH:mm"));
 	}
-	
-
 	
 }
