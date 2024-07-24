@@ -1,4 +1,4 @@
-package com.pawpals.services;
+package com.pawpals.libs.services;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import com.pawpals.beans.User;
