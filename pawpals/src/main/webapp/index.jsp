@@ -16,7 +16,7 @@
 <body class="background">
 	<main class="center">
 		<h1 class="title">Welcome to PawPals!</h1>
-		<section class="flex">
+		<section class="flex space-evenly">
 			<a href="./login" class="btn">Login</a>
 			<a href="./register" class="btn success">Register</a>
 		</section>

@@ -32,7 +32,7 @@
                 <p>Location: ${walk.getLocation()} at ${walk.getFullDate()}</p>
                 <table class="temptable">
                     <c:if test="${walk.getWalker() != null}">
-                        <c:if test="${walk.getWalkerId() != user.getId()}">
+                        <c:if test="${walk.getWalkerId() != user.getUserId()}">
                             <tr>
                                 <th>Walker</th>
                                 <td>${walk.getWalker().getFirstName()} ${walk.getWalker().getLastName()}</td>
@@ -55,12 +55,12 @@
                         </tr>
                     </c:forEach>
                 </table>
-                <c:if test="${user.getId() == walk.getOwnerId() && !walk.isFinished()}">
+                <c:if test="${user.getUserId() == walk.getOwnerId() && !walk.isFinished()}">
                     <a href="cancel-walk?id=${walk.getWalkId()}" class="btn cancel mt-2">Cancel Walk</a>
                 </c:if>
             </div>
             <c:choose>
-                <c:when test="${user.getId() == walk.getOwnerId()}">
+                <c:when test="${user.getUserId() == walk.getOwnerId()}">
                     <c:if test="${walk.getStatus() == 'OWNER_POSTED'}">
                         <div class="flex-1">
                             <h2 class="subtitle">Active Offers</h2>
@@ -73,8 +73,8 @@
                                                     <p>${walkOffer.getWalkOfferUser().getEmail()}</p>
                                                     <p><strong>Comment:</strong> ${walkOffer.getComment()}</p>
                                                 </div>
-                                                <a href="accept-offer?id=${walk.getWalkId()}&walker=${walkOffer.getWalkOfferUser().getId()}" class='btn ml-2'>Select</a>
-                                                <a href="reject-offer?id=${walk.getWalkId()}&walker=${walkOffer.getWalkOfferUser().getId()}" class='btn ml-2'>Reject</a>
+                                                <a href="accept-offer?id=${walk.getWalkId()}&walker=${walkOffer.getWalkOfferUser().getUserId()}" class='btn ml-2'>Select</a>
+                                                <a href="reject-offer?id=${walk.getWalkId()}&walker=${walkOffer.getWalkOfferUser().getUserId()}" class='btn ml-2'>Reject</a>
                                             </li>
                                         </c:forEach>
                                     </ul>
@@ -105,7 +105,7 @@
                                 </c:if>
                             </c:when>
                             <c:otherwise>
-                                <c:if test="${walk.getWalkerId() == user.getId()}">
+                                <c:if test="${walk.getWalkerId() == user.getUserId()}">
                                     <c:if test="${!walk.isFinished()}">
                                         <a href="cancel-walk-walker?id=${walk.getWalkId()}" class="btn cancel mt-2">Cancel Walk</a>
                                     </c:if>
