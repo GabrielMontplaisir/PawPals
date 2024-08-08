@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import com.pawpals.beans.User;
 import com.pawpals.libs.builders.UserBuilder;
 
@@ -70,6 +71,60 @@ public class UserDao {
 		}
 	}
 	
+	public boolean updateUser(String firstName, String lastName, String email, String dob, int userId) {
+		boolean updated = false;
+		String sql = "UPDATE "+ApplicationDao.USERS_TABLE+" SET "
+				+FIRST_NAME+" = ?, "
+				+LAST_NAME+" = ?, "
+				+EMAIL_ADDRESS+" = ?, "
+				+DATE_OF_BIRTH+" = ? "
+				+ " WHERE "+USER_ID+" = ?";
+		
+		try (
+				Connection conn = DBConnection.getDBInstance();
+				PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			) {
+    		stmt.setString(1, firstName);
+    		stmt.setString(2, lastName);
+    		stmt.setString(3, email);
+    		stmt.setDate(4, java.sql.Date.valueOf(dob));
+    		stmt.setInt(5, userId);
+    		
+    		updated = stmt.executeUpdate() > 0;
+			
+		} catch (SQLException e) {
+			DBUtil.processException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return updated;
+	}
+	
+	public boolean updatePassword(int userId, String newPass) {
+		boolean updated = false;
+		String sql = "UPDATE "+ApplicationDao.USERS_TABLE+" SET "
+				+PASSWORD+" = ?"
+				+ " WHERE "+USER_ID+" = ?";
+		
+		try (
+				Connection conn = DBConnection.getDBInstance();
+				PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			) {
+    		stmt.setString(1, newPass);
+    		stmt.setInt(2, userId);
+    		
+    		updated = stmt.executeUpdate() > 0;
+			
+		} catch (SQLException e) {
+			DBUtil.processException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return updated;
+	}
+	
 	public User getUserById(int userId) {
 		User user = null;
 		String sql = "SELECT "+USER_ID+", "+EMAIL_ADDRESS+", "+FIRST_NAME+", "+LAST_NAME+", "+DATE_OF_BIRTH+" FROM " +ApplicationDao.USERS_TABLE+" WHERE " + USER_ID + " = ?";
@@ -130,12 +185,12 @@ public class UserDao {
 				
 				session.setAttribute("user", user);
 				
-				user.setDogList(DogDao.getDao().getDogsByOwner(user.getId()));
-				user.setWalkList(WalkDao.getDao().getWalksByOwnerId(user.getId()));
+				user.setDogList(DogDao.getDao().getDogsByOwner(user.getUserId()));
+				user.setWalkList(WalkDao.getDao().getWalksByOwnerId(user.getUserId()));
 				user.getWalkList().forEach((key, walk) -> {
 					walk.setOwner(user);
 				});
-				user.setNotificationList(NotificationDao.getDao().getNotificationsByUser(user.getId()));
+				user.setNotificationList(NotificationDao.getDao().getNotificationsByUser(user.getUserId()));
 			}
 			
 			if (rs != null) rs.close();
