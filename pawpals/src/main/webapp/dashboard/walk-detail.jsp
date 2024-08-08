@@ -23,8 +23,8 @@
     <jsp:include page="./components/header.jsp" />
     <main>
         <a href="${user.isOwnerMode() ? './owner' : './walker'}" class="back_btn"> < Back to Dashboard</a>
-        <section class="container flex">
-            <div>
+        <section class="container flex space-evenly gap-8">
+            <div class="flex-1">
                 <header>
                     <h1 class="subtitle">Walk Details</h1>
                     <p>Status: ${walk.getStatus().toString()}</p>
@@ -62,7 +62,7 @@
             <c:choose>
                 <c:when test="${user.getId() == walk.getOwnerId()}">
                     <c:if test="${walk.getStatus() == 'OWNER_POSTED'}">
-                        <div>
+                        <div class="flex-1">
                             <h2 class="subtitle">Active Offers</h2>
                             <c:choose>
                                 <c:when test="${offers.size() > 0}">
@@ -87,7 +87,7 @@
                     </c:if>
                 </c:when>
                 <c:otherwise>
-                    <div>
+                    <div class="flex-1">
                         <c:choose>
                             <c:when test="${walk.getStatus() == 'OWNER_POSTED'}">
                                 <c:if test="${!offer}">
