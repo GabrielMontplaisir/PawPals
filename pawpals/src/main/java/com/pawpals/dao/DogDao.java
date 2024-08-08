@@ -141,6 +141,36 @@ public class DogDao {
         return dogs;
     }
     
+    public boolean updateDog(int dogId, String name, String size, String specialNeeds, boolean immunized) {
+		boolean updated = false;
+		String sql = "UPDATE "+ApplicationDao.DOGS_TABLE+" SET "
+				+NAME+" = ?, "
+				+SIZE+" = ?, "
+				+SPECIAL_NEEDS+" = ?, "
+				+IMMUNIZED+" = ? "
+				+ " WHERE "+DOG_ID+" = ?";
+		
+		try (
+				Connection conn = DBConnection.getDBInstance();
+				PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			) {
+    		stmt.setString(1, name);
+    		stmt.setString(2, size);
+    		stmt.setString(3, specialNeeds);
+    		stmt.setBoolean(4, immunized);
+    		stmt.setInt(5, dogId);
+    		
+    		updated = stmt.executeUpdate() > 0;
+			
+		} catch (SQLException e) {
+			DBUtil.processException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return updated;
+    }
+    
     public void removeDog(int dogId) {
         String sql = "DELETE FROM " + ApplicationDao.DOGS_TABLE + " WHERE " + DOG_ID + " = ?;";
 

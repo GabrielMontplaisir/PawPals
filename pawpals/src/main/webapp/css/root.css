@@ -157,6 +157,11 @@ body {
 	font-weight: var(--fw-semibold);
 }
 
+.message_success {
+	color: var(--color-success);
+	font-weight: var(--fw-semibold);
+}
+
 /* **************** */
 /* Utility Classes  */
 /* **************** */
@@ -218,6 +223,7 @@ body {
 	text-decoration: none;
 	color: white;
 	font-weight: var(--fw-semibold);
+	cursor: pointer;
 }
 
 .border-1 {
@@ -232,18 +238,32 @@ body {
 	border-radius: 0.25rem;
 }
 
+.w-72 {
+	max-width: 72rem;
+}
+
 .w-full {
 	width: 100%;
 }
 
 .flex {
 	display: flex;
+}
+
+.space-evenly {
 	justify-content: space-evenly;
+}
+
+.gap-8 {
 	gap: 8rem;
 }
 
-.flex > * {
+.flex-1 {
 	flex: 1;
+}
+
+.flex-2 {
+	flex: 2;
 }
 
 .success {

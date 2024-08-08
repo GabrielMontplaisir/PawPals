@@ -9,8 +9,8 @@ import com.pawpals.libs.interfaces.Observer;
 
 public class User implements Observer {
 	private final int userId;
-	private final String firstName, lastName, email;
-	private final LocalDate dob;
+	private String firstName, lastName, email;
+	private LocalDate dob;
 	private boolean isOwnerMode = false;
 	private Map<Integer, Dog> dogList = new HashMap<>();
 	private Map<Integer, Walk> walkList = new HashMap<>();
@@ -29,7 +29,7 @@ public class User implements Observer {
 	
 	// Getter Methods
 	
-	public int getId() {return userId;}
+	public int getUserId() {return userId;}
 	public String getFirstName() {return firstName;}
 	public String getLastName() {return lastName;}
 	public String getEmail() {return email;}
@@ -42,10 +42,26 @@ public class User implements Observer {
 	
 	// Setter Methods
 	
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+	}
+	
 	public void setOwnerMode(boolean isOwnerMode) {
 		this.isOwnerMode = isOwnerMode;
 	}
-	
+
 	public void setDogList(Map<Integer, Dog> dogList) {
 		this.dogList = dogList;
 	}

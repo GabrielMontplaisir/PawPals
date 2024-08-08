@@ -35,8 +35,7 @@ public class RegisterServlet extends Validation {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String message;
-		message = validateForm(req.getParameterMap());
+		String message = validateForm(req.getParameterMap());
 
 		if (message != null) {
 			req.setAttribute("message", message);

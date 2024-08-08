@@ -62,7 +62,7 @@ public class WalkDetailServlet extends HttpServlet {
     	
     	List<Dog> dogs = WalkDogDao.getDao().getWalkDogs(walkId);
     	List<WalkOffer> offers = WalkOfferDao.getDao().getWalkOffers(walkId);
-    	boolean walkOffered = WalkOfferDao.getDao().walkerOffered(walkId, user.getId());
+    	boolean walkOffered = WalkOfferDao.getDao().walkerOffered(walkId, user.getUserId());
     	 	
     	req.setAttribute("walk", walk);
     	req.setAttribute("dogs", dogs);

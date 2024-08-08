@@ -23,7 +23,7 @@ public class RejectWalkOffer extends HttpServlet {
     	}
         int walkId = Integer.parseInt(req.getParameter("id"));
         Walk walk =  user.getWalkList().get(walkId);
-        if (walk == null || walk.getOwnerId() != user.getId()) {
+        if (walk == null || walk.getOwnerId() != user.getUserId()) {
         	System.out.println("Error: Could not reject walker. Walk not found or user not owner.");
             resp.sendRedirect("./owner");
             return;

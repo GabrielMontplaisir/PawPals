@@ -333,7 +333,7 @@ fieldset {
 
 @media (max-width: 80em) {
 	
-	.flex {
+	.gap-8 {
 		gap: 2rem;
 	}
 }

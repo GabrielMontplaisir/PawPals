@@ -36,7 +36,6 @@
 				</c:if>
 			</c:if>
 			<a href="./profile" class="nav_btn">Profile</a>
-			<a href="./settings" class="nav_btn">Settings</a>
 			<a href="../logout" class="nav_btn">Logout</a>
 		</nav>
 	</header>

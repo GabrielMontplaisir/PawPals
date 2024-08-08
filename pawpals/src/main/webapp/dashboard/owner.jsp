@@ -24,8 +24,8 @@
 <body class="background">
 	<jsp:include page="./components/header.jsp" />
 	<main>
-		<div class="flex">
-			<section class="container">
+		<div class="flex gap-8">
+			<section class="container flex-1">
 				<header>
 					<h1 class='subtitle'>Walk My Dog(s)</h1>
 				</header>
@@ -62,34 +62,12 @@
 				<p class="message_error mt-2">${message}</p>
 			</section>
 
-			<section class="container">
+			<section class="container flex-1">
 				<header>
 					<h2 class="subtitle">Add a Dog</h2>
 				</header>
-				<form action="add-dog" method="POST">
-					<label class="form_label">Name: <input type="text"
-						id="name" name="name" class="form_input" required></label>
-
-					<fieldset id="size" name="size" class="form_group mt-2">
-						<legend class="form_label">Dog size</legend>
-						<label><input type="radio" name="size" value="sm"
-							class="mr-2" required>Small</label> <label><input
-							type="radio" name="size" value="md" class="mr-2" required>Medium</label>
-						<label><input type="radio" name="size" value="lg"
-							class="mr-2" required>Large</label>
-					</fieldset>
-
-					<label for="specialneeds" class="form_label mt-2">Special
-						Needs: </label>
-					<textarea id="specialneeds" name="specialneeds"
-						class="border-2 w-full rounded"></textarea>
-					<label class="form_label mt-2">Immunized: <input
-						type="checkbox" id="immunized" name="immunized" class="ml-2"></label>
-
-
-					<input type="submit" value="Submit" class="form_btn mt-2">
-
-				</form>
+				<!-- Include Add Dog Form -->
+				<jsp:include page="./components/dogform.jsp" />
 			</section>
 		</div>
 		<section class="mt-8">

@@ -28,7 +28,7 @@ public class CancelWalkWalkerServlet extends HttpServlet {
         int walkId = Integer.parseInt(req.getParameter("id"));
         Walk walk = user.getCachedWalks().get(walkId);
 
-        if (walk == null || walk.getWalkerId() != user.getId()) {
+        if (walk == null || walk.getWalkerId() != user.getUserId()) {
         	System.out.println("Error: Could not cancel walk. Walk not found or user not walker.");
             resp.sendRedirect("./walker");
             return;

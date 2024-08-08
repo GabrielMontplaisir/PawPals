@@ -31,7 +31,7 @@ public class CancelWalkOfferServlet extends HttpServlet {
         	resp.sendRedirect("./walker");
             return;
         }
-        WalkOfferDao.getDao().cancelWalkOffer(walkId, user.getId());
+        WalkOfferDao.getDao().cancelWalkOffer(walkId, user.getUserId());
         resp.sendRedirect("./walkdetails?id="+walkId);
     }
     
