@@ -250,49 +250,50 @@ public class WalkDao {
 	
 
 	public List<Walk> getWalksPostedForReceivingOffers(int walkerId, HashMap<Integer, Boolean> walkOffers) {
-		List<Walk> postedWalks = new ArrayList<>();
-		String sql = "SELECT *, (NOT (WO.walker_id IS NULL)) AS OfferPending FROM " + ApplicationDao.WALKS_TABLE + " AS WT LEFT JOIN " + ApplicationDao.WALKOFFERS_TABLE + " AS WO ON WO." + WALK_ID + " = WT." + WALK_ID + " AND WO." + WALKER_ID + " = ? WHERE WT." + STATUS + "= ? AND (WO." + DECLINED + " != TRUE OR WO." + DECLINED + " IS NULL)"; 
-			
-		try (
-				Connection conn = DBConnection.getDBInstance(); 
-				PreparedStatement stmt = conn.prepareStatement(sql);
-			) {
-			
-			stmt.setInt(1, walkerId);
-			stmt.setInt(2, WalkStatus.OWNER_POSTED.toInt()); // Can't be too safe casting an int xD
-			ResultSet rs = stmt.executeQuery();
+        List<Walk> postedWalks = new ArrayList<>();
+        String sql = "SELECT *, (NOT (WO.walker_id IS NULL)) AS OfferPending FROM " + ApplicationDao.WALKS_TABLE + " AS WT LEFT JOIN " + ApplicationDao.WALKOFFERS_TABLE + " AS WO ON WO." + WALK_ID + " = WT." + WALK_ID + " AND WO." + WALKER_ID + " = ? WHERE WT." + STATUS + "= ? AND WT." + OWNER_ID + " != ? AND (WO." + DECLINED + " != TRUE OR WO." + DECLINED + " IS NULL)";
 
-			while (rs.next()) {
-				Walk walk = new WalkBuilder()
-						.setWalkId(rs.getInt(WALK_ID))
-						.setStatus(rs.getInt(STATUS))
-						.setOwnerId(rs.getInt(OWNER_ID))
-						.setDate(rs.getString(START_TIME))
-						.setLocation(rs.getString(LOCATION))
-						.setLength(rs.getString(LENGTH))
-						.setWalkerId(rs.getInt(WALKER_ID))
-						.create();
-				
-				walk.setOwner(UserDao.getDao().getUserById(walk.getOwnerId()));
-	            if (walk.getWalkerId() > 0) {
-	                walk.setWalker(UserDao.getDao().getUserById(walk.getWalkerId()));
-	            }
-	            
-				postedWalks.add(walk);
-				
-				walkOffers.put(rs.getInt(WALK_ID), rs.getBoolean("OfferPending"));
-			}
-			
-			if (rs != null) rs.close();
-			
-			return postedWalks;
-		} catch (SQLException e) {
-			DBUtil.processException(e);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+        try (
+                Connection conn = DBConnection.getDBInstance();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+            ) {
+
+            stmt.setInt(1, walkerId);
+            stmt.setInt(2, WalkStatus.OWNER_POSTED.toInt());
+            stmt.setInt(3, walkerId);  // Exclude walks where the user is the owner
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Walk walk = new WalkBuilder()
+                        .setWalkId(rs.getInt(WALK_ID))
+                        .setStatus(rs.getInt(STATUS))
+                        .setOwnerId(rs.getInt(OWNER_ID))
+                        .setDate(rs.getString(START_TIME))
+                        .setLocation(rs.getString(LOCATION))
+                        .setLength(rs.getString(LENGTH))
+                        .setWalkerId(rs.getInt(WALKER_ID))
+                        .create();
+
+                walk.setOwner(UserDao.getDao().getUserById(walk.getOwnerId()));
+                if (walk.getWalkerId() > 0) {
+                    walk.setWalker(UserDao.getDao().getUserById(walk.getWalkerId()));
+                }
+
+                postedWalks.add(walk);
+
+                walkOffers.put(rs.getInt(WALK_ID), rs.getBoolean("OfferPending"));
+            }
+
+            if (rs != null) rs.close();
+
+            return postedWalks;
+        } catch (SQLException e) {
+            DBUtil.processException(e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 	
 	
 	public void cancel(int walkId) {
