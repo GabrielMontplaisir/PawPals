@@ -39,7 +39,7 @@ public class CreateWalkOfferServlet extends HttpServlet {
             return;
         }
         
-        WalkOfferDao.getDao().addWalkOffer(walkId, user.getId(), comment); // Pass the comment to the DAO
+        WalkOfferDao.getDao().addWalkOffer(walkId, user.getUserId(), comment); // Pass the comment to the DAO
         
         walk.notifyObservers(NotificationDao.getDao().createNotificationForUser(
                 new NotificationBuilder()

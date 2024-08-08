@@ -33,9 +33,8 @@ public class LoginServlet extends Validation {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String message;
+		String message = validateForm(req.getParameterMap());
 		
-		message = validateForm(req.getParameterMap());
 		if (message != null) {
 			req.setAttribute("message", message);
 			req.getRequestDispatcher("login.jsp").forward(req, resp);

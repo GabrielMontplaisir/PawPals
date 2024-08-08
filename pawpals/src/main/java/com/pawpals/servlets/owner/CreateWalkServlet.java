@@ -42,7 +42,7 @@ public class CreateWalkServlet extends Validation {
 		
 		String[] dogIds = req.getParameterValues("selecteddogs");
 		
-        Walk newWalk = WalkDao.getDao().createWalk(user.getId(), req);
+        Walk newWalk = WalkDao.getDao().createWalk(user.getUserId(), req);
         newWalk.setOwner(user);
 		WalkDogDao.getDao().addDogsToWalk(newWalk.getWalkId(), dogIds);
 		

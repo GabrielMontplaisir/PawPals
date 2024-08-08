@@ -30,7 +30,7 @@ public class RemoveDogServlet extends HttpServlet {
 		int dogId = Integer.parseInt(req.getParameter("id"));
 		Dog dog = DogDao.getDao().getDogById(dogId);
 		
-		if (dog.getOwnerId() != user.getId()) {
+		if (dog.getOwnerId() != user.getUserId()) {
 			throw new Error("Cannot delete dog which doesn't belong to you.");
 		}
 		
