@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/root.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 </head>
+<% String action = (String) request.getAttribute("action"); %>
 <body class="background">
 	<jsp:include page="./components/header.jsp" /> 
 	<main>
@@ -25,8 +26,39 @@
 			</div>
 		</header>
 		
-		<section class="container mt-2">
-			<h2 class="subtitle">${user.getFirstName()} ${user.getLastName()}</h2>
+		<section class="container mt-2 w-60">
+			<h2 class="subtitle">Your information</h2>
+			<p>${action}</p>
+			<form action="profile" method="POST">
+				<div class="flex my-2">
+					<label for="fname" class="form_label flex-1">First Name:</label><input type="text" id="fname" name="firstname" class="form_input w-full flex-2" value="${user.getFirstName()}" <% out.print(action); %>>
+					
+				</div>
+				<div class="flex my-2">
+					<label for="lname" class="form_label flex-1">Last Name: </label><input type="text" id="lname" name="lastname" class="form_input w-full flex-2" value="${user.getLastName()}" <% out.print(action); %>>
+				</div>
+				<div class="flex my-2">
+					<label for="email" class="form_label flex-1">Email address: </label><input type="email" id="email" name="email" class="form_input w-full flex-2" value="${user.getEmail()}" <% out.print(action); %>>
+				</div>
+				<div class="flex my-2">
+					<label for="dob" class="form_label flex-1">Date of Birth: </label><input type="date" id="dob" name="dob" class="form_input w-full flex-2" value="${user.getDob()}" <% out.print(action); %>>
+				</div>
+				<div class="flex my-2">
+					<label for="password" class="form_label flex-1">Current Password: </label><input type="password" id="password" name="password" class="form_input w-full flex-2" value="placeholder" <% out.print(action); %>>
+				</div>
+				<c:if test="${action == null}">
+					<div class="flex my-2">
+						<label for="new_password" class="form_label flex-1">New Password: </label><input type="password" id="new_password" name="new_password" class="form_input w-full flex-2">
+					</div>
+					<div class="flex my-2">
+						<label for="confirm_new" class="form_label flex-1">Confirm New Password: </label><input type="password" id="confirm_new" name="confirm_new" class="form_input w-full flex-2">
+					</div>
+					<input type="submit" name="submit" value="Save" class="btn">
+				</c:if>
+				<c:if test="${action != null}">
+					<input type="submit" name="submit" value="Update info" class="btn">
+				</c:if>
+			</form>
 		</section>
 		<h2 class="subtitle my-2">Your Dogs</h2>
 		<ul class="card_list">

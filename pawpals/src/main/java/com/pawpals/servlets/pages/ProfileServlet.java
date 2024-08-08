@@ -29,6 +29,27 @@ public class ProfileServlet extends HttpServlet {
 		Map<Integer, Dog> dogs = user.getDogList();
 		
 		req.setAttribute("dogs", dogs);
+		req.setAttribute("action", "disabled");
+		
+		req.getRequestDispatcher("./profile.jsp").forward(req, resp);
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		User user = SessionService.srv.getSessionUser(req);
+		
+		if (user == null) {
+			resp.sendRedirect("../login");
+			return;
+		}
+		
+		String action = (String) req.getAttribute("action");
+		
+		if (action == "disabled") {
+			req.setAttribute("action", "");
+		} else {
+			req.setAttribute("action", "disabled");
+		}
 		
 		req.getRequestDispatcher("./profile.jsp").forward(req, resp);
 	}
