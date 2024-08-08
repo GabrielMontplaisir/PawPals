@@ -94,7 +94,7 @@
                                     <form action="${pageContext.request.contextPath}/dashboard/create-offer" method="post" class="comment-form">
                                         <input type="hidden" name="id" value="${walk.getWalkId()}">
                                         <div class="comment-box">
-                                            <label for="comment">Comment:</label>
+                                            
                                             <textarea id="comment" name="comment" placeholder="Enter your comment here" rows="4" cols="50"></textarea>
                                         </div>
                                         <button type="submit" class="btn mt-2">Offer Service</button>
