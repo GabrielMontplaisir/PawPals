@@ -4,8 +4,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 
-import com.pawpals.beans.User;
-
 public abstract class Validation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected final String emailRegEx = "\\S+@\\S+\\.\\S+";

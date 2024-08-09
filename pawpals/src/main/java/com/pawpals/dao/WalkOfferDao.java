@@ -15,10 +15,12 @@ import com.pawpals.libs.builders.WalkBuilder;
 
 public class WalkOfferDao {
     private static WalkOfferDao dao;
+    private final String COMMENT = "comment";
 
     private WalkOfferDao() {}
 
     public static synchronized WalkOfferDao getDao() {
+    	
         if (dao == null) dao = new WalkOfferDao();
         return dao;
     }
@@ -56,7 +58,7 @@ public class WalkOfferDao {
                         walk, 
                         walkUser, 
                         rs.getBoolean(WalkDao.DECLINED),
-                        rs.getString("comment") // Retrieve the comment from the ResultSet
+                        rs.getString(COMMENT) // Retrieve the comment from the ResultSet
                 );
 
                 walkOffers.add(walkOffer);
@@ -157,7 +159,7 @@ public class WalkOfferDao {
     }
 
     public void addWalkOffer(int walkId, int walkerUserId, String comment) {
-        String sql = "INSERT INTO " + ApplicationDao.WALKOFFERS_TABLE + " (" + WalkDao.WALK_ID + ", " + WalkDao.WALKER_ID + ", comment) VALUES (? , ?, ?);";
+        String sql = "INSERT INTO " + ApplicationDao.WALKOFFERS_TABLE + " (" + WalkDao.WALK_ID + ", " + WalkDao.WALKER_ID + ", "+COMMENT+") VALUES (? , ?, ?);";
         try (
                 Connection conn = DBConnection.getDBInstance(); 
                 PreparedStatement stmt = conn.prepareStatement(sql);

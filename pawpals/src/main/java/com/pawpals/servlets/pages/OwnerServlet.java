@@ -36,7 +36,7 @@ public class OwnerServlet extends HttpServlet {
 		Map<Integer, Dog> dogs = user.getDogList();
 		Map<Integer, Walk> walks = user.getWalkList();
 		
-		req.setAttribute("dogs", dogs);
+		req.setAttribute("userDogs", dogs);
 		req.setAttribute("walks", walks);
 		req.setAttribute("date", date);
 		

@@ -21,11 +21,18 @@ public class WalkDogDao {
 	}
 	
 	public void addDogsToWalk(int walkId,String[] dogIds) {
-		String sql = "INSERT INTO " + ApplicationDao.WALKDOGS_TABLE + " (" + WalkDao.WALK_ID + ", " + DogDao.DOG_ID + ") VALUES (?, ?);";
+		String sql = "DELETE FROM " + ApplicationDao.WALKDOGS_TABLE + " WHERE " + WalkDao.WALK_ID + " = ?;";
 		try (
 				Connection conn = DBConnection.getDBInstance(); 
-				PreparedStatement stmt = conn.prepareStatement(sql);
 		) {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			
+			stmt.setInt(1, walkId);
+			stmt.executeUpdate();
+			
+			sql = "INSERT INTO " + ApplicationDao.WALKDOGS_TABLE + " (" + WalkDao.WALK_ID + ", " + DogDao.DOG_ID + ") VALUES (?, ?);";
+			
+			stmt = conn.prepareStatement(sql);
 			
 			for (String id: dogIds) {
 				stmt.setInt(1, walkId);
@@ -34,6 +41,8 @@ public class WalkDogDao {
 			}
 
 			stmt.executeBatch();
+			
+			stmt.close();
 			
 		} catch (SQLException e) {
 			DBUtil.processException(e);

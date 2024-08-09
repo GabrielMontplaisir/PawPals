@@ -36,7 +36,7 @@ public class Walk implements Subject {
 	public int getWalkId() {return walkId;}
 	public int getOwnerId() {return ownerId;}
 	public String getFullDate() {return LocalDateTime.parse(date).format(DateTimeFormatter.ofPattern("E, MMM dd, yyyy 'at' HH:mm"));}
-	public String getShortDate() {return LocalDateTime.parse(date).format(DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm"));}
+	public String getShortDate() {return LocalDateTime.parse(date).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));}
 	public String getLength() {return length;}
 	public User getOwner() {return owner;}
 	public User getWalker() {return walker;}
@@ -68,6 +68,18 @@ public class Walk implements Subject {
 	
 	public void setStatus(WalkStatus status) {
 		this.status = status;
+	}
+	
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public void setLength(String length) {
+		this.length = length;
 	}
 	
 	// From Subject Interface

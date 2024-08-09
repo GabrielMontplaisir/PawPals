@@ -27,6 +27,7 @@ public class WalkDetailServlet extends HttpServlet {
     		return;
     	}
     	
+    	// Check if ID exists
     	if (req.getParameter("id") == null) {
     		resp.sendRedirect(req.getHeader("referer"));
     		return;
@@ -39,8 +40,10 @@ public class WalkDetailServlet extends HttpServlet {
     		return; 
     	}
     	
+    	// Get the walk information
 		Walk temp = WalkDao.getDao().getWalkById(walkId);
     	
+		// Check if the user owns the walk or has it in their cached walks.
     	Walk walk;
     	if (user.getWalkList().containsKey(walkId)) {
     		walk = replaceWalk(temp, user.getWalkList(), walkId);
@@ -51,27 +54,38 @@ public class WalkDetailServlet extends HttpServlet {
     		walk = temp;
     	}
     	
+    	// If walk doesn't exist, then we'll send them to a 404 page.
     	if ( walk == null )  { 
     		resp.sendRedirect("../404.jsp");
     		return; 
     	}
     	
-//    	if ( walk.getOwnerId() != user.getId()  ) {
-//    		 resp.sendRedirect("./profile.jsp"); return;
-//    	}
-    	
-    	List<Dog> dogs = WalkDogDao.getDao().getWalkDogs(walkId);
+    	// Retrieve the dog information and walk offers in the DAOs.
+    	List<Dog> walkDogs = WalkDogDao.getDao().getWalkDogs(walkId);
     	List<WalkOffer> offers = WalkOfferDao.getDao().getWalkOffers(walkId);
     	boolean walkOffered = WalkOfferDao.getDao().walkerOffered(walkId, user.getUserId());
-    	 	
+    	List<Integer> walkDogIds = walkDogs.stream().map(Dog::getDogId).toList();
+    	
+    	String action = req.getParameter("action") != null ? (String) req.getParameter("action") : "";
+    	
+    	if (!action.isEmpty() && action.equals("edit")) {
+    		req.setAttribute("action", "edit");
+    	}
+    	
+    	req.setAttribute("userDogs", user.getDogList());
     	req.setAttribute("walk", walk);
-    	req.setAttribute("dogs", dogs);
+    	req.setAttribute("date", walk.getShortDate());
+    	req.setAttribute("walkDogs", walkDogs);
+    	req.setAttribute("dogIds", walkDogIds);
     	req.setAttribute("offers", offers);
     	req.setAttribute("offer", walkOffered);
     	
     	req.getRequestDispatcher("walk-detail.jsp").forward(req, resp);
     }
     
+    
+    // Compare the temporary walk to the one in the user's walks stored in memory.
+    // If they are different, then updated the walk in the application memory.
     private Walk replaceWalk(Walk temp, Map<Integer, Walk> list, int walkId) {
     	Walk walk = list.get(walkId);
     	if (temp.compareTo(walk) != 0) {
