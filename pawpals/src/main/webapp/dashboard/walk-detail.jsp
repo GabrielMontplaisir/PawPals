@@ -40,10 +40,9 @@
                         </c:if>
                     </c:if>
                 </table>
-                <p>Dogs</p>
                 <table class="temptable">
                     <tr>
-                        <th>Dog Name</th>
+                        <th>Dog Name(s)</th>
                         <th>Size</th>
                         <th>Special Needs</th>
                     </tr>
