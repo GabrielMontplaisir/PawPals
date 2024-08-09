@@ -83,6 +83,36 @@ public class WalkDao {
 		return null;
 	}
 	
+	public boolean updateWalk(String location, String startTime, String length, int walkId) {
+		boolean updated = false;
+        
+		String sql = "UPDATE " + ApplicationDao.WALKS_TABLE + " SET " 
+				+ START_TIME + " = ? ," 
+				+ LOCATION + " = ?, " 
+				+ LENGTH + "= ? "
+				+ "WHERE " + WALK_ID +" = ?;";
+
+		try (
+				Connection conn = DBConnection.getDBInstance();
+				PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			) {
+
+			stmt.setString(1, startTime);
+			stmt.setString(2, location);
+			stmt.setString(3, length);
+			stmt.setInt(4, walkId);
+			
+			updated = stmt.executeUpdate() > 0;
+
+		} catch (SQLException e) {
+			DBUtil.processException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return updated;
+	}
+	
 	public void acceptWalkOffer(int walkId, int walkOfferUserId) {
 		String sql = "UPDATE " + ApplicationDao.WALKS_TABLE + " SET " + WALKER_ID + " = ?, " + STATUS + " = "
 					+ WalkStatus.WALKER_CHOSEN.toInt() + " WHERE " + WALK_ID + " = ?;" ;
