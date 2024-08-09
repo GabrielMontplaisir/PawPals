@@ -29,34 +29,42 @@
                     <h1 class="subtitle">Walk Details</h1>
                     <p>Status: ${walk.getStatus().toString()}</p>
                 </header>
-                <p>Location: ${walk.getLocation()} at ${walk.getFullDate()}</p>
-                <table class="temptable">
-                    <c:if test="${walk.getWalker() != null}">
-                        <c:if test="${walk.getWalkerId() != user.getUserId()}">
-                            <tr>
-                                <th>Walker</th>
-                                <td>${walk.getWalker().getFirstName()} ${walk.getWalker().getLastName()}</td>
-                            </tr>
-                        </c:if>
-                    </c:if>
-                </table>
-                <table class="temptable">
-                    <tr>
-                        <th>Dog Name(s)</th>
-                        <th>Size</th>
-                        <th>Special Needs</th>
-                    </tr>
-                    <c:forEach var="dog" items="${dogs}">
-                        <tr>
-                            <td>${dog.getName()}</td>
-                            <td>${dog.getSize()}</td>
-                            <td>${dog.getSpecialNeeds()}</td>
-                        </tr>
-                    </c:forEach>
-                </table>
-                <c:if test="${user.getUserId() == walk.getOwnerId() && !walk.isFinished()}">
-                    <a href="cancel-walk?id=${walk.getWalkId()}" class="btn cancel mt-2">Cancel Walk</a>
-                </c:if>
+                <c:choose>
+	                <c:when test="${!action.equals('edit')}">
+		                <p>Location: ${walk.getLocation()} on ${walk.getFullDate()}</p>
+		                <table class="temptable">
+		                    <c:if test="${walk.getWalker() != null}">
+		                        <c:if test="${walk.getWalkerId() != user.getUserId()}">
+		                            <tr>
+		                                <th>Walker</th>
+		                                <td>${walk.getWalker().getFirstName()} ${walk.getWalker().getLastName()}</td>
+		                            </tr>
+		                        </c:if>
+		                    </c:if>
+		                </table>
+		                <table class="temptable">
+		                    <tr>
+		                        <th>Dog Name(s)</th>
+		                        <th>Size</th>
+		                        <th>Special Needs</th>
+		                    </tr>
+		                    <c:forEach var="dog" items="${walkDogs}">
+		                        <tr>
+		                            <td>${dog.getName()}</td>
+		                            <td>${dog.getSize()}</td>
+		                            <td>${dog.getSpecialNeeds()}</td>
+		                        </tr>
+		                    </c:forEach>
+		                </table>
+		                <c:if test="${user.getUserId() == walk.getOwnerId() && !walk.isFinished()}">
+		                	<a href="walkdetails?id=${walk.getWalkId()}&action=edit" class="btn mt-2">Update Walk</a>
+		                    <a href="cancel-walk?id=${walk.getWalkId()}" class="btn cancel mt-2 ml-2">Cancel Walk</a>
+		                </c:if>
+	                </c:when>
+	                <c:otherwise>
+	                	<jsp:include page="./components/walkform.jsp" />
+	                </c:otherwise>
+                </c:choose>
             </div>
             <c:choose>
                 <c:when test="${user.getUserId() == walk.getOwnerId()}">

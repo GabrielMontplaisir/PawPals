@@ -238,7 +238,6 @@ fieldset {
 
 .form_btn {
 	display: block;
-	min-width: 100%;
 	padding: 0.5rem 2rem;
 	background-color: var(--color-success);
 	font-weight: var(--fw-semibold);
