@@ -34,23 +34,35 @@ public class CreateWalkServlet extends Validation {
     	message = validateForm(req.getParameterMap());
 		if (message != null) {
 			req.getSession(false).setAttribute("message", message);
-			resp.sendRedirect("./owner");
+			resp.sendRedirect(req.getHeader("referer"));
 			return;
 		}
 		
 		req.getSession(false).removeAttribute("message");
-		
 		String[] dogIds = req.getParameterValues("selecteddogs");
 		
-        Walk newWalk = WalkDao.getDao().createWalk(user.getUserId(), req);
-        newWalk.setOwner(user);
-		WalkDogDao.getDao().addDogsToWalk(newWalk.getWalkId(), dogIds);
+		if (req.getParameter("id") != null && !req.getParameter("id").isEmpty()) {
+			int walkId = Integer.parseInt(req.getParameter("id"));
+	        String startTime = req.getParameter("starttime");
+	        String location = req.getParameter("location");
+	        String length = req.getParameter("length");
+	        
+			Walk walk = WalkDao.getDao().getWalkById(walkId);
+			
+			walk.setLocation(location);
+			walk.setDate(startTime);
+			walk.setLength(length);
+			WalkDao.getDao().updateWalk(location, startTime, length, walkId);
+			setDetailsForWalk(walk, dogIds);
+			resp.sendRedirect("./walkdetails?id="+walkId);
+		} else {
+	        Walk newWalk = WalkDao.getDao().createWalk(user.getUserId(), req);
+	        setDetailsForWalk(newWalk, dogIds);
+			resp.sendRedirect("./owner");
+		}
 		
-		List<Dog> dogs = WalkDogDao.getDao().getWalkDogs(newWalk.getWalkId());
-		newWalk.setDogNames(dogs.stream().map(dog -> dog.getName()).collect(Collectors.joining(", ")));
-		user.getWalkList().put(newWalk.getWalkId(), newWalk);
         	
-        resp.sendRedirect("./owner");
+        
         
     }
 
@@ -83,6 +95,19 @@ public class CreateWalkServlet extends Validation {
 			}
 		}
 		return null;
+	}
+	
+	private void setDetailsForWalk(Walk walk, String[] dogIds) {
+		walk.setOwner(user);
+		WalkDogDao.getDao().addDogsToWalk(walk.getWalkId(), dogIds);
+		
+		List<Dog> dogs = WalkDogDao.getDao().getWalkDogs(walk.getWalkId());
+		walk.setDogNames(dogs.stream().map(Dog::getName).collect(Collectors.joining(", ")));
+		if (user.getWalkList().containsKey(walk.getWalkId())) {
+			user.getWalkList().replace(walk.getWalkId(), walk);
+		} else {
+			user.getWalkList().put(walk.getWalkId(), walk);
+		}
 	}
 }
 
