@@ -165,14 +165,13 @@ public class ApplicationDao {
                 // Add the comment column if it doesn't exist
                 String sql = "ALTER TABLE " + WALKOFFERS_TABLE + " ADD COLUMN comment TEXT;";
                 stmt.executeUpdate(sql);
-                System.out.println("Updated WalkOffers Table with comment column");
+//                System.out.println("Updated WalkOffers Table with comment column");
             }
         } catch (SQLException e) {
-            // Handle the exception for the case where the comment column already exists
-            if (!e.getMessage().contains("Duplicate column name 'comment'")) {
+        	if (!e.getMessage().contains("Duplicate column name 'comment'")) {
                 DBUtil.processException(e);
             } else {
-                System.out.println("Comment column already exists in WalkOffers Table");
+//                System.out.println("Comment column already exists in WalkOffers Table");
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
