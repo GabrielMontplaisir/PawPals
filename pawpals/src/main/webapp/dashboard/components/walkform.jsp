@@ -15,7 +15,9 @@
 			type="text" id="location" name="location" class="form_input" value="${walk.getLocation()}"
 			required></label> 
 		<label class="form_label mt-2">Select Date &amp; Time: 
-			<input type="datetime-local" name="starttime" class="form_input" value="${date}" required>
+			<input type="datetime-local" name="starttime" class="form_input"
+				value="${date}" min="${minDate}" required
+			>
 		</label>
 	</div>
 

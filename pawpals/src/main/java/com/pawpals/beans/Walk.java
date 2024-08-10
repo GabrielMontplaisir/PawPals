@@ -44,6 +44,14 @@ public class Walk implements Subject {
 	public String getDogNames() { return dogNames; }
 	public WalkStatus getStatus() {return this.status;}
 
+	public boolean beginsSoon() {
+		if ( LocalDateTime.now().isAfter(LocalDateTime.parse(date).minusHours(3))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public boolean isFinished() {
 		return this.status == WalkStatus.CANCELLED || this.status == WalkStatus.WALKER_COMPLETED;
 	}

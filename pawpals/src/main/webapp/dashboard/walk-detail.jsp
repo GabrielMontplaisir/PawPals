@@ -56,7 +56,7 @@
 		                        </tr>
 		                    </c:forEach>
 		                </table>
-		                <c:if test="${user.getUserId() == walk.getOwnerId() && !walk.isFinished()}">
+		                <c:if test="${user.getUserId() == walk.getOwnerId() && !walk.isFinished() && !walk.beginsSoon()}">
 		                	<a href="walkdetails?id=${walk.getWalkId()}&action=edit" class="btn mt-2">Update Walk</a>
 		                    <a href="cancel-walk?id=${walk.getWalkId()}" class="btn cancel mt-2 ml-2">Cancel Walk</a>
 		                </c:if>
