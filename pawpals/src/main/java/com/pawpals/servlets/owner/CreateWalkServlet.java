@@ -47,8 +47,9 @@ public class CreateWalkServlet extends Validation {
 	        String location = req.getParameter("location");
 	        String length = req.getParameter("length");
 	        
-			Walk walk = WalkDao.getDao().getWalkById(walkId);
-			
+//			Walk walk = WalkDao.getDao().getWalkById(walkId);
+			Walk walk = user.getWalkList().get(walkId);
+
 			walk.setLocation(location);
 			walk.setDate(startTime);
 			walk.setLength(length);

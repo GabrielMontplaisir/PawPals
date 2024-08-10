@@ -6,6 +6,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +63,13 @@ public class WalkDetailServlet extends HttpServlet {
     		return; 
     	}
     	
+    	// For case of edit, calculate minimum start time for walk
+		LocalDateTime plus3Hours = LocalDateTime.now().plusHours(3);
+		LocalDateTime truncatedTime = plus3Hours.truncatedTo(ChronoUnit.HOURS);
+		String minDate = truncatedTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+		
+    	
+    	
     	// Retrieve the dog information and walk offers in the DAOs.
     	List<Dog> walkDogs = WalkDogDao.getDao().getWalkDogs(walkId);
     	List<WalkOffer> offers = WalkOfferDao.getDao().getWalkOffers(walkId);
@@ -75,6 +85,7 @@ public class WalkDetailServlet extends HttpServlet {
     	req.setAttribute("userDogs", user.getDogList());
     	req.setAttribute("walk", walk);
     	req.setAttribute("date", walk.getShortDate());
+    	req.setAttribute("minDate", minDate);
     	req.setAttribute("walkDogs", walkDogs);
     	req.setAttribute("dogIds", walkDogIds);
     	req.setAttribute("offers", offers);
